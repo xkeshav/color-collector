@@ -1,0 +1,32 @@
+@media (prefers-color-scheme: dark) {
+	:root {
+		--accent-color: hsl(225, 31%, 96%);
+		--background-color: hsl(0, 2%, 20%);
+		--link-color: hsl(0, 0%, 96%);
+
+		--bg-header: hsl(39, 5%, 36%);
+		--bg--detail__odd: hsl(0, 49%, 23%);
+		--bg--detail__even: hsl(9, 29%, 18%);
+		--bg-danger: hsla(0, 85%, 34%);
+		--bg-section: hsl(28, 2%, 39%);
+		--bg-label: hsl(78, 28%, 13%);
+		--bg-value: hsl(78, 42%, 6%);
+		--bg-link: hsl(186, 86%, 19%);
+		--bg-page: hsl(64, 100%, 17%);
+		--bg-circle: hsl(0, 24%, 41%);
+		--bg-button: hsl(0, 72%, 53%);
+		--bg-button__download: hsl(29, 23%, 25%);
+		--bg-footer: hsl(184, 10%, 23%);
+
+		--color-header: hsl(210, 2%, 64%);
+		--color-shadow: hsl(223, 8%, 55%);
+		--color-button: hsl(0, 0%, 100%);
+		--color-link: hsl(17, 15%, 92%);
+		--color-label: hsl(324, 22%, 91%);
+		--color-value: hsl(175, 76%, 41%);
+		--color-page: hsl(56, 25%, 82%);
+		--color-circle: hsl(0, 30%, 96%);
+		--color--button__download: hsl(60, 22%, 93%);
+		--color-footer: hsl(56, 88%, 66%);
+	}
+}

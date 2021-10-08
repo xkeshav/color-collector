@@ -1,0 +1,17 @@
+{
+	"name": {
+		"message": "Tag Watcher"
+	},
+	"detail": {
+		"message": "Tagging Panel added in devtools to watch the tagging related details"
+	},
+	"title" :{
+		"message": "Click to Watch Tag"
+	},
+	"author" : {
+		"message": "Keshav Mohta"
+	},
+	"intro": {
+	"message": "No new request found yet. Please check the network connectivity; keep this panel open and reload the main page."
+	}
+}

@@ -1,0 +1,256 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+:root {
+	--black: hsl(0, 0%, 0%);
+	--grey: hsl(0, 0%, 50%);
+	--white: hsl(0, 0%, 100%);
+	--red: hsl(0, 94%, 39%);
+
+	--font-sans: "Montserrat", "sans-serif";
+	--font-sm: 0.5rem;
+	--font-md: 0.75rem;
+	--font-lg: 1.25rem;
+
+	--half: 0.5rem;
+	--color-marker: hsl(0, 12%, 48%);
+}
+
+html {
+	font-size: 16px; /* root font size*/
+	font-family: var(--font-sans, system-ui);
+	line-height: 1.4;
+}
+
+body {
+	display: grid;
+	grid-template-rows: minmax(5vh, auto) 1fr auto;
+	grid-auto-flow: dense;
+	grid-gap: 0.5rem;
+	grid-template-areas: "header" "main" "footer";
+	background-color: var(--background-color, gainsboro);
+	color: var(--accent-color, black);
+	min-height: 100vh;
+}
+
+header {
+	grid-area: header;
+}
+
+main {
+	grid-area: main;
+}
+
+footer {
+	grid-area: footer;
+}
+
+a {
+	color: var(--link-color, blue);
+}
+
+.block {
+	display: block;
+}
+
+.hide,
+.none {
+	display: none;
+}
+
+.disabled {
+	cursor: not-allowed;
+	opacity: 0.5;
+}
+
+/* navigation */
+
+.panel--header {
+	background-color: var(--bg-header, aliceblue);
+	border-bottom: 1px solid var(--color-header, grey);
+}
+
+.panel--nav {
+	display: grid;
+	grid-template-columns: 60vw 1fr;
+	justify-content: space-around;
+	grid-auto-flow: column;
+	align-items: baseline;
+	padding: var(--half, 0.5rem);
+}
+
+.panel--nav__action {
+	display: grid;
+	grid-auto-flow: column;
+	align-items: center;
+	justify-self: end;
+	grid-gap: var(--half, 0.5rem);
+}
+
+.btn {
+	border: none;
+	padding: var(--half) 1.5rem;
+	font-size: var(--font-md, medium);
+	text-decoration: none;
+	line-height: 1;
+	cursor: pointer;
+	text-align: center;
+}
+
+.btn--clear {
+	color: var(--white, whitesmoke);
+	background-color: var(--bg-danger, darkred);
+}
+
+.btn--download {
+	color: var(--color-button__download, white);
+	background-color: var(--bg-button__download, blueviolet);
+}
+
+/* main container */
+.panel--container {
+	height: auto;
+	padding-inline: var(--half);
+	will-change: transform;
+	animation: slide-up 0.25s ease-in;
+}
+
+.intro {
+	color: var(--accent-color, royalblue);
+	font-size: var(--font-md, normal);
+	margin-block: var(--half);
+}
+
+.details {
+	background-color: var(--bg-detail__odd, lightgoldenrodyellow);
+	box-shadow: -2px 5px 8px 0px var(--color-shadow, lightgrey);
+	will-change: transform;
+	margin-bottom: 0.5rem;
+}
+
+.details:nth-child(even) {
+	background-color: var(--bg-detail__even, lavender);
+}
+
+/**added animation while opening details */
+details.details[open] summary.summary ~ * {
+	animation: sweep 0.5s ease-in-out;
+}
+
+.summary {
+	cursor: pointer;
+	margin-inline: var(--half);
+	padding-block: 0.35rem;
+}
+
+.summary::marker {
+	color: var(--color-marker, paleVioletRed);
+	font-size: var(--font-lg, larger);
+}
+
+.summary--header {
+	width: 10rem;
+	padding: 0.5rem 1rem;
+	font-size: var(--font-md, medium);
+	display: inline-block;
+	margin-inline: 0.35rem;
+}
+
+.summary--header__link {
+	background-color: var(--bg-link, lightGreen);
+	color: var(--color-link, saddleBrown);
+}
+
+.summary--header__page {
+	background-color: var(--bg-page, teal);
+	color: var(--color-page, floralWhite);
+}
+
+.summary--counter {
+	position: relative;
+	top: 0.25rem;
+	float: right;
+	font-size: var(--font-md, medium);
+}
+
+.number--circle {
+	display: grid;
+	place-items: center;
+	border-radius: 50%;
+	width: 1.5rem;
+	height: 1.5rem;
+	background-color: var(--bg-cir saddlebrown);
+	color: var(--color-circle, ghostwhite);
+}
+
+.section {
+	display: grid;
+	grid-auto-flow: row;
+	grid-gap: 0.35rem;
+	background-color: var(--bg-section, whitesmoke);
+	padding: var(--half);
+}
+
+.article {
+	display: grid;
+	grid-auto-flow: column;
+	grid-template-columns: minmax(8rem, 11rem) 1fr;
+	grid-gap: 0.5rem;
+}
+
+.label,
+.value {
+	font-size: var(--font-md, medium);
+	padding: 0.3rem;
+}
+
+.label {
+	background-color: var(--bg-label, khaki);
+	color: var(--color-label, steelBlue);
+}
+
+.prop {
+	font-weight: 500;
+	margin-inline: 0.25rem;
+}
+
+.value {
+	background-color: var(--bg-value, lightblue);
+	color: var(--color-value, maroon);
+	letter-spacing: 0.1ex;
+}
+
+.panel--footer {
+	position: relative;
+	bottom: 0;
+	border-top: 1px solid var(--border0color, grey);
+	width: 100vw;
+	padding: var(--half);
+	background-color: var(--bg-footer, grey);
+	color: var(--color-footer, black);
+}
+
+@keyframes sweep {
+	0% {
+		opacity: 0;
+		transform: translateX(-10px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes slide-up {
+	0% {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}

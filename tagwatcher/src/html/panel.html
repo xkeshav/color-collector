@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="color-scheme" content="dark light">
+	<title>Tagging Panel</title>
+	<link type="text/css" rel="stylesheet" href="../styles/light.css"
+		media="(prefers-color-scheme: no-preference), (prefers-color-scheme: light)">
+	<link type="text/css" rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+	<link type="text/css" rel="stylesheet" href="../styles/style.css">
+</head>
+
+<body>
+	<header id="header" class="panel--header">
+		<nav id="navigation" class="panel--nav">
+			<section>
+				<p class="panel--title">Tag Watcher</p>
+			</section>
+			<section class="panel--nav__action">
+				<button type="button" id="clear" class="btn btn--clear" title="clear">Clear</button>
+				<button type="button" id="download" class="btn btn--download" title="download">Download as CSV</button>
+			</section>
+		</nav>
+	</header>
+	<main id="main" class="panel--container">
+		<p id="intro" class="intro">
+			<!-- coming from __locales/en/messages.json -->
+		</p>
+		<section id="container">
+			<!-- sitecat main content loaded here -->
+		</section>
+	</main>
+	<footer id="footer" class="panel--footer"></footer>
+	<script src="../scripts/panel.js"></script>
+
+</body>
+
+</html>

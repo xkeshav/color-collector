@@ -1,0 +1,60 @@
+{
+	"manifest_version": 3,
+	"name": "__MSG_name__",
+	"version": "1",
+	"default_locale": "en",
+	"description": "__MSG_detail__",
+	"author": "__MSG_author__",
+	"devtools_page": "src/html/devtools.html",
+	"action": {
+		"browser_action": {
+			"default_icon": {
+				"16": "src/images/tag-watcher16.png",
+				"32": "src/images/tag-watcher32.png"
+			}
+		},
+		"default_title": "__MSG_title__",
+		"default_popup": "src/html/popup.html"
+	},
+	"icons": {
+		"16": "src/images/tag-watcher16.png",
+		"32": "src/images/tag-watcher32.png"
+	},
+	"background": {
+		"service_worker": "background.js"
+	},
+	"incognito": "spanning",
+	"minimum_chrome_version": "80",
+	"offline_enabled": true,
+	"omnibox": {
+		"keyword": "tag, watcher, site catalyst, tagger, adobe, tagWatcher"
+	},
+	"web_accessible_resources": [
+		{
+			"matches": ["http://*/*", "https://*/*"],
+			"resources": ["src/**"]
+		}
+	],
+	"host_permissions": [
+		"http://localhost/*",
+		"http://127.0.0.1/*",
+		"http://*/*",
+		"https://*/*"
+	],
+	"permissions": [
+		"activeTab",
+		"declarativeContent",
+		"storage",
+		"scripting",
+		"tabs"
+	],
+	"options_ui": {
+		"page": "src/html/options.html",
+		"open_in_tab": true
+	},
+	"short_name": "tagWatcher",
+	"version_name": "3.1.0",
+	"content_security_policy": {
+		"extension_pages": "script-src 'self'; object-src 'self'"
+	}
+}

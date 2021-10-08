@@ -1,0 +1,24 @@
+{
+  "folders": [
+    {
+      "path": "./"
+    }
+  ],
+  "settings": {
+    "cSpell.words": ["smetrics", "xkeshav"],
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnType": true,
+    "editor.formatOnSaveMode": "modifications",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "prettier.printWidth": 180,
+    "zenMode.hideLineNumbers": false,
+    "workbench.list.multiSelectModifier": "alt",
+    "editor.multiCursorModifier": "ctrlCmd",
+    "eslint.alwaysShowStatus": true,
+    "eslint.format.enable": true,
+    "eslint.lintTask.enable": true,
+    "html.format.endWithNewline": true,
+    "window.title": "${dirty}${activeEditorMedium}${separator}${rootName}"
+  }
+}
