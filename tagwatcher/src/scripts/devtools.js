@@ -1,7 +1,7 @@
 let author;
 
 chrome.storage.sync.get("author", (result) => {
-	({ author } = result);
+	({ author } = result); // assign into already defined variable while destructuring
 });
 
 chrome.devtools.panels.create("Tagging", "", "src/html/panel.html", (panel) => {

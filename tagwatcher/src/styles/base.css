@@ -1,0 +1,78 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --black: hsl(0, 0%, 0%);
+  --grey: hsl(0, 0%, 50%);
+  --white: hsl(0, 0%, 100%);
+  --red: hsl(0, 94%, 39%);
+
+  --font-sans: 'Montserrat', 'sans-serif';
+  --font-sm: 0.5rem;
+  --font-md: 0.75rem;
+  --font-lg: 1.25rem;
+
+  --half: 0.5rem;
+
+  --accent-color: hsl(0, 0%, 0%);
+  --background-color: hsl(0, 0%, 100%);
+  --link-color: hsl(122, 52%, 28%);
+
+  --color-marker: hsl(0, 12%, 48%);
+  --color-caret: hsl(60, 100%, 27%);
+  --color-outline: hsl(180, 100%, 27%);
+}
+
+html {
+  font-size: 16px; /* root font size*/
+  font-family: var(--font-sans, system-ui);
+  line-height: 1.4;
+}
+
+body {
+  outline: 1px solid red;
+}
+
+header {
+  grid-area: header;
+}
+
+main {
+  grid-area: main;
+}
+
+footer {
+  grid-area: footer;
+}
+
+a {
+  color: var(--link-color, blue);
+}
+
+mark {
+  font-size: 1rem;
+}
+
+[contenteditable] {
+  caret-color: var(--color-caret);
+}
+
+::marker {
+  color: var(--color-marker);
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.block {
+  display: block;
+}
+
+.hide {
+  display: none;
+}

@@ -8,7 +8,6 @@
     "cSpell.words": ["smetrics", "xkeshav"],
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnType": true,
-    "editor.formatOnSaveMode": "modifications",
     "editor.formatOnSave": true,
     "editor.formatOnPaste": true,
     "prettier.printWidth": 180,
@@ -19,6 +18,14 @@
     "eslint.format.enable": true,
     "eslint.lintTask.enable": true,
     "html.format.endWithNewline": true,
-    "window.title": "${dirty}${activeEditorMedium}${separator}${rootName}"
+    "window.title": "${dirty}${activeEditorMedium}${separator}${rootName}",
+    "[ansible]": {
+      "gitlens.codeLens.scopes": ["document"]
+    },
+    "workbench.colorCustomizations": {
+      "editorError.foreground": "#ff000088",
+      "editorWarning.foreground": "#aca98e33",
+      "editorInfo.foreground": "#00ff0088"
+    }
   }
 }
