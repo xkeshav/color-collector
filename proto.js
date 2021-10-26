@@ -1,17 +1,14 @@
-function  base (v) {
-  const next =  function () {
+function base(v) {
+  const next = function () {
     return v.toUpperCase();
-  }
+  };
   return next;
 }
-
 
 const baseFn = base('hello');
 
 baseFn();
 
 try {
-  fetch(`apicall`);
-} catch(e) {
-
-}
+  fetch(`api call`);
+} catch (e) {}
