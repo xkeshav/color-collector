@@ -5,7 +5,7 @@
     }
   ],
   "settings": {
-    "cSpell.words": ["smetrics", "xkeshav"],
+    "cSpell.words": ["middlewares", "smetrics", "xkeshav"],
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnType": true,
     "editor.formatOnSave": true,

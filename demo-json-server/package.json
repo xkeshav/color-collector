@@ -1,0 +1,29 @@
+{
+  "name": "mock-server",
+  "version": "1.0.0",
+  "description": "Mock Server with different json files over the folders",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node -r esm mock/start.js",
+    "start:port": "node -r esm ./mock/server.js"
+  },
+  "keywords": [
+    "demo-json-server",
+    "mock",
+    "server"
+  ],
+  "author": "Keshav Mohta",
+  "license": "ISC",
+  "dependencies": {
+    "esm": "^3.2.25",
+    "json-server": "^0.17.0"
+  },
+  "devDependencies": {
+    "@types/json-server": "^0.14.4",
+    "@types/node": "^16.11.6",
+    "@types/nodemon": "^1.19.1",
+    "nodemon": "^2.0.14",
+    "prettier": "^2.4.1"
+  }
+}
