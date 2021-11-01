@@ -1,6 +1,6 @@
 # JSON Server DEMO
 
-a json-server but auto updated and folder based server
+a json-server but auto updated and folder based server in typescript
 
 ## How To start
 
@@ -10,7 +10,7 @@ run
 
 then
 
-> npm run start
+> npm run serve
 
 now open **<http://localhost:3003>** and server will be visible
 
