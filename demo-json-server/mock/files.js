@@ -28,7 +28,7 @@ const appendDirWithFile = (name) => name.replace(baseFolder, '').split(sep).filt
 const getJsonContent = (filePath) => JSON.parse(readFileSync(filePath));
 
 const getFilesRecursively = (dirPath) => {
-  const relativePath = relative(process.cwd, dirPath);
+  const relativePath = relative(process.cwd(), dirPath);
   const dirs = getDirectories(dirPath);
   const files = dirs
     .map((dir) => getFilesRecursively(dir)) // go through each directory
@@ -46,6 +46,5 @@ const generateMockDB = (dirPath) => {
     console.log({ route });
     Object.assign(mockJsonList, route);
   });
-
   return mockJsonList;
 };

@@ -2,8 +2,6 @@ import { bodyParser, create, defaults, rewriter, router } from 'json-server';
 import { generateMockDB } from './files';
 import { customRoutes } from './routes';
 
-console.log('server.js');
-
 const server = create();
 const middlewares = defaults();
 

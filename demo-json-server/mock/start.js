@@ -1,5 +1,5 @@
-import nodemon from 'nodemon';
-import { join } from 'path';
+import nodemon, { on } from 'nodemon';
+import { join } from 'path/posix';
 
 nodemon({
   scripts: join(__dirname, 'server.js'),

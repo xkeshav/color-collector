@@ -2,10 +2,9 @@
   "name": "mock-server",
   "version": "1.0.0",
   "description": "Mock Server with different json files over the folders",
-  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node -r esm mock/start.js",
+    "start": "node -r esm ./mock/start.js",
     "start:port": "node -r esm ./mock/server.js"
   },
   "keywords": [
