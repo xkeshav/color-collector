@@ -61,5 +61,5 @@ console.log({ args });
 const PORT = args[0] == '--port' ? args[1] : 3003;
 
 server.listen(PORT, () => {
-	console.info('JSON server running on port' + PORT);
+	console.info('JSON server running on port: ' + PORT);
 });

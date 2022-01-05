@@ -2,7 +2,7 @@ import nodemon from 'nodemon';
 import { join } from 'path/posix';
 
 nodemon({
-	scripts: join(__dirname, 'server.js'),
+	scripts: join(__dirname, 'server.ts'),
 	ext: 'js ts json', // watching extension
 })
 
