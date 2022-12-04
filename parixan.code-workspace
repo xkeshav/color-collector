@@ -21,11 +21,6 @@
     "window.title": "${dirty}${activeEditorMedium}${separator}${rootName}",
     "[ansible]": {
       "gitlens.codeLens.scopes": ["document"]
-    },
-    "workbench.colorCustomizations": {
-      "editorError.foreground": "#ff000088",
-      "editorWarning.foreground": "#aca98e33",
-      "editorInfo.foreground": "#00ff0088"
     }
   }
 }
