@@ -26,8 +26,7 @@ const cssCommentsPattern = '(\\/\\*[\\s\\S]*?\\*\\/)';
 
 const stripComments = (source) => {
   const regex = new RegExp(cssCommentsPattern, 'gi');
-  const updatedSource = source.replace(regex, '');
-  return updatedSource;
+  return source.replace(regex, '');
 };
 
 const list = [];
@@ -47,8 +46,9 @@ const handleImportStatements = (source) => {
     if (result === null) {
       break;
     } else {
-      cssImportStatements.push(result[0]);
-      const entry = { ...entryObject, styles: result[0] };
+      const [styles] = result;
+      cssImportStatements.push(styles);
+      const entry = { ...entryObject, styles };
       list.push(entry);
     }
   }
@@ -56,7 +56,6 @@ const handleImportStatements = (source) => {
   const updatedSource = source.replace(importStatementRegex, '');
   return updatedSource;
 };
-
 const handleKeyframesStatement = (source) => {
   const keyframesPattern = '((@.*?keyframes [\\s\\S]*?){([\\s\\S]*?}\\s*?)})';
   const keyframesRegex = new RegExp(keyframesPattern, 'gi');
@@ -70,28 +69,15 @@ const handleKeyframesStatement = (source) => {
     result = keyframesRegex.exec(source);
     if (result === null) {
       break;
+    } else {
+      const [styles] = result;
+      const entry = { ...entryObject, styles };
+      list.push(entry);
     }
-    const entry = { ...entryObject, styles: result[0] };
-    list.push(entry);
   }
   // remove keyframe statement from content
   const updatedSource = source.replace(keyframesRegex, '');
   return updatedSource;
-};
-
-/*
-  fetch comments and associate it with current selector
-*/
-
-const handleCommentsWithin = (selector) => {
-  const commentsRegex = new RegExp(cssCommentsPattern, 'gi');
-  const result = commentsRegex.exec(selector);
-  if (result === null) {
-    return selector;
-  } else {
-    const updatedSelector = selector.replace(commentsRegex, '').trim();
-    return updatedSelector;
-  }
 };
 
 const collectMediaQueryCss = (selector, mediaQueryStyle, commentsResult) => {
@@ -101,8 +87,9 @@ const collectMediaQueryCss = (selector, mediaQueryStyle, commentsResult) => {
     mediaQueryList: [],
   };
 
-  const mediaQueryList = parseCSS(mediaQueryStyle[3] + '\n}'); //recursively parse media query inner css
-  console.log({ mediaQueryList });
+  const mediaQueryList = parseCSS(mediaQueryStyle[3] + '\n}');
+  //recursively parse media query inner css
+  //console.log({ mediaQueryList });
   const entry = { ...entryObject, mediaQueryList };
   if (commentsResult !== null) {
     Object.assign(entry, { comments: commentsResult[0] });
@@ -119,9 +106,11 @@ const collectStandardCss = (selector, standardStyle, commentsResult) => {
   if (commentsResult !== null) {
     Object.assign(entry, { comments: commentsResult[0] });
   }
-  console.log({ entry });
+  //console.log({ entry });
   return entry;
 };
+
+let isMediaQuery;
 
 const parseCSS = (source) => {
   if (source === undefined) {
@@ -129,33 +118,27 @@ const parseCSS = (source) => {
   }
 
   //strip out comments
-  //source = stripComments(source);
+  source = stripComments(source);
   //get import statements
   source = handleImportStatements(source);
   //get keyframe statements
   source = handleKeyframesStatement(source);
 
-  /* final code */
+  /* main code */
 
-  const unifiedCSSPattern = '((\\s*?(?:\\/\\*[\\s\\S]*?\\*\\/)?\\s*?@media[\\s\\S]*?){([\\s\\S]*?)}\\s*?})|(([\\s\\S]*?){([\\s\\S]*?)})'; //to match css & media queries together
+  const unifiedCSSPattern = '((\\s*?(?:\\/\\*[\\s\\S]*?\\*\\/)?\\s*?@media[\\s\\S]*?){([\\s\\S]*?)}\\s*?})|(([\\s\\S]*?){([\\s\\S]*?)})';
+  //to match css & media queries together
   const unifiedRegex = new RegExp(unifiedCSSPattern, 'gi');
 
   let unifiedResult;
-
-  let mediaQuery;
 
   while (true) {
     unifiedResult = unifiedRegex.exec(source);
     if (unifiedResult === null) {
       break;
     }
-    let selector = '';
-    if (unifiedResult[2] === undefined) {
-      selector = unifiedResult[5].split('\r\n').join('\n').trim();
-    } else {
-      selector = unifiedResult[2].split('\r\n').join('\n').trim();
-    }
-
+    let selector = unifiedResult[2] === undefined ? unifiedResult[5] : unifiedResult[2];
+    selector = selector.split('\r\n').join('\n').trim();
     console.log({ selector });
 
     const commentsRegex = new RegExp(cssCommentsPattern, 'gi');
@@ -168,13 +151,14 @@ const parseCSS = (source) => {
     //determine the type
     if (selector.indexOf('@media') !== -1) {
       //we have a media query
-      mediaQuery = true;
-      const mediaCss = collectMediaQueryCss(selector, unifiedResult, commentsResult);
-      list.push(mediaCss);
+      isMediaQuery = true;
+      const mediaQueryCss = collectMediaQueryCss(selector, unifiedResult, commentsResult);
+      list.push(mediaQueryCss);
     } else {
       //we have standard css
       const standardCSS = collectStandardCss(selector, unifiedResult, commentsResult);
-      if (mediaQuery) {
+      if (isMediaQuery) {
+        // this condition is must otherwise we will be in nested loop for media query styles
         return standardCSS;
       } else {
         list.push(standardCSS);
@@ -205,7 +189,8 @@ const parseRules = function (rules) {
 
       //more checks
       if (cssDirective.length < 1 || cssValue.length < 1) {
-        continue; //there is no css directive or value that is of length 1 or 0
+        continue;
+        //there is no css directive or value that is of length 1 or 0
         // PLAIN WRONG WHAT ABOUT margin:0; ?
       }
 
@@ -232,7 +217,10 @@ const parseRules = function (rules) {
     }
   }
 
-  return ret; //we are done!
+  return ret;
+  //we are done!
 };
 
-parseCSS(text);
+const output = parseCSS(text);
+
+console.log({ output });
