@@ -7,20 +7,78 @@
   "engines": {
     "vscode": "^1.74.0"
   },
+  "repository": "https://github.com/xkeshav/parixan.git",
+  "keywords": [
+    "cssVariableGenerator",
+    "css variable collector",
+    "css variables"
+  ],
   "categories": [
-    "Other"
+    "Programming Languages"
   ],
   "activationEvents": [
-    "onCommand:css-variable-generator.helloWorld"
+    "onCommand:css-variable-generator.init",
+    "onLanguage:css",
+    "workspaceContains:**/*.css"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "css-variable-generator.helloWorld",
+        "command": "css-variable-generator.init",
+        "category": "cvg",
         "title": "Find CSS"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Css Variable Generator",
+      "properties": {
+        "cssVariableGenerator.collectCssVariables": {
+          "type": "boolean",
+          "default": false,
+          "description": "collect css variables from this CSS file."
+        },
+        "cssVariableGenerator.lookupFiles": {
+          "type": "array",
+          "default": [
+            "**/*.css"
+          ],
+          "description": "extension list from where to collect."
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "css-variable-generator.init",
+        "key": "ctrl+f1",
+        "mac": "cmd+f1",
+        "when": "editorTextFocus"
+      }
+    ],
+    "languages": [
+      {
+        "id": "css",
+        "extensions": [
+          ".css"
+        ],
+        "aliases": [
+          "CSS",
+          "css"
+        ],
+        "mimetypes": [
+          "text/css"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "css-variable-generator.init",
+          "when": "editorLangId == css"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
