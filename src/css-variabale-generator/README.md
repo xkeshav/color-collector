@@ -1,6 +1,10 @@
 # css-variable-generator README
 
-This is the README for your extension "css-variable-generator". After writing up a brief description, we recommend including the following sections.
+This is the README for your extension "css-variable-generator".
+
+creating a extension which collect all color from css file and group into a :root variable with name of based on their selector and easy to identify
+
+so that once all color collected on one place, we can change theme by changing that :root color-schema
 
 ## Features
 
