@@ -34,17 +34,16 @@ export function activate(context: vscode.ExtensionContext) {
 		if (!activeEditor) {
 			return;
 		}
-		const regEx = /#([a-f0-9]{3}){1,2}\b/gi;
-		const reg = /(?<selector>(?:(?:[^,{]+),?)*?)\{(?:(?<name>[^}:]+):?(?<value>[^};]+);?)*?\}/gi;
 		const text = activeEditor.document.getText();
 		console.log({ text });
+
 		let match;
-		while ((match = reg.exec(text))) {
-			const startPos = activeEditor.document.positionAt(match.index);
-			const endPos = activeEditor.document.positionAt(match.index + match[0].length);
-			//const decoration = { range: new vscode.Range(startPos, endPos), hoverMessage: 'Number **' + match[0] + '**' };
-			console.log({ match, startPos, endPos });
-		}
+		//while ((match = reg.exec(text))) {
+		//	const startPos = activeEditor.document.positionAt(match.index);
+		//	const endPos = activeEditor.document.positionAt(match.index + match[0].length);
+		//	//const decoration = { range: new vscode.Range(startPos, endPos), hoverMessage: 'Number **' + match[0] + '**' };
+		//	console.log({ match, startPos, endPos });
+		//}
 	}
 
 
