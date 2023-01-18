@@ -23,27 +23,61 @@ export function activate(context: vscode.ExtensionContext) {
 	// The commandId parameter must match the command field in package.json
 	let disposable = vscode.commands.registerCommand(command, commandHandler);
 
-	context.subscriptions.push(disposable);
+
 
 	/** work starts here */
 
 	let activeEditor = vscode.window.activeTextEditor;
 
 
-	function updateDecorations() {
+	async function replaceWithinDocument() {
 		if (!activeEditor) {
 			return;
 		}
 		const text = activeEditor.document.getText();
 		console.log({ text });
 
-		let match;
-		//while ((match = reg.exec(text))) {
-		//	const startPos = activeEditor.document.positionAt(match.index);
-		//	const endPos = activeEditor.document.positionAt(match.index + match[0].length);
-		//	//const decoration = { range: new vscode.Range(startPos, endPos), hoverMessage: 'Number **' + match[0] + '**' };
-		//	console.log({ match, startPos, endPos });
-		//}
+		const reg = new RegExp('(?<color>#[0-9a-f]{3,6})', 'gim');
+
+		const matches = text.matchAll(reg);
+
+		const variableList = {};
+		let i = 0;
+
+		for (const match of matches) {
+			const { index, groups } = match;
+			i++;
+			console.log({ match });
+			const startPos = activeEditor.document.positionAt(match.index!);
+			const endPos = activeEditor.document.positionAt(match.index! + match[0].length);
+			console.log({ i, startPos, endPos });
+			//Creating a new range with startLine, startCharacter & endLine, endCharacter.
+			let range = new vscode.Range(startPos, endPos);
+			// To ensure that above range is completely contained in this document.
+			let validFullRange = activeEditor.document.validateRange(range);
+			// eslint-disable-next-line @typescript-eslint/naming-convention
+			Object.assign(variableList, { [`--var-${i}`]: groups?.color });
+
+			await activeEditor.edit(editBuilder => {
+				console.log('replacing...');
+				editBuilder.replace(range, `var(--var-${i})`);
+			});
+		}
+
+		const firstPos = new vscode.Position(0, 2);
+		const lastPos = new vscode.Position(Object.keys(variableList).length + 2, 0);
+		const topRange = new vscode.Range(firstPos, lastPos);
+
+		//activeEditor.edit(editBuilder => {
+		//	console.log('inserting...');
+
+		//	const text = `::root { }`;
+		//	console.log({ text });
+		//	editBuilder.insert(firstPos, text);
+		//});
+
+
+		console.log({ variableList });
 	}
 
 
@@ -53,15 +87,17 @@ export function activate(context: vscode.ExtensionContext) {
 			timeout = undefined;
 		}
 		if (throttle) {
-			timeout = setTimeout(updateDecorations, 500);
+			timeout = setTimeout(replaceWithinDocument, 500);
 		} else {
-			updateDecorations();
+			replaceWithinDocument();
 		}
 	}
 
 	if (activeEditor) {
 		triggerUpdateDecorations();
 	}
+
+	context.subscriptions.push(disposable);
 
 }
 

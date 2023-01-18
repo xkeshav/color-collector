@@ -24,21 +24,59 @@ main > p {
   padding: 4px;
 }
 
-@media ( max-width: 724px ) { 
+@media only screen and (max-width: 600px) {
+  body {
+    background-color: lightblue;
+  }
  main {
  color: green;
  }
-} 
+ 
+ p {
+  color: #4523df;
+  padding: 1px solid red;
+  }
+}
 
-@keyframes jump {
+/* comment inside media*/
+@keyframes expand {
+  to {
+    font-size:20px;
+  }
+
+  from {
+    font-size: 30px;
+  }
+}
+
+
+
+@keyframes identifier {
+/*on very first */
   0% {
-    transform: translateY(calc((10 - var(--index)) * (5 / 3 * var(--size)) / 10));
+    top: 0;
+    left: 0;
+  }
+  30% {
+    top: 50px;
+  }
+  68%,
+  72% {
+    left: 50px;
+  }
+  100% {
+    top: 100px;
+    left: 100%;
   }
 }
 
 `;
 
 // \{([^}]+)\} << select within curly braces
+
+// (@media[^{]*) (\{)  media query
+
+// /(?<selector>(?:(?:[^,{]+),?)*?)\{((?<name>(\W*[^}:])+):?(?:<value>[^}]+);?)*?\}/gm  << named capture
 
 const REGEX_PATTERN = {
   basic: '([\\s\\S]*?){([\\s\\S]*?)}',
@@ -47,7 +85,7 @@ const REGEX_PATTERN = {
   containerQuery: '((@container [\\s\\S]*?){([\\s\\S]*?}\\s*?)})',
   comment: '(\\/\\*[\\s\\S]*?\\*\\/)',
   importStatement: '@import .*?;',
-  keyFrames: '((@.*?keyframes [\\s\\S]*?){([\\s\\S]*?}\\s*?)})',
+  keyFrames: '((@.*?keyframes ([\\s\\S]*?)){([\\s\\S]*?}\\s*?)})',
   unifiedCss: '((\\s*?(?:\\/\\*[\\s\\S]*?\\*\\/)?\\s*?@media[\\s\\S]*?){([\\s\\S]*?)}\\s*?})|(([\\s\\S]*?){([\\s\\S]*?)})',
   //to match css & media queries together
 };
@@ -56,7 +94,7 @@ const entryObjectList = {
   keyFrames: {
     type: 'keyframes',
     selector: '@keyframes',
-    styles: '',
+    keyFramesList: [],
   },
   importStatement: {
     type: 'imports',
@@ -71,7 +109,7 @@ const entryObjectList = {
   containerQuery: {
     type: 'container',
     selector: '',
-    mediaQueryList: [],
+    containerQueryList: [],
   },
 };
 
@@ -83,7 +121,8 @@ const baseObject = {
 const spaceRegex = REGEX_PATTERN.space;
 const list = [];
 const cssImportStatements = [];
-let isMediaQuery;
+let keyFramesInnerCss = [];
+let isMediaQuery, isKeyframeQuery;
 // very important to declare here
 let isContainerQuery;
 
@@ -107,31 +146,46 @@ const handleKeyFramesStatement = (source) => {
   const keyframesRegex = new RegExp(REGEX_PATTERN.keyFrames, 'gi');
   const entryObject = entryObjectList.keyFrames;
   const keyframesResult = source.matchAll(keyframesRegex);
-  Array.from(keyframesResult, (m) => {
-    let [styles] = m;
-    const entry = { ...entryObject, styles };
-    list.push(entry);
-  });
-
-  console.log({ list });
   //TODO: extract keyframe styles and rules
+  keyFramesInnerCss = [...keyframesResult];
   // remove keyframe statement from content
-  const updatedSource = source.replaceAll(REGEX_PATTERN.keyFrames, '');
+  const updatedSource = source.replaceAll(keyframesRegex, '');
   return updatedSource;
 };
+
+// for (const match of keyframesResult) {
+//     console.log({ match });
+//     const selector = match[3];
+//     const entry = collectKeyFramesCss(selector, match[4]);
+//     console.log({ entry });
+// }
+
 const collectMediaQueryCss = (selector, mediaQueryStyle) => {
   const entryObject = entryObjectList.mediaQuery;
-  const mediaQueryList = parseCSS(mediaQueryStyle[3] + '\n}');
+  const mediaQueryList = parseCSS(mediaQueryStyle + '\n}', { isMediaQuery: true });
   //recursively parse media query inner css
-  //console.log({ mediaQueryList });
+  console.log({ mediaQueryList });
   const entry = {
     ...entryObject,
     mediaQueryList,
   };
   return entry;
 };
+
+const collectKeyFramesCss = (selector, keyFramesStyle) => {
+  const entryObject = entryObjectList.keyFrames;
+  const keyFramesList = parseCSS(keyFramesStyle + '\n}', { isKeyFrames: true });
+  //recursively parse keyframes query inner css
+  console.log({ keyFramesList });
+  const entry = {
+    ...entryObject,
+    keyFramesList,
+  };
+  return entry;
+};
+
 const collectStandardCss = (selector, standardStyle) => {
-  const rules = parseRules(standardStyle[6]);
+  const rules = parseRules(standardStyle);
   const entry = {
     selector,
     rules,
@@ -144,17 +198,15 @@ const collectStandardCss = (selector, standardStyle) => {
   //console.log({ entry });
   return entry;
 };
-const parseCSS = (source) => {
+const parseCSS = (source, options = { isStandard: true }) => {
   if (source === undefined) {
     return [];
   }
 
   //strip out comments
   source = stripComment(source);
-  console.log({ source });
   //get import statements
   source = stripImportStatements(source);
-  console.log({ source, list });
   //get keyframe statements
   source = handleKeyFramesStatement(source);
 
@@ -163,48 +215,52 @@ const parseCSS = (source) => {
   const unifiedRegex = new RegExp(REGEX_PATTERN.unifiedCss, 'gi');
 
   let unifiedResult;
+  let selector;
 
   const matches = source.matchAll(unifiedRegex);
-  const op = Array.from(matches, (m) => {
-    let selector = m[2] || m[5];
+  const matchingArray = [...matches];
+  console.log({ matchingArray });
+
+  for (let m of matchingArray) {
+    // }
+    // matchingArray.forEach((m) => {
+    selector = m[2] || m[5];
     selector = selector.split('\r\n').join('\n').trim();
-    console.log({ selector });
     selector = stripComment(selector);
+    selector = selector.replace(/\n+/, '\n');
     console.log({ selector });
-  });
-  // const matchingAArray = [...matches];
+    //  determine the type
+    console.log({ m });
+    // if (selector.indexOf('@keyframes') !== -1) {
+    //   console.log({ selector, source });
+    // }
+    if (selector.indexOf('@media') !== -1 || selector.indexOf('@container') !== -1) {
+      console.log('inside media query');
+      //we have a media query
+      const mediaQueryCss = collectMediaQueryCss(selector, m[3]);
+      list.push(mediaQueryCss);
+    } else {
+      console.log('inside normal query');
+      //we have standard css
+      const standardCSS = collectStandardCss(selector, m[6]);
+      console.log({ standardCSS });
+      if (options.isMediaQuery) {
+        // this condition is must otherwise we will be in nested loop for media query styles
+        return standardCSS;
+      } else if (options.isKeyFrames) {
+        return standardCSS;
+      }
+      if (options.isStandard) {
+        list.push(standardCSS);
+      }
+    }
+  }
 
-  // console.log({matchingAArray})
+  console.log({ list });
 
-  // while ((unifiedResult = unifiedRegex.exec(source)) !== null) {
-
-  //   let selector = unifiedResult[2] === undefined ? unifiedResult[5] : unifiedResult[2];
-  //   selector = selector.split('\r\n').join('\n').trim();
-  //   console.log({
-  //     selector
-  //   });
-  //   selector = stripComment(selector);
-  //   // Never have more than a single line break in a row
-  //   selector = selector.replace(/\n+/, '\n');
-  //   //determine the type
-  //   if (selector.indexOf('@media') !== -1 || selector.indexOf('@container') !== -1) {
-  //     //we have a media query
-  //     isMediaQuery = true;
-  //     const mediaQueryCss = collectMediaQueryCss(selector, unifiedResult);
-  //     list.push(mediaQueryCss);
-  //   } else {
-  //     //we have standard css
-  //     const standardCSS = collectStandardCss(selector, unifiedResult);
-  //     if (isMediaQuery) {
-  //       // this condition is must otherwise we will be in nested loop for media query styles
-  //       return standardCSS;
-  //     } else {
-  //       list.push(standardCSS);
-  //     }
-  //   }
-  // }
   return list;
 };
+
 const parseRules = function (rules) {
   const ret = [];
   if (rules === undefined) {

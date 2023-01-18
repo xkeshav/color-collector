@@ -36,7 +36,7 @@
         "cssVariableGenerator.collectCssVariables": {
           "type": "boolean",
           "default": false,
-          "description": "collect css variables from this CSS file."
+          "description": "collect color from the CSS file."
         },
         "cssVariableGenerator.lookupFiles": {
           "type": "array",

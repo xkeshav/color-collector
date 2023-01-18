@@ -1,7 +1,12 @@
 :root {
+  box-sizing: border-box;
 }
 
 body {
-  background-color: #456698;
-  color: #4523df;
+  background-color: #111;
+  color: #222222;
+}
+
+main {
+  color: #333;
 }
