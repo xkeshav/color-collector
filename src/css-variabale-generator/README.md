@@ -2,7 +2,7 @@
 
 This is the README for your extension "css-variable-generator".
 
-creating a extension which collect all color from css file and group into a :root variable with name of based on their selector and easy to identify
+creating a extension which collect all color code from a css file and assign the color in a variable and add a :root selector which contains all variables and also replace the color code with new variable name
 
 so that once all color collected on one place, we can change theme by changing that :root color-schema
 
@@ -12,7 +12,13 @@ Describe specific features of your extension including screenshots of your exten
 
 For example if there is an image subfolder under your extension project workspace:
 
-\!\[feature X\]\(images/feature-x.png\)
+#### input
+
+![input](images/input.png)
+
+#### output
+
+![output](images/output.png)
 
 > Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 

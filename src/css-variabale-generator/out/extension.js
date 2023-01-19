@@ -21,44 +21,51 @@ function activate(context) {
     let disposable = vscode.commands.registerCommand(command, commandHandler);
     /** work starts here */
     let activeEditor = vscode.window.activeTextEditor;
-    async function replaceWithinDocument() {
+    function replaceWithinDocument() {
         if (!activeEditor) {
             return;
         }
-        const text = activeEditor.document.getText();
-        console.log({ text });
-        const reg = new RegExp('(?<color>#[0-9a-f]{3,6})', 'gim');
+        const { document } = activeEditor;
+        const text = document.getText();
+        //console.log({ text });
+        const reg = new RegExp('(?<color>#[0-9a-f]{3,8})', 'gim');
         const matches = text.matchAll(reg);
         const variableList = {};
-        let i = 0;
-        for (const match of matches) {
-            const { index, groups } = match;
-            i++;
-            console.log({ match });
-            const startPos = activeEditor.document.positionAt(match.index);
-            const endPos = activeEditor.document.positionAt(match.index + match[0].length);
-            console.log({ i, startPos, endPos });
-            //Creating a new range with startLine, startCharacter & endLine, endCharacter.
-            let range = new vscode.Range(startPos, endPos);
-            // To ensure that above range is completely contained in this document.
-            let validFullRange = activeEditor.document.validateRange(range);
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            Object.assign(variableList, { [`--var-${i}`]: groups?.color });
-            await activeEditor.edit(editBuilder => {
-                console.log('replacing...');
-                editBuilder.replace(range, `var(--var-${i})`);
+        activeEditor.edit(editBuilder => {
+            let i = 0;
+            for (const match of matches) {
+                i++;
+                const { index, groups } = match;
+                const variableName = `--var-${i}`;
+                Object.assign(variableList, { [variableName]: groups?.color });
+                //console.log({ match });
+                const startPos = document.positionAt(index);
+                const endPos = document.positionAt(index + match[0].length);
+                //console.log({ i, startPos, endPos });
+                //Creating a new range with startLine, startCharacter & endLine, endCharacter.
+                let range = new vscode.Range(startPos, endPos);
+                // To ensure that above range is completely contained in this document.
+                //let validFullRange = document.validateRange(range);
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                editBuilder.replace(range, `var(${variableName})`);
+            }
+        }).then(async (resolved) => {
+            console.log({ resolved });
+            const rootContent = createRootSelector(variableList);
+            insertRootContent(rootContent);
+        });
+        const createRootSelector = (variableList) => {
+            const op = Object.entries(variableList).reduce((p, [k, v]) => p += `${k}: ${v};\n`, ``);
+            return `:root { \r\n${op}}`;
+        };
+        const insertRootContent = async (content) => {
+            //const edit = new vscode.WorkspaceEdit();
+            //edit.insert(YOUR_URI, new vscode.Position(0, 0), rootContent);
+            //let success = await vscode.workspace.applyEdit(edit);
+            activeEditor?.edit(editBuilder => {
+                editBuilder.insert(new vscode.Position(0, 0), content + '\n\n');
             });
-        }
-        const firstPos = new vscode.Position(0, 2);
-        const lastPos = new vscode.Position(Object.keys(variableList).length + 2, 0);
-        const topRange = new vscode.Range(firstPos, lastPos);
-        //activeEditor.edit(editBuilder => {
-        //	console.log('inserting...');
-        //	const text = `::root { }`;
-        //	console.log({ text });
-        //	editBuilder.insert(firstPos, text);
-        //});
-        console.log({ variableList });
+        };
     }
     function triggerUpdateDecorations(throttle = false) {
         if (timeout) {
