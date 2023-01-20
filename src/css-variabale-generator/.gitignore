@@ -15,7 +15,6 @@
 /coverage/*
 /dist/*
 /.tmp/*
-out/**
 # production
 /build/*
 

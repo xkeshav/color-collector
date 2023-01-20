@@ -29,8 +29,18 @@ export function activate(context: vscode.ExtensionContext) {
 	let activeEditor = vscode.window.activeTextEditor;
 
 	const selectorPattern = '^\s?(?<selector>(.+))\{([^}]+|\s+)}';
-	const colorPattern = '(?<color>#[0-9a-fA-F]{3,8})';
+	const colorPattern = '(?<color>#[0-9a-f]{3,8})';
+	const colorPattern2 = '(?<color2>(?:rgba?|hsla?|hwb)?\\((-?\\d+%?[,\\s]+){2,3}[\\s\/]*[\\d\.]+%?\\))';
 	const wordPattern = '(\\w+)';
+
+	const regexPatterns = [
+		colorPattern,// hex format
+		colorPattern2 // non hex format
+	];
+
+	const combinedColorPattern = regexPatterns.map((rx) => rx).join('|');
+
+	console.log(combinedColorPattern);
 
 	function replaceWithinDocument() {
 		if (!activeEditor) {
@@ -43,7 +53,7 @@ export function activate(context: vscode.ExtensionContext) {
 		const selectorRegex = new RegExp(selectorPattern, 'imgd');
 		const selectorMatchList = text.matchAll(selectorRegex);
 
-		const colorRegex = new RegExp(colorPattern, 'imgd');
+		const colorRegex = new RegExp(combinedColorPattern, 'imgd');
 		const colorMatchList = text.matchAll(colorRegex);
 
 		const variableList: VariableList = {};
@@ -59,12 +69,17 @@ export function activate(context: vscode.ExtensionContext) {
 				for (const match of colorMatchList) {
 					i++;
 					const { groups, indices } = match as RegExpMatchArrayWithIndices;
+					const { color: colorValue, color2: color2value } = groups as VariableList;
+					const { groups: { color, color2 } } = indices;
 					const variableName = `--var-${selector}-${i}`;
-					Object.assign(variableList, { [variableName]: groups?.color });
+					Object.assign(variableList, { [variableName]: colorValue || color2value });
 					//console.log({ match });
-					const startPos = document.positionAt(indices[1][0]);
-					const endPos = document.positionAt(indices[1][1]);
-					//console.log({ i, startPos, endPos });
+					const colorCode = color || color2;
+					console.log({ colorCode });
+					let [start, end] = colorCode;
+					const startPos = document.positionAt(start);
+					const endPos = document.positionAt(end);
+					console.log({ i, startPos, endPos });
 					//Creating a new range with startLine, startCharacter & endLine, endCharacter.
 					let range = new vscode.Range(startPos, endPos);
 					// To ensure that above range is completely contained in this document.
