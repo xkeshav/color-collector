@@ -21,6 +21,9 @@ function activate(context) {
     let disposable = vscode.commands.registerCommand(command, commandHandler);
     /** work starts here */
     let activeEditor = vscode.window.activeTextEditor;
+    const selectorPattern = '^\s?(?<selector>(.+))\{([^}]+|\s+)}';
+    const colorPattern = '(?<color>#[0-9a-fA-F]{3,8})';
+    const wordPattern = '(\\w+)';
     function replaceWithinDocument() {
         if (!activeEditor) {
             return;
@@ -28,26 +31,35 @@ function activate(context) {
         const { document } = activeEditor;
         const text = document.getText();
         //console.log({ text });
-        const reg = new RegExp('(?<color>#[0-9a-f]{3,8})', 'gim');
-        const matches = text.matchAll(reg);
+        const selectorRegex = new RegExp(selectorPattern, 'imgd');
+        const selectorMatchList = text.matchAll(selectorRegex);
+        const colorRegex = new RegExp(colorPattern, 'imgd');
+        const colorMatchList = text.matchAll(colorRegex);
         const variableList = {};
         activeEditor.edit(editBuilder => {
+            var _a;
             let i = 0;
-            for (const match of matches) {
-                i++;
-                const { index, groups } = match;
-                const variableName = `--var-${i}`;
-                Object.assign(variableList, { [variableName]: groups?.color });
-                //console.log({ match });
-                const startPos = document.positionAt(index);
-                const endPos = document.positionAt(index + match[0].length);
-                //console.log({ i, startPos, endPos });
-                //Creating a new range with startLine, startCharacter & endLine, endCharacter.
-                let range = new vscode.Range(startPos, endPos);
-                // To ensure that above range is completely contained in this document.
-                //let validFullRange = document.validateRange(range);
-                // eslint-disable-next-line @typescript-eslint/naming-convention
-                editBuilder.replace(range, `var(${variableName})`);
+            for (const sel of selectorMatchList) {
+                const selectorName = (_a = sel.groups) === null || _a === void 0 ? void 0 : _a.selector;
+                const wordRegex = new RegExp(wordPattern, 'img');
+                const [selector] = selectorName.match(wordRegex);
+                console.log({ selector });
+                for (const match of colorMatchList) {
+                    i++;
+                    const { groups, indices } = match;
+                    const variableName = `--var-${selector}-${i}`;
+                    Object.assign(variableList, { [variableName]: groups === null || groups === void 0 ? void 0 : groups.color });
+                    //console.log({ match });
+                    const startPos = document.positionAt(indices[1][0]);
+                    const endPos = document.positionAt(indices[1][1]);
+                    //console.log({ i, startPos, endPos });
+                    //Creating a new range with startLine, startCharacter & endLine, endCharacter.
+                    let range = new vscode.Range(startPos, endPos);
+                    // To ensure that above range is completely contained in this document.
+                    //let validFullRange = document.validateRange(range);
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
+                    editBuilder.replace(range, `var(${variableName})`);
+                }
             }
         }).then(async (resolved) => {
             console.log({ resolved });
@@ -58,11 +70,11 @@ function activate(context) {
             const op = Object.entries(variableList).reduce((p, [k, v]) => p += `${k}: ${v};\n`, ``);
             return `:root { \r\n${op}}`;
         };
-        const insertRootContent = async (content) => {
+        const insertRootContent = (content) => {
             //const edit = new vscode.WorkspaceEdit();
             //edit.insert(YOUR_URI, new vscode.Position(0, 0), rootContent);
             //let success = await vscode.workspace.applyEdit(edit);
-            activeEditor?.edit(editBuilder => {
+            activeEditor === null || activeEditor === void 0 ? void 0 : activeEditor.edit(editBuilder => {
                 editBuilder.insert(new vscode.Position(0, 0), content + '\n\n');
             });
         };

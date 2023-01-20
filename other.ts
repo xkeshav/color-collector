@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+
 import { RegExpMatchArrayWithIndices, VariableList } from './models/base';
 
 // This method is called when your extension is activated
@@ -28,10 +29,6 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let activeEditor = vscode.window.activeTextEditor;
 
-	const selectorPattern = '^\s?(?<selector>(.+))\{([^}]+|\s+)}';
-	const colorPattern = '(?<color>#[0-9a-fA-F]{3,8})';
-	const wordPattern = '(\\w+)';
-
 	function replaceWithinDocument() {
 		if (!activeEditor) {
 			return;
@@ -39,34 +36,41 @@ export function activate(context: vscode.ExtensionContext) {
 		const { document } = activeEditor;
 		const text = document.getText();
 		//console.log({ text });
+		const selectorPattern = '^\s?(?<selector>(.+))\{([^}]+|\s+)}';
+		const colorPattern = '(?<color>#[0-9a-fA-F]{3,8})';
+		const wordPattern = '(\\w+)';
 
-		const selectorRegex = new RegExp(selectorPattern, 'imgd');
-		const selectorMatchList = text.matchAll(selectorRegex);
-
-		const colorRegex = new RegExp(colorPattern, 'imgd');
-		const colorMatchList = text.matchAll(colorRegex);
 
 		const variableList: VariableList = {};
 
 		activeEditor.edit(editBuilder => {
 			let i = 0;
 
-			for (const sel of selectorMatchList) {
-				const selectorName = sel.groups?.selector as string;
+			const reg = new RegExp(selectorPattern, 'dimg');
+			const matchedSelector = text.matchAll(reg);
+			//console.log([...matchedSelector]);
+			for (const selected of matchedSelector) {
+				const selectorName = selected.groups?.selector as string;
 				const wordRegex = new RegExp(wordPattern, 'img');
 				const [selector] = selectorName.match(wordRegex) as [string];
 				console.log({ selector });
-				for (const match of colorMatchList) {
+				const block = selected[3];
+				const reg = new RegExp(colorPattern, 'dimg');
+				const matchedColor = text.matchAll(reg);
+				for (const match of matchedColor) {
 					i++;
-					const { groups, indices } = match as RegExpMatchArrayWithIndices;
 					const variableName = `--var-${selector}-${i}`;
-					Object.assign(variableList, { [variableName]: groups?.color });
+					Object.assign(variableList, { [variableName]: match.groups?.color });
 					//console.log({ match });
-					const startPos = document.positionAt(indices[1][0]);
-					const endPos = document.positionAt(indices[1][1]);
-					//console.log({ i, startPos, endPos });
+					const [, [start, end]] = (match as RegExpMatchArrayWithIndices).indices;
+					console.log({ start, end });
+					//const matchStartPos = document.positionAt(start);
+					//const matchEndPos = document.positionAt(end);
+					const matchStartPos = document.positionAt(match.index!);
+					const matchEndPos = document.positionAt(match.index! + match[0].length);
+					console.log({ i, matchStartPos, matchEndPos });
 					//Creating a new range with startLine, startCharacter & endLine, endCharacter.
-					let range = new vscode.Range(startPos, endPos);
+					let range = new vscode.Range(matchStartPos, matchEndPos);
 					// To ensure that above range is completely contained in this document.
 					//let validFullRange = document.validateRange(range);
 					// eslint-disable-next-line @typescript-eslint/naming-convention
@@ -74,23 +78,23 @@ export function activate(context: vscode.ExtensionContext) {
 				}
 			}
 		}).then(async (resolved) => {
-			console.log({ resolved });
 			const rootContent = createRootSelector(variableList);
 			insertRootContent(rootContent);
 		});
 
 		const createRootSelector = (variableList: VariableList) => {
-			const op = Object.entries(variableList).reduce((p, [k, v]) => p += `${k}: ${v};\n`, ``);
-			return `:root { \r\n${op}}`;
+			const variableEntry = Object.entries(variableList).reduce((p, [k, v]) => p += `\t${k}: ${v};\n`, ``); // remember to put semicolon after every property declaration
+			return `:root {\n${variableEntry}}\n\n`;
 		};
 
 
-		const insertRootContent = (content: string) => {
+		const insertRootContent = async (content: string) => {
 			//const edit = new vscode.WorkspaceEdit();
 			//edit.insert(YOUR_URI, new vscode.Position(0, 0), rootContent);
 			//let success = await vscode.workspace.applyEdit(edit);
-			activeEditor?.edit(editBuilder => {
-				editBuilder.insert(new vscode.Position(0, 0), content + '\n\n');
+			console.log({ content });
+			await activeEditor?.edit(editBuilder => {
+				editBuilder.insert(new vscode.Position(0, 0), content);
 			});
 		};
 

@@ -1,12 +1,21 @@
-:root {
-  box-sizing: border-box;
+:root { 
+--var-body-1: #111;
+--var-body-2: #222;
+--var-body-3: #333;
+--var-body-4: #444;
 }
 
 body {
-  background-color: #123dfe;
-  color: #444ff5;
+  background-color: var(--var-body-1);
+  color: var(--var-body-2);
 }
 
 main {
-  color: #234556af;
+  color: var(--var-body-3);
+  padding: 4px;
+}
+
+.class {
+  border-color: var(--var-body-4);
+  margin-top: inherit;
 }

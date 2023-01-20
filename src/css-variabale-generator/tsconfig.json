@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "ES2020",
+    "target": "ES2018",
     "outDir": "out",
-    "lib": ["ES2020"],
+    "lib": ["ES2020", "es2018.regexp"],
     "sourceMap": true,
     "rootDir": "src",
     "strict": true,
