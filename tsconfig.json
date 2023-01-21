@@ -3,7 +3,7 @@
     "module": "commonjs",
     "target": "ES2018",
     "outDir": "out",
-    "lib": ["ES2020", "dom"],
+    "lib": ["ES2020", "ES2018.Regexp"],
     "sourceMap": true,
     "rootDir": "src",
     "strict": true,
