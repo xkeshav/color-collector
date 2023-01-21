@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deactivate = exports.activate = void 0;
 const vscode = require("vscode");
+const common_1 = require("./utils/common");
+const constants_1 = require("./utils/constants");
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 function activate(context) {
@@ -21,16 +23,6 @@ function activate(context) {
     let disposable = vscode.commands.registerCommand(command, commandHandler);
     /** work starts here */
     let activeEditor = vscode.window.activeTextEditor;
-    const selectorPattern = '^\s?(?<selector>(.+))\{([^}]+|\s+)}';
-    const colorPattern = '(?<color>#[0-9a-f]{3,8})';
-    const colorPattern2 = '(?<color2>(?:rgba?|hsla?|hwb)?\\((-?\\d+%?[,\\s]+){2,3}[\\s\/]*[\\d\.]+%?\\))';
-    const wordPattern = '(\\w+)';
-    const regexPatterns = [
-        colorPattern,
-        colorPattern2 // non hex format
-    ];
-    const combinedColorPattern = regexPatterns.map((rx) => rx).join('|');
-    console.log(combinedColorPattern);
     function replaceWithinDocument() {
         if (!activeEditor) {
             return;
@@ -38,9 +30,9 @@ function activate(context) {
         const { document } = activeEditor;
         const text = document.getText();
         //console.log({ text });
-        const selectorRegex = new RegExp(selectorPattern, 'imgd');
+        const selectorRegex = new RegExp(constants_1.PATTERN_LIST.SELECTOR, 'imgd');
         const selectorMatchList = text.matchAll(selectorRegex);
-        const colorRegex = new RegExp(combinedColorPattern, 'imgd');
+        const colorRegex = new RegExp(common_1.combinedPattern, 'imgd');
         const colorMatchList = text.matchAll(colorRegex);
         const variableList = {};
         activeEditor.edit(editBuilder => {
@@ -48,7 +40,7 @@ function activate(context) {
             let i = 0;
             for (const sel of selectorMatchList) {
                 const selectorName = (_a = sel.groups) === null || _a === void 0 ? void 0 : _a.selector;
-                const wordRegex = new RegExp(wordPattern, 'img');
+                const wordRegex = new RegExp(constants_1.PATTERN_LIST.WORD, 'img');
                 const [selector] = selectorName.match(wordRegex);
                 console.log({ selector });
                 for (const match of colorMatchList) {
@@ -75,13 +67,9 @@ function activate(context) {
             }
         }).then(async (resolved) => {
             console.log({ resolved });
-            const rootContent = createRootSelector(variableList);
+            const rootContent = (0, common_1.createRootSelector)(variableList);
             insertRootContent(rootContent);
         });
-        const createRootSelector = (variableList) => {
-            const op = Object.entries(variableList).reduce((p, [k, v]) => p += `${k}: ${v};\n`, ``);
-            return `:root { \r\n${op}}`;
-        };
         const insertRootContent = (content) => {
             //const edit = new vscode.WorkspaceEdit();
             //edit.insert(YOUR_URI, new vscode.Position(0, 0), rootContent);
