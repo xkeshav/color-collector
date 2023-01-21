@@ -1,4 +1,4 @@
-# css-collecter
+# color-collecter
 
 This is the README for your extension "css-variable-generator".
 
