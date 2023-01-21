@@ -12,11 +12,11 @@ so that once all color collected on one place, we can change theme by changing t
 
 #### input
 
-![input]
+![input](images/input.png)
 
 #### output
 
-![output]
+![output](images/output.png)
 
 > Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 
@@ -37,6 +37,3 @@ If you have any requirements or dependencies, add a section describing those and
 - support all format
 - when there are multiple color on same line such as liner-background()
 - - remove keyframes/ import / media / container
-
-[input]: images/input.png
-[output]: images/output.png
