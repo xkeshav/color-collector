@@ -1,8 +1,7 @@
-# color-collecter
+# color-collector
 
-This is the README for your extension "css-variable-generator".
+a simple vs code extension which works with .CSS files
 
-creating a extension 
 which collect all color code from a css file 
 and assign the color in a variable 
 and add a :root selector which contains all variables 
