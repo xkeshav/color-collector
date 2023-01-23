@@ -30,43 +30,55 @@ function activate(context) {
         const { document } = activeEditor;
         const text = document.getText();
         //console.log({ text });
-        const selectorRegex = new RegExp(constants_1.PATTERN_LIST.SELECTOR, 'imgd');
-        const selectorMatchList = text.matchAll(selectorRegex);
-        const colorRegex = new RegExp(common_1.combinedPattern, 'imgd');
-        const colorMatchList = text.matchAll(colorRegex);
+        //console.log([...selectorMatchList]);
         const variableList = {};
+        const selectorList = new Map();
         activeEditor.edit(editBuilder => {
-            var _a;
-            let i = 0;
-            for (const sel of selectorMatchList) {
-                const selectorName = (_a = sel.groups) === null || _a === void 0 ? void 0 : _a.selector;
-                const wordRegex = new RegExp(constants_1.PATTERN_LIST.WORD, 'img');
-                const [selector] = selectorName.match(wordRegex);
-                console.log({ selector });
+            selectorFinder(text);
+            function selectorFinder(cssDocument) {
+                const selectorRegex = new RegExp(constants_1.PATTERN_LIST.SELECTOR_WITH_MEDIA.source, 'imgd');
+                const selectorMatchList = cssDocument.matchAll(selectorRegex);
+                for (const matchingSelector of selectorMatchList) {
+                    const { groups: selectorGroup, indices: { groups: selectorIndicesGroup } } = matchingSelector;
+                    const { SELECTOR: selectorName } = selectorGroup;
+                    const { SELECTOR: selectorIndex } = selectorIndicesGroup;
+                    const [, last] = selectorIndex;
+                    const wordRegex = new RegExp(constants_1.PATTERN_LIST.WORD, 'img');
+                    const [selector] = selectorName.match(wordRegex);
+                    console.log({ selector });
+                    selectorList.set(last, selector);
+                }
+            }
+            colorFinder(text);
+            function colorFinder(cssDocument) {
+                var _a;
+                let i = 0;
+                const colorRegex = new RegExp(common_1.combinedPattern, 'imgd');
+                const colorMatchList = cssDocument.matchAll(colorRegex);
                 for (const match of colorMatchList) {
                     i++;
-                    const { groups, indices } = match;
-                    const { color: colorValue, color2: color2value } = groups;
-                    const { groups: { color, color2 } } = indices;
-                    const variableName = `--var-${selector}-${i}`;
-                    Object.assign(variableList, { [variableName]: colorValue || color2value });
-                    //console.log({ match });
-                    const colorCode = color || color2;
-                    console.log({ colorCode });
-                    let [start, end] = colorCode;
+                    const { groups, indices: { groups: indicesGroup } } = match;
+                    const { HEX_COLOR, NON_HEX_COLOR } = groups;
+                    const colorIndexList = (_a = indicesGroup.HEX_COLOR) !== null && _a !== void 0 ? _a : indicesGroup.NON_HEX_COLOR;
+                    let [start, end] = colorIndexList;
+                    const selectorPositionIndex = Array.from(selectorList.keys());
+                    const selectorKey = selectorPositionIndex.findLast((sl) => sl < start);
+                    const selectorName = selectorList.get(selectorKey);
+                    console.log({ selectorName });
+                    const variableName = `--var-${selectorName}-${i}`;
+                    const variableValue = HEX_COLOR || NON_HEX_COLOR;
+                    Object.assign(variableList, { [variableName]: variableValue });
                     const startPos = document.positionAt(start);
                     const endPos = document.positionAt(end);
-                    console.log({ i, startPos, endPos });
                     //Creating a new range with startLine, startCharacter & endLine, endCharacter.
                     let range = new vscode.Range(startPos, endPos);
-                    // To ensure that above range is completely contained in this document.
-                    //let validFullRange = document.validateRange(range);
-                    // eslint-disable-next-line @typescript-eslint/naming-convention
                     editBuilder.replace(range, `var(${variableName})`);
                 }
             }
         }).then(async (resolved) => {
             console.log({ resolved });
+            console.log({ selectorList });
+            //Array.from(variableList.values());
             const rootContent = (0, common_1.createRootSelector)(variableList);
             insertRootContent(rootContent);
         });
