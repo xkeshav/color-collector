@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createRootSelector = exports.combinedPattern = void 0;
 const constants_1 = require("./constants");
 const regexPatterns = [
+    constants_1.PATTERN_LIST.PROPERTY,
     constants_1.PATTERN_LIST.COLOR_HEX_FORMAT,
     constants_1.PATTERN_LIST.COLOR_NON_HEX_FORMAT
 ];

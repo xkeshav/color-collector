@@ -1,0 +1,51 @@
+body {
+  background-color: #1a10;
+  color: #2a2;
+}
+
+main {
+  color: #334455ff;
+  padding: 4px;
+}
+
+.class {
+  border-color: #6ff;
+  margin-top: inherit;
+}
+
+.more {
+  color: rgb(255, 0, 0 / 1);
+  border-color: rgb(100%, 0%, 0%);
+  caret-color: rgb(300, 0, 0);
+  color: rgb(255, -10, 0);
+  color: rgb(110%, 0%, 0%);
+}
+
+.other-nearby:has(nth-child(3)) {
+  color: rgba(255, 0, 0, 1);
+  color: rgba(100%, 0%, 0%, 1);
+  color: rgba(0, 0, 255, 0.5);
+}
+
+@media only screen and (max-width: 480px) {
+  table[class='max-width-pad'] {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-top: 15px !important;
+    height: auto !important;
+    border-color: #3ec;
+  }
+}
+
+.panel__cell:nth-child(10n + 0) {
+  background-color: rgba(191, 64 149, 0.8);
+}
+
+.panel__cell:nth-child(1) {
+  --ry: var(--ry);
+}
+
+.orientation--kind input[type='radio']:checked + label {
+  color: white;
+  background-color: hsla(100, 78%, 63%, 0.8);
+}

@@ -74,27 +74,31 @@ export function activate(context: vscode.ExtensionContext) {
 
 			function colorFinder(cssDocument: string) {
 				let i = 0;
-				const colorRegex = new RegExp(combinedPattern, 'imgd');
+				const colorRegex = new RegExp(combinedPattern, 'mudig');
 				const colorMatchList = cssDocument.matchAll(colorRegex);
 				for (const match of colorMatchList) {
 					i++;
 					console.log(match);
 					const { groups, indices: { groups: indicesGroup } } = match as RegExpMatchArrayWithIndices;
-					const { HEX_COLOR, NON_HEX_COLOR } = groups as VariableList;
-					const colorIndexList = indicesGroup.HEX_COLOR ?? indicesGroup.NON_HEX_COLOR;
-					let [start, end] = colorIndexList;
-					const selectorPositionIndex = Array.from(selectorList.keys());
-					const selectorKey = (selectorPositionIndex as any).findLast((sl: number) => sl < start);
-					const selectorName = selectorList.get(selectorKey);
-					console.log({ selectorName });
-					const variableName = `--var-${selectorName}-${i}`;
-					const variableValue = HEX_COLOR || NON_HEX_COLOR;
-					Object.assign(variableList, { [variableName]: variableValue });
-					const startPos = document.positionAt(start);
-					const endPos = document.positionAt(end);
-					//Creating a new range with startLine, startCharacter & endLine, endCharacter.
-					let range = new vscode.Range(startPos, endPos);
-					editBuilder.replace(range, `var(${variableName})`);
+					const { PROPERTY, HEX_COLOR, NON_HEX_COLOR } = groups as VariableList;
+					if (PROPERTY !== undefined) {
+					} else {
+						const colorIndexList = indicesGroup.HEX_COLOR ?? indicesGroup.NON_HEX_COLOR;
+						let [start, end] = colorIndexList;
+						const selectorPositionIndex = Array.from(selectorList.keys());
+						const selectorKey = (selectorPositionIndex as any).findLast((sl: number) => sl < start);
+						const selectorName = selectorList.get(selectorKey);
+						console.log({ selectorName });
+						const variableName = `--var-${selectorName}-${i}`;
+						const variableValue = HEX_COLOR || NON_HEX_COLOR;
+						Object.assign(variableList, { [variableName]: variableValue });
+						const startPos = document.positionAt(start);
+						const endPos = document.positionAt(end);
+						//Creating a new range with startLine, startCharacter & endLine, endCharacter.
+						let range = new vscode.Range(startPos, endPos);
+						editBuilder.replace(range, `var(${variableName})`);
+					}
+
 				}
 			}
 		}).then(async (resolved) => {

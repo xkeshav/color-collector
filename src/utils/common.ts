@@ -2,6 +2,7 @@ import { VariableList } from '../models/base';
 import { PATTERN_LIST } from './constants';
 
 const regexPatterns = [
+	PATTERN_LIST.PROPERTY,
 	PATTERN_LIST.COLOR_HEX_FORMAT,
 	PATTERN_LIST.COLOR_NON_HEX_FORMAT
 ];
