@@ -23,6 +23,8 @@ function activate(context) {
     let disposable = vscode.commands.registerCommand(command, commandHandler);
     /** work starts here */
     let activeEditor = vscode.window.activeTextEditor;
+    const combinedPatternWithProperty = `${constants_1.PATTERN_LIST.PROPERTY}(${common_1.combinedPattern})`;
+    console.log({ combinedPatternWithProperty });
     function replaceWithinDocument() {
         if (!activeEditor) {
             return;
@@ -31,6 +33,9 @@ function activate(context) {
         const text = document.getText();
         //console.log({ text });
         //console.log([...selectorMatchList]);
+        // Add some CSS
+        //stylesheet.replaceSync(text);
+        //console.log({ stylesheet });
         const variableList = {};
         const selectorList = new Map();
         activeEditor.edit(editBuilder => {
@@ -57,6 +62,7 @@ function activate(context) {
                 const colorMatchList = cssDocument.matchAll(colorRegex);
                 for (const match of colorMatchList) {
                     i++;
+                    console.log(match);
                     const { groups, indices: { groups: indicesGroup } } = match;
                     const { HEX_COLOR, NON_HEX_COLOR } = groups;
                     const colorIndexList = (_a = indicesGroup.HEX_COLOR) !== null && _a !== void 0 ? _a : indicesGroup.NON_HEX_COLOR;

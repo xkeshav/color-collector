@@ -30,6 +30,10 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let activeEditor = vscode.window.activeTextEditor;
 
+	const combinedPatternWithProperty = `${PATTERN_LIST.PROPERTY}(${combinedPattern})`;
+
+	console.log({ combinedPatternWithProperty });
+
 	function replaceWithinDocument() {
 		if (!activeEditor) {
 			return;
@@ -39,6 +43,11 @@ export function activate(context: vscode.ExtensionContext) {
 		//console.log({ text });
 
 		//console.log([...selectorMatchList]);
+
+		// Add some CSS
+		//stylesheet.replaceSync(text);
+
+		//console.log({ stylesheet });
 
 		const variableList: VariableList = {};
 
@@ -69,12 +78,13 @@ export function activate(context: vscode.ExtensionContext) {
 				const colorMatchList = cssDocument.matchAll(colorRegex);
 				for (const match of colorMatchList) {
 					i++;
+					console.log(match);
 					const { groups, indices: { groups: indicesGroup } } = match as RegExpMatchArrayWithIndices;
 					const { HEX_COLOR, NON_HEX_COLOR } = groups as VariableList;
 					const colorIndexList = indicesGroup.HEX_COLOR ?? indicesGroup.NON_HEX_COLOR;
 					let [start, end] = colorIndexList;
 					const selectorPositionIndex = Array.from(selectorList.keys());
-					const selectorKey = selectorPositionIndex.findLast((sl: number) => sl < start);
+					const selectorKey = (selectorPositionIndex as any).findLast((sl: number) => sl < start);
 					const selectorName = selectorList.get(selectorKey);
 					console.log({ selectorName });
 					const variableName = `--var-${selectorName}-${i}`;

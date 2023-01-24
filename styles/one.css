@@ -1,48 +1,82 @@
 body {
-  background-color: #1a10;
-  color: #2a2;
+  background-color: var(--var-body-1);
+  color: var(--var-body-2);
 }
 
 main {
-  color: #334455ff;
+  color: var(--var-main-3);
   padding: 4px;
+  caret-color: var(--var-main-4);
 }
 
 .class {
-  border-color: #6ff;
+  border-color: var(--var-class-5);
   margin-top: inherit;
 }
 
-.more {
-  color: rgb(255, 0, 0 / 1);
-  color: rgb(100%, 0%, 0%);
-  color: rgb(300, 0, 0);
-  color: rgb(255, -10, 0);
-  color: rgb(110%, 0%, 0%);
+.four > #three {
+  background-image: linear-gradient(90deg, transparent 50%, var(--var-four-6) 50%);
+}
+
+#five {
+  color: var(--var-five-7);
+  border-top-color: var(--var-five-8);
+  border-bottom-color: var(--var-five-9);
+  border-right-color: var(--var-five-10);
+  border-left-color: var(--var-five-11);
 }
 
 .other ~ nearby:has(nth-child(3)) {
-  color: rgba(255, 0, 0, 1);
-  color: rgba(100%, 0%, 0%, 1);
-  color: rgba(0, 0, 255, 0.5);
+  color: var(--var-other-12);
+  outline-color: var(--var-other-13);
+  color: var(--var-other-14);
 }
 
 @media only screen and (max-width: 480px) {
   table[class='max-width-pad'] {
-    max-width: 100% !important;
-    width: 100% !important;
-    padding-top: 15px !important;
-    height: auto !important;
-    border-color: #3ec;
+    filter: drop-shadow(16px 16px 20px var(--var-table-15));
+    border-color: var(--var-table-16);
   }
 }
 
 .panel__cell:nth-child(10n + 0) {
-  background-color: rgba(191, 64 149, 0.8);
+  background: conic-gradient(
+    from 0.25turn at 50% 30%,
+    var(--var-panel__cell-17),
+    10deg,
+    var(--var-panel__cell-18),
+    350deg,
+    var(--var-panel__cell-19)
+  );
+  text-decoration-color: var(--var-panel__cell-20);
 }
 
 .panel__cell:nth-child(1) {
   --ry: var(--ry);
+}
+
+p.abc {
+  column-rule: thick inset var(--var-p-21);
+}
+
+a[href*='insensitive' i] {
+  color: var(--var-a-22);
+}
+
+/* Links with "cAsE" anywhere in the URL,
+with matching capitalization */
+a[href*='cAsE' s] {
+  color: var(--var-a-23);
+}
+
+/* Links that end in ".org" */
+a[href$='.org'] {
+  color: var(--var-a-24);
+}
+
+/* Links that start with "https" and end in ".org" */
+a[href^='https'][href$='.org'] {
+  color: var(--var-a-25);
 }
 
 /*@keyframes typing {
@@ -59,5 +93,11 @@ main {
 
 .orientation--kind input[type='radio']:checked + label {
   color: white;
-  background-color: hsla(100, 78%, 63%, 0.8);
+  background-color: var(--var-orientation-26);
+}
+
+.see-me {
+  background: linear-gradient(217deg, var(--var-see-27), var(--var-see-28) 70.71%),
+    linear-gradient(127deg, var(--var-see-29), var(--var-see-30) 70.71%),
+    linear-gradient(336deg, var(--var-see-31), var(--var-see-32) 70.71%);
 }

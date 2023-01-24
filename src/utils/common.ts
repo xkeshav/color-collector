@@ -6,6 +6,8 @@ const regexPatterns = [
 	PATTERN_LIST.COLOR_NON_HEX_FORMAT
 ];
 
+;
+
 export const combinedPattern = regexPatterns.map((rx) => rx).join('|');
 
 export const createRootSelector = (list: VariableList) => {
