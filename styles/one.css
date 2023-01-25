@@ -49,3 +49,9 @@ main {
   color: white;
   background-color: var(--var-orientation-39);
 }
+
+@keyframes jump {
+  0% {
+    border-color: hwb(hue rgb(116, 59, 59) #854343);
+  }
+}

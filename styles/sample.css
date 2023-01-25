@@ -1,31 +1,104 @@
+@import url('base.css');
+
+html {
+  color: currentColor;
+  tab-size: 4;
+}
+
 body {
   background-color: #1a10;
   color: #2a2;
+  display: grid;
+  grid-template-areas: 
+  "head - "
+  "nav main"
+  "nav foot";
+  grid-gap: 0.25rem;
+}
+
+@container (width > 400px) {
+  h2 {
+    font-size: 1.5em;
+  }
+}
+
+@namespace example url(http://www.example.com);
+example|h1 {
+  color: rgb(0, 255, 98);
+}
+
+.floating + * {
+  clear: left;
+}
+
+header {
+  grid-area: head;
+  animation: 3s ease-in 1s 2 reverse both paused jump;
+  background-color: rgb(255 0 153 / 1);
+}
+
+img {
+  aspect-ratio: 1;
+  outline-color: rgb(0, 0, 0);
+}
+
+figure {
+  filter: drop-shadow(16px 16px 20px #0000ff);
+}
+
+button, button[type="submit"] {
+  cursor: pointer;
+}
+
+a::after {
+  content: ' -- ';
+  box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
+}
+
+*:disabled {
+  background-color: #6d1b1b;
+  color: hwb(30 90% 2%);
+  opacity: 1;
+}
+
+p {
+  letter-spacing: .2rem;
 }
 
 main {
   color: #334455ff;
-  padding: 4px;
+  grid-area: main;
+  background: url("any.gif") #99f repeat-y fixed;
+  will-change: auto;
 }
 
 .class {
   border-color: #6ff;
-  margin-top: inherit;
+  margin: inherit;
+}
+
+
+.joinBtn:hover {
+  background-color: rgb(40, 24, 5);
 }
 
 .more {
   color: rgb(255, 0, 0 / 1);
-  border-color: rgb(100%, 0%, 0%);
+  border-inline-color: rgb(100%, 0%, 0%);
   caret-color: rgb(300, 0, 0);
-  color: rgb(255, -10, 0);
+  border-block-color: rgb(255, -10, 0);
   outline-color: rgb(110%, 0%, 0%);
+  -webkit-text-stroke-color: #1a10;
 }
 
-.other-nearby:has(nth-child(3)) {
+.parent:has(nth-child(3)) {
   border-right-color: rgba(255, 0, 0, 1);
   border-left-color: rgba(100%, 0%, 0%, 1);
   border-top-color: rgba(0, 0, 255, 0.5);
+  font-size: larger;
 }
+
+/* few comments */
 
 @media only screen and (max-width: 480px) {
   .profile > #image {
@@ -42,6 +115,20 @@ main {
   background-color: hsla(100, 78%, 63%, 0.8);
 }
 
+
+
+
+/* A one-line comment */
+
+/*
+A comment
+which stretches
+over several
+lines
+*/
+
+/* The comment below is used to
+
 .user {
   background: conic-gradient(
     #ff9 0.25turn,
@@ -49,4 +136,20 @@ main {
      #999 0.5turn 0.75turn, 
      #900 0.75turn) 
      top left / 25% 25% repeat;
+}
+
+disable specific styling 
+
+*/
+
+
+@keyframes jump {
+  0% {
+    border-color: hwb(hue rgb(116, 59, 59) #854343);
+  }
+}
+
+#footer {
+  bottom: 0;
+  text-shadow: #ffe;
 }

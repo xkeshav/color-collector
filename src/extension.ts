@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
-import { RegExpMatchArrayWithIndices, VariableList } from './models/base';
-import { combinedPattern, createRootSelector } from './utils/common';
-import { PATTERN_LIST, PROPERTY_ALIAS_MAPPER } from './utils/constants';
+import { RegExpMatchArrayWithIndices, SelectorMap, VariableList } from './models/base';
+import { combinedPattern, createRootSelector, getParentSelectorName, setVariableName } from './utils/common';
+import { PATTERN_LIST } from './utils/constants';
 
 
 // This method is called when your extension is activated
@@ -31,7 +31,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let activeEditor = vscode.window.activeTextEditor;
 
-	const combinedPatternWithProperty = `${PATTERN_LIST.PROPERTY}(${combinedPattern})`;
+	let prevProp = '';
 
 	//console.log({ combinedPatternWithProperty });
 
@@ -42,74 +42,68 @@ export function activate(context: vscode.ExtensionContext) {
 		const { document } = activeEditor;
 		const text = document.getText();
 		//console.log({ text });
-
-		//console.log([...selectorMatchList]);
-
 		// Add some CSS
 		//stylesheet.replaceSync(text);
-
 		//console.log({ stylesheet });
 
 		const variableList: VariableList = {};
+		const selectorList: SelectorMap = new Map();
 
-		const selectorList: Map<number, string> = new Map();
-
+		function selectorFinder(cssDocument: string) {
+			const selectorRegex = new RegExp(PATTERN_LIST.SELECTOR_WITH_MEDIA, 'imgd');
+			const selectorMatchList = cssDocument.matchAll(selectorRegex);
+			for (const matchingSelector of selectorMatchList) {
+				const { groups: selectorGroup, indices: { groups: selectorIndicesGroup } } = matchingSelector as RegExpMatchArrayWithIndices;
+				const { SELECTOR: selectorName } = selectorGroup as VariableList;
+				const { SELECTOR: selectorIndex } = selectorIndicesGroup;
+				const [, lastIndex] = selectorIndex;
+				const wordRegex = new RegExp(PATTERN_LIST.WORD, 'img');
+				//console.log({selectorName});
+				const [selector] = selectorName.match(wordRegex) as [string];
+				//console.log({ selector });
+				selectorList.set(lastIndex, selector);
+			}
+		}
+		
 		activeEditor.edit(editBuilder => {
 			selectorFinder(text);
-
-			function selectorFinder(cssDocument: string) {
-				const selectorRegex = new RegExp(PATTERN_LIST.SELECTOR_WITH_MEDIA.source, 'mdig');
-				const selectorMatchList = cssDocument.matchAll(selectorRegex);
-				for (const matchingSelector of selectorMatchList) {
-					const { groups: selectorGroup, indices: { groups: selectorIndicesGroup } } = matchingSelector as RegExpMatchArrayWithIndices;
-					const { SELECTOR: selectorName } = selectorGroup as VariableList;
-					const { SELECTOR: selectorIndex } = selectorIndicesGroup;
-					const [, last] = selectorIndex;
-					const wordRegex = new RegExp(PATTERN_LIST.WORD, 'img');
-					const [selector] = selectorName.match(wordRegex) as [string];
-					//console.log({ selector });
-					selectorList.set(last, selector);
-				}
-			}
-
 			//console.log({ selectorList });
-
 			colorFinder(text);
-
 			function colorFinder(cssDocument: string) {
 				let i = 0;
-				let prevProp = '';
-				const colorRegex = new RegExp(combinedPattern, 'mudig');
+				const colorRegex = new RegExp(combinedPattern, 'imgd');
 				const colorMatchList = cssDocument.matchAll(colorRegex);
 				for (const match of colorMatchList) {
-					i++;
 					//console.log(match);
-					const { groups, indices: { groups: indicesGroup } } = match as RegExpMatchArrayWithIndices;
-					const { PROPERTY, HEX_COLOR, NON_HEX_COLOR } = groups as VariableList;
+					const { groups: colorGroup, indices: { groups: indicesGroup } } = match as RegExpMatchArrayWithIndices;
+					const { PROPERTY, HEX_COLOR, NON_HEX_COLOR } = colorGroup as VariableList;
 					if (PROPERTY !== undefined) {
-						//console.log({ prevProp });
 						prevProp = PROPERTY;
 					} else {
+						i++;
 						const colorIndexList = indicesGroup.HEX_COLOR ?? indicesGroup.NON_HEX_COLOR;
 						let [start, end] = colorIndexList;
-						const selectorPositionIndex = Array.from(selectorList.keys());
-						const selectorKey = (selectorPositionIndex as any).findLast((sl: number) => sl < start);
-						const selectorName = selectorList.get(selectorKey);
+						const selectorName = getParentSelectorName(selectorList, start);
 						//console.log({ selectorName });
-						const variableValue = HEX_COLOR || NON_HEX_COLOR;
-						const element = PROPERTY_ALIAS_MAPPER.get(prevProp) ?? 'element';
-						const variableName = `--${selectorName}__${element}--${i}`;
-						//console.log({ prevProp, variableValue });
-						Object.assign(variableList, { [variableName]: variableValue });
+						const variableFinderParameters = { 
+							hexCode: HEX_COLOR, 
+							nonHexCode: NON_HEX_COLOR, 
+							selectorName, 
+							variableList, 
+							num: i, 
+							previousProperty: prevProp 
+						};
+						const variableName = setVariableName(variableFinderParameters);
 						const startPos = document.positionAt(start);
 						const endPos = document.positionAt(end);
 						//Creating a new range with startLine, startCharacter & endLine, endCharacter.
 						let range = new vscode.Range(startPos, endPos);
 						editBuilder.replace(range, `var(${variableName})`);
 					}
-
 				}
 			}
+
+
 		}).then(async (resolved) => {
 			console.log({ resolved });
 			//console.log({ selectorList });
@@ -117,8 +111,6 @@ export function activate(context: vscode.ExtensionContext) {
 			const rootContent = createRootSelector(variableList);
 			insertRootContent(rootContent);
 		});
-
-
 
 
 		const insertRootContent = (content: string) => {

@@ -23,7 +23,7 @@ function activate(context) {
     let disposable = vscode.commands.registerCommand(command, commandHandler);
     /** work starts here */
     let activeEditor = vscode.window.activeTextEditor;
-    const combinedPatternWithProperty = `${constants_1.PATTERN_LIST.PROPERTY}(${common_1.combinedPattern})`;
+    let prevProp = '';
     //console.log({ combinedPatternWithProperty });
     function replaceWithinDocument() {
         if (!activeEditor) {
@@ -32,57 +32,57 @@ function activate(context) {
         const { document } = activeEditor;
         const text = document.getText();
         //console.log({ text });
-        //console.log([...selectorMatchList]);
         // Add some CSS
         //stylesheet.replaceSync(text);
         //console.log({ stylesheet });
         const variableList = {};
         const selectorList = new Map();
+        function selectorFinder(cssDocument) {
+            const selectorRegex = new RegExp(constants_1.PATTERN_LIST.SELECTOR_WITH_MEDIA, 'imgd');
+            const selectorMatchList = cssDocument.matchAll(selectorRegex);
+            for (const matchingSelector of selectorMatchList) {
+                const { groups: selectorGroup, indices: { groups: selectorIndicesGroup } } = matchingSelector;
+                const { SELECTOR: selectorName } = selectorGroup;
+                const { SELECTOR: selectorIndex } = selectorIndicesGroup;
+                const [, lastIndex] = selectorIndex;
+                const wordRegex = new RegExp(constants_1.PATTERN_LIST.WORD, 'img');
+                //console.log({selectorName});
+                const [selector] = selectorName.match(wordRegex);
+                //console.log({ selector });
+                selectorList.set(lastIndex, selector);
+            }
+        }
         activeEditor.edit(editBuilder => {
             selectorFinder(text);
-            function selectorFinder(cssDocument) {
-                const selectorRegex = new RegExp(constants_1.PATTERN_LIST.SELECTOR_WITH_MEDIA.source, 'mdig');
-                const selectorMatchList = cssDocument.matchAll(selectorRegex);
-                for (const matchingSelector of selectorMatchList) {
-                    const { groups: selectorGroup, indices: { groups: selectorIndicesGroup } } = matchingSelector;
-                    const { SELECTOR: selectorName } = selectorGroup;
-                    const { SELECTOR: selectorIndex } = selectorIndicesGroup;
-                    const [, last] = selectorIndex;
-                    const wordRegex = new RegExp(constants_1.PATTERN_LIST.WORD, 'img');
-                    const [selector] = selectorName.match(wordRegex);
-                    //console.log({ selector });
-                    selectorList.set(last, selector);
-                }
-            }
             //console.log({ selectorList });
             colorFinder(text);
             function colorFinder(cssDocument) {
-                var _a, _b;
+                var _a;
                 let i = 0;
-                let prevProp = '';
-                const colorRegex = new RegExp(common_1.combinedPattern, 'mudig');
+                const colorRegex = new RegExp(common_1.combinedPattern, 'imgd');
                 const colorMatchList = cssDocument.matchAll(colorRegex);
                 for (const match of colorMatchList) {
-                    i++;
                     //console.log(match);
-                    const { groups, indices: { groups: indicesGroup } } = match;
-                    const { PROPERTY, HEX_COLOR, NON_HEX_COLOR } = groups;
+                    const { groups: colorGroup, indices: { groups: indicesGroup } } = match;
+                    const { PROPERTY, HEX_COLOR, NON_HEX_COLOR } = colorGroup;
                     if (PROPERTY !== undefined) {
-                        //console.log({ prevProp });
                         prevProp = PROPERTY;
                     }
                     else {
+                        i++;
                         const colorIndexList = (_a = indicesGroup.HEX_COLOR) !== null && _a !== void 0 ? _a : indicesGroup.NON_HEX_COLOR;
                         let [start, end] = colorIndexList;
-                        const selectorPositionIndex = Array.from(selectorList.keys());
-                        const selectorKey = selectorPositionIndex.findLast((sl) => sl < start);
-                        const selectorName = selectorList.get(selectorKey);
+                        const selectorName = (0, common_1.getParentSelectorName)(selectorList, start);
                         //console.log({ selectorName });
-                        const variableValue = HEX_COLOR || NON_HEX_COLOR;
-                        const element = (_b = constants_1.PROPERTY_ALIAS_MAPPER.get(prevProp)) !== null && _b !== void 0 ? _b : 'element';
-                        const variableName = `--${selectorName}__${element}--${i}`;
-                        //console.log({ prevProp, variableValue });
-                        Object.assign(variableList, { [variableName]: variableValue });
+                        const variableFinderParameters = {
+                            hexCode: HEX_COLOR,
+                            nonHexCode: NON_HEX_COLOR,
+                            selectorName,
+                            variableList,
+                            num: i,
+                            previousProperty: prevProp
+                        };
+                        const variableName = (0, common_1.setVariableName)(variableFinderParameters);
                         const startPos = document.positionAt(start);
                         const endPos = document.positionAt(end);
                         //Creating a new range with startLine, startCharacter & endLine, endCharacter.
