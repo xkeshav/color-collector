@@ -24,7 +24,7 @@ function activate(context) {
     /** work starts here */
     let activeEditor = vscode.window.activeTextEditor;
     const combinedPatternWithProperty = `${constants_1.PATTERN_LIST.PROPERTY}(${common_1.combinedPattern})`;
-    console.log({ combinedPatternWithProperty });
+    //console.log({ combinedPatternWithProperty });
     function replaceWithinDocument() {
         if (!activeEditor) {
             return;
@@ -41,7 +41,7 @@ function activate(context) {
         activeEditor.edit(editBuilder => {
             selectorFinder(text);
             function selectorFinder(cssDocument) {
-                const selectorRegex = new RegExp(constants_1.PATTERN_LIST.SELECTOR_WITH_MEDIA.source, 'imgd');
+                const selectorRegex = new RegExp(constants_1.PATTERN_LIST.SELECTOR_WITH_MEDIA.source, 'mdig');
                 const selectorMatchList = cssDocument.matchAll(selectorRegex);
                 for (const matchingSelector of selectorMatchList) {
                     const { groups: selectorGroup, indices: { groups: selectorIndicesGroup } } = matchingSelector;
@@ -50,22 +50,26 @@ function activate(context) {
                     const [, last] = selectorIndex;
                     const wordRegex = new RegExp(constants_1.PATTERN_LIST.WORD, 'img');
                     const [selector] = selectorName.match(wordRegex);
-                    console.log({ selector });
+                    //console.log({ selector });
                     selectorList.set(last, selector);
                 }
             }
+            //console.log({ selectorList });
             colorFinder(text);
             function colorFinder(cssDocument) {
-                var _a;
+                var _a, _b;
                 let i = 0;
+                let prevProp = '';
                 const colorRegex = new RegExp(common_1.combinedPattern, 'mudig');
                 const colorMatchList = cssDocument.matchAll(colorRegex);
                 for (const match of colorMatchList) {
                     i++;
-                    console.log(match);
+                    //console.log(match);
                     const { groups, indices: { groups: indicesGroup } } = match;
                     const { PROPERTY, HEX_COLOR, NON_HEX_COLOR } = groups;
                     if (PROPERTY !== undefined) {
+                        //console.log({ prevProp });
+                        prevProp = PROPERTY;
                     }
                     else {
                         const colorIndexList = (_a = indicesGroup.HEX_COLOR) !== null && _a !== void 0 ? _a : indicesGroup.NON_HEX_COLOR;
@@ -73,9 +77,11 @@ function activate(context) {
                         const selectorPositionIndex = Array.from(selectorList.keys());
                         const selectorKey = selectorPositionIndex.findLast((sl) => sl < start);
                         const selectorName = selectorList.get(selectorKey);
-                        console.log({ selectorName });
-                        const variableName = `--var-${selectorName}-${i}`;
+                        //console.log({ selectorName });
                         const variableValue = HEX_COLOR || NON_HEX_COLOR;
+                        const element = (_b = constants_1.PROPERTY_ALIAS_MAPPER.get(prevProp)) !== null && _b !== void 0 ? _b : 'element';
+                        const variableName = `--${selectorName}__${element}--${i}`;
+                        //console.log({ prevProp, variableValue });
                         Object.assign(variableList, { [variableName]: variableValue });
                         const startPos = document.positionAt(start);
                         const endPos = document.positionAt(end);
@@ -87,7 +93,7 @@ function activate(context) {
             }
         }).then(async (resolved) => {
             console.log({ resolved });
-            console.log({ selectorList });
+            //console.log({ selectorList });
             //Array.from(variableList.values());
             const rootContent = (0, common_1.createRootSelector)(variableList);
             insertRootContent(rootContent);

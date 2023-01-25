@@ -13,27 +13,31 @@ export const PATTERN_LIST = {
 
 
 
-export const COLOR_PROPERTY_LIST = [
-	['background-color', 'bg'],
-	['background', 'bg'],
-	['background-image', 'bg__img'],
-	['border', 'border'],
-	['border-color', 'border'],
-	['border-bottom-color', 'border__bottom'],
-	['border-left-color', 'border__left'], ,
-	['border-right-color', 'border__right'],
-	['border-top-color', 'border__top'],
-	['box-shadow', 'box__shadow'],
-	['caret-color', 'caret'],
-	['color', 'txt'],
-	['column-rule', 'column__rule'],
-	['column-rule-color', 'column__rule'],
-	['filter', 'filter'],
-	['opacity', 'opacity'],
-	['outline-color', 'outline'],
-	['outline', 'outline'],
-	['text-decoration', 'txt__decoration',],
-	['text-decoration-color', 'txt__decoration'],
-	['text-shadow', 'txt__shadow'],
-];
+const COLOR_PROPERTY_LIST = {
+	'background-color': 'bg',
+	'background': 'bg',
+	'background-image': 'bg__img',
+	'border': 'border',
+	'border-color': 'border',
+	'border-bottom-color': 'border__bottom',
+	'border-left-color': 'border__left',
+	'border-right-color': 'border__right',
+	'border-top-color': 'border__top',
+	'box-shadow': 'box__shadow',
+	'caret-color': 'caret',
+	'color': 'txt',
+	'column-rule': 'column__rule',
+	'column-rule-color': 'column__rule',
+	'filter': 'filter',
+	'opacity': 'opacity',
+	'outline-color': 'outline',
+	'outline': 'outline',
+	'text-decoration': 'txt__decoration',
+	'text-decoration-color': 'txt__decoration',
+	'text-shadow': 'txt__shadow',
+};
+
+
+export const PROPERTY_ALIAS_MAPPER = new Map(Object.entries(COLOR_PROPERTY_LIST));
+
 

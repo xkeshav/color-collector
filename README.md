@@ -13,13 +13,15 @@ so that once all color collected on one place, we can change theme by changing t
 
 - support all color format except where user described turn|rad as color variable
 
+
+![collect and convert color into variable gif](images/collector.gif)
 #### input
 
-![input](images/input.png)
+![input](images/input2.png)
 
 #### output
 
-![output](images/output.png)
+![output](images/output2.png)
 
 
 ## Requirements
@@ -34,6 +36,24 @@ run `cfg`
 ## Known Issues
 
 - currently selector not getting changed , all comes with first variable name.
+
+## TODO
+
+ - check whether file is correct ( i.e. valid css file)
+ - check file is in save mode
+ - confirm before leaving the file after conversion or prompt the user create a copy of file
+ - handle error if no selector/color present in file
+ - comments need to be escaped while parsing the css
+ - other at rules selector need to handle such as 
+  
+     - `@keyframes`,
+     - `@import`,
+     - `@media`
+     - `@container` , 
+     - `@page` , 
+     - `@supports` ,
+     - `@charset`,
+ - need to captured named color also.
 
 ## Release Notes
 

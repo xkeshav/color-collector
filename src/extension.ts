@@ -1,7 +1,8 @@
 import * as vscode from 'vscode';
 import { RegExpMatchArrayWithIndices, VariableList } from './models/base';
 import { combinedPattern, createRootSelector } from './utils/common';
-import { PATTERN_LIST } from './utils/constants';
+import { PATTERN_LIST, PROPERTY_ALIAS_MAPPER } from './utils/constants';
+
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -32,7 +33,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const combinedPatternWithProperty = `${PATTERN_LIST.PROPERTY}(${combinedPattern})`;
 
-	console.log({ combinedPatternWithProperty });
+	//console.log({ combinedPatternWithProperty });
 
 	function replaceWithinDocument() {
 		if (!activeEditor) {
@@ -57,7 +58,7 @@ export function activate(context: vscode.ExtensionContext) {
 			selectorFinder(text);
 
 			function selectorFinder(cssDocument: string) {
-				const selectorRegex = new RegExp(PATTERN_LIST.SELECTOR_WITH_MEDIA.source, 'imgd');
+				const selectorRegex = new RegExp(PATTERN_LIST.SELECTOR_WITH_MEDIA.source, 'mdig');
 				const selectorMatchList = cssDocument.matchAll(selectorRegex);
 				for (const matchingSelector of selectorMatchList) {
 					const { groups: selectorGroup, indices: { groups: selectorIndicesGroup } } = matchingSelector as RegExpMatchArrayWithIndices;
@@ -66,31 +67,39 @@ export function activate(context: vscode.ExtensionContext) {
 					const [, last] = selectorIndex;
 					const wordRegex = new RegExp(PATTERN_LIST.WORD, 'img');
 					const [selector] = selectorName.match(wordRegex) as [string];
-					console.log({ selector });
+					//console.log({ selector });
 					selectorList.set(last, selector);
 				}
 			}
+
+			//console.log({ selectorList });
+
 			colorFinder(text);
 
 			function colorFinder(cssDocument: string) {
 				let i = 0;
+				let prevProp = '';
 				const colorRegex = new RegExp(combinedPattern, 'mudig');
 				const colorMatchList = cssDocument.matchAll(colorRegex);
 				for (const match of colorMatchList) {
 					i++;
-					console.log(match);
+					//console.log(match);
 					const { groups, indices: { groups: indicesGroup } } = match as RegExpMatchArrayWithIndices;
 					const { PROPERTY, HEX_COLOR, NON_HEX_COLOR } = groups as VariableList;
 					if (PROPERTY !== undefined) {
+						//console.log({ prevProp });
+						prevProp = PROPERTY;
 					} else {
 						const colorIndexList = indicesGroup.HEX_COLOR ?? indicesGroup.NON_HEX_COLOR;
 						let [start, end] = colorIndexList;
 						const selectorPositionIndex = Array.from(selectorList.keys());
 						const selectorKey = (selectorPositionIndex as any).findLast((sl: number) => sl < start);
 						const selectorName = selectorList.get(selectorKey);
-						console.log({ selectorName });
-						const variableName = `--var-${selectorName}-${i}`;
+						//console.log({ selectorName });
 						const variableValue = HEX_COLOR || NON_HEX_COLOR;
+						const element = PROPERTY_ALIAS_MAPPER.get(prevProp) ?? 'element';
+						const variableName = `--${selectorName}__${element}--${i}`;
+						//console.log({ prevProp, variableValue });
 						Object.assign(variableList, { [variableName]: variableValue });
 						const startPos = document.positionAt(start);
 						const endPos = document.positionAt(end);
@@ -103,7 +112,7 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 		}).then(async (resolved) => {
 			console.log({ resolved });
-			console.log({ selectorList });
+			//console.log({ selectorList });
 			//Array.from(variableList.values());
 			const rootContent = createRootSelector(variableList);
 			insertRootContent(rootContent);
