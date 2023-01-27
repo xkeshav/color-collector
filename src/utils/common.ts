@@ -24,7 +24,7 @@ export const getParentSelectorName = (selectorList: SelectorMap, start: number) 
 	return selectorName;
 };
 
-export const setVariableName = ({ selectorName, propertyName, num }: VariableNameParameter) => {
+export const setVariableName = ({ selectorName, propertyName, num }: VariableNameParameter): keyof VariableList => {
 	const property = PROPERTY_ALIAS_MAPPER.get(propertyName) ?? 'thisElement'; // default element name if not found
 	return `--${selectorName}__${property}--${num}`;
 };

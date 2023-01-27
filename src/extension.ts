@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import * as vscode from 'vscode';
 import { RegExpMatchArrayWithIndices, SelectorMap, VariableList } from './models/base';
 import { combinedPattern, createRootSelector, getParentSelectorName, setVariableName } from './utils/common';
@@ -25,13 +26,12 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand(command, commandHandler)
-		;
+	let disposable = vscode.commands.registerCommand(command, commandHandler);
+
 	/** work starts here */
 
 	let activeEditor = vscode.window.activeTextEditor;
 
-	
 	const variableList: VariableList = {};
 	const selectorList: SelectorMap = new Map();
 
@@ -53,11 +53,11 @@ export function activate(context: vscode.ExtensionContext) {
 			const selectorMatchList = cssDocument.matchAll(selectorRegex);
 			for (const matchingSelector of selectorMatchList) {
 				const { groups: selectorGroup, indices: { groups: selectorIndicesGroup } } = matchingSelector as RegExpMatchArrayWithIndices;
-				const { SELECTOR: selectorName } = selectorGroup as VariableList;
+				const { SELECTOR: selectorName } = selectorGroup!;
 				const { SELECTOR: selectorIndex } = selectorIndicesGroup;
 				const [, lastIndex] = selectorIndex;
 				//console.log({selectorName});
-				if(selectorName.trim() === '*') { // special case
+				if (selectorName.trim() === '*') { // special case
 					selector = 'starSelector';
 				} else {
 					const wordRegex = new RegExp(PATTERN_LIST.WORD, 'img');
@@ -66,32 +66,38 @@ export function activate(context: vscode.ExtensionContext) {
 				}
 				//console.log({ selector });
 				selectorList.set(lastIndex, selector);
+			}
 		}
-	}
-		
+
 		activeEditor?.edit(editBuilder => {
 			selectorFinder(text);
 			//console.log({ selectorList });
 			colorFinder(text);
 			function colorFinder(cssDocument: string) {
 				let num = 0;
+				let variableName = '';
 				const colorRegex = new RegExp(combinedPattern, 'imgd');
 				const colorMatchList = cssDocument.matchAll(colorRegex);
 				for (const matchingColor of colorMatchList) {
 					//console.log({matchingColor});
 					const { groups: colorGroup, indices: { groups: indicesGroup } } = matchingColor as RegExpMatchArrayWithIndices;
-					const { PROPERTY, HEX_COLOR, NON_HEX_COLOR } = colorGroup as VariableList;
+					const { PROPERTY, HEX_COLOR, NON_HEX_COLOR } = colorGroup!;
 					if (PROPERTY !== undefined) {
-						propertyName = PROPERTY; 
+						propertyName = PROPERTY;
 					} else {
-						num++;
 						const colorIndexList = indicesGroup.HEX_COLOR ?? indicesGroup.NON_HEX_COLOR;
 						const [start, end] = colorIndexList;
-						const selectorName = getParentSelectorName(selectorList, start);
 						const colorValue = HEX_COLOR || NON_HEX_COLOR;
-						const variableName = setVariableName({ selectorName, num, propertyName });
+						const existingVariable = Object.entries(variableList).find( ([_,vv]) => colorValue === vv);
+						if(existingVariable === undefined) {
+							num++;
+							const selectorName = getParentSelectorName(selectorList, start);
+							variableName = setVariableName({ selectorName, num, propertyName });
+							Object.assign(variableList, { [variableName]: colorValue });
+						} else {
+							[variableName] = existingVariable;
+						}
 						//console.log({variableName});
-						Object.assign(variableList, {[variableName]: colorValue});
 						//console.log({variableList});
 						const startPos = document.positionAt(start);
 						const endPos = document.positionAt(end);
@@ -101,31 +107,28 @@ export function activate(context: vscode.ExtensionContext) {
 					}
 				}
 			}
-			
-		}).then(async (resolved) => {
-			console.log({ resolved });
+
+		}).then(async () => {
 			const rootContent = createRootSelector(variableList);
 			insertRootContent(rootContent);
 		});
 
-
-		const insertRootContent = (content: string) => {
+		function insertRootContent(content: string) {
 			const importRegex = new RegExp(PATTERN_LIST.IMPORT_STMT, 'imgd');
 			const importMatchList = text.matchAll(importRegex);
-			const importMatchDetails =  [...importMatchList];
+			const importMatchDetails = [...importMatchList];
 			let position = new vscode.Position(0, 0);
-			if(importMatchDetails.length) {
+			if (importMatchDetails.length) {
 				const lastImportStatement = importMatchDetails.pop() as RegExpMatchArrayWithIndices;;
-				const {input, index} = lastImportStatement;
+				const { input, index } = lastImportStatement;
 				// find line number on last @import statement and place :root after that
-				const line = (input as any).substr(0,index).match(/\n/g).length + 1; 
+				const line = (input as any).substr(0, index).match(/\n/g).length + 1;
 				position = new vscode.Position(line, 0);
 			}
-		
-			activeEditor?.edit(editBuilder => {
-				editBuilder.insert( position, `\n${content}\n`);
-			});
 
+			activeEditor?.edit(editBuilder => {
+				editBuilder.insert(position, `\n${content}\n`);
+			});
 		};
 
 	}
