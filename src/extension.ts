@@ -31,7 +31,11 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let activeEditor = vscode.window.activeTextEditor;
 
-	let prevProp = '';
+	
+	const variableList: VariableList = {};
+	const selectorList: SelectorMap = new Map();
+
+	let propertyName = ''; // use to respected property name which is in previous capture group in regex
 
 	//console.log({ combinedPatternWithProperty });
 
@@ -42,14 +46,9 @@ export function activate(context: vscode.ExtensionContext) {
 		const { document } = activeEditor;
 		const text = document.getText();
 		//console.log({ text });
-		// Add some CSS
-		//stylesheet.replaceSync(text);
-		//console.log({ stylesheet });
-
-		const variableList: VariableList = {};
-		const selectorList: SelectorMap = new Map();
 
 		function selectorFinder(cssDocument: string) {
+			let selector = '';
 			const selectorRegex = new RegExp(PATTERN_LIST.SELECTOR_WITH_MEDIA, 'imgd');
 			const selectorMatchList = cssDocument.matchAll(selectorRegex);
 			for (const matchingSelector of selectorMatchList) {
@@ -57,73 +56,79 @@ export function activate(context: vscode.ExtensionContext) {
 				const { SELECTOR: selectorName } = selectorGroup as VariableList;
 				const { SELECTOR: selectorIndex } = selectorIndicesGroup;
 				const [, lastIndex] = selectorIndex;
-				const wordRegex = new RegExp(PATTERN_LIST.WORD, 'img');
 				//console.log({selectorName});
-				const [selector] = selectorName.match(wordRegex) as [string];
+				if(selectorName.trim() === '*') { // special case
+					selector = 'starSelector';
+				} else {
+					const wordRegex = new RegExp(PATTERN_LIST.WORD, 'img');
+					const [firstMatch] = selectorName.match(wordRegex) as [string];
+					selector = firstMatch;
+				}
 				//console.log({ selector });
 				selectorList.set(lastIndex, selector);
-			}
 		}
+	}
 		
-		activeEditor.edit(editBuilder => {
+		activeEditor?.edit(editBuilder => {
 			selectorFinder(text);
 			//console.log({ selectorList });
 			colorFinder(text);
 			function colorFinder(cssDocument: string) {
-				let i = 0;
+				let num = 0;
 				const colorRegex = new RegExp(combinedPattern, 'imgd');
 				const colorMatchList = cssDocument.matchAll(colorRegex);
-				for (const match of colorMatchList) {
-					//console.log(match);
-					const { groups: colorGroup, indices: { groups: indicesGroup } } = match as RegExpMatchArrayWithIndices;
+				for (const matchingColor of colorMatchList) {
+					//console.log({matchingColor});
+					const { groups: colorGroup, indices: { groups: indicesGroup } } = matchingColor as RegExpMatchArrayWithIndices;
 					const { PROPERTY, HEX_COLOR, NON_HEX_COLOR } = colorGroup as VariableList;
 					if (PROPERTY !== undefined) {
-						prevProp = PROPERTY;
+						propertyName = PROPERTY; 
 					} else {
-						i++;
+						num++;
 						const colorIndexList = indicesGroup.HEX_COLOR ?? indicesGroup.NON_HEX_COLOR;
-						let [start, end] = colorIndexList;
+						const [start, end] = colorIndexList;
 						const selectorName = getParentSelectorName(selectorList, start);
-						//console.log({ selectorName });
-						const variableFinderParameters = { 
-							hexCode: HEX_COLOR, 
-							nonHexCode: NON_HEX_COLOR, 
-							selectorName, 
-							variableList, 
-							num: i, 
-							previousProperty: prevProp 
-						};
-						const variableName = setVariableName(variableFinderParameters);
+						const colorValue = HEX_COLOR || NON_HEX_COLOR;
+						const variableName = setVariableName({ selectorName, num, propertyName });
+						//console.log({variableName});
+						Object.assign(variableList, {[variableName]: colorValue});
+						//console.log({variableList});
 						const startPos = document.positionAt(start);
 						const endPos = document.positionAt(end);
 						//Creating a new range with startLine, startCharacter & endLine, endCharacter.
-						let range = new vscode.Range(startPos, endPos);
+						const range = new vscode.Range(startPos, endPos);
 						editBuilder.replace(range, `var(${variableName})`);
 					}
 				}
 			}
-
-
+			
 		}).then(async (resolved) => {
 			console.log({ resolved });
-			//console.log({ selectorList });
-			//Array.from(variableList.values());
 			const rootContent = createRootSelector(variableList);
 			insertRootContent(rootContent);
 		});
 
 
 		const insertRootContent = (content: string) => {
-			//const edit = new vscode.WorkspaceEdit();
-			//edit.insert(YOUR_URI, new vscode.Position(0, 0), rootContent);
-			//let success = await vscode.workspace.applyEdit(edit);
+			const importRegex = new RegExp(PATTERN_LIST.IMPORT_STMT, 'imgd');
+			const importMatchList = text.matchAll(importRegex);
+			const importMatchDetails =  [...importMatchList];
+			let position = new vscode.Position(0, 0);
+			if(importMatchDetails.length) {
+				const lastImportStatement = importMatchDetails.pop() as RegExpMatchArrayWithIndices;;
+				const {input, index} = lastImportStatement;
+				// find line number on last @import statement and place :root after that
+				const line = (input as any).substr(0,index).match(/\n/g).length + 1; 
+				position = new vscode.Position(line, 0);
+			}
+		
 			activeEditor?.edit(editBuilder => {
-				editBuilder.insert(new vscode.Position(0, 0), content + '\n\n');
+				editBuilder.insert( position, `\n${content}\n`);
 			});
+
 		};
 
 	}
-
 
 	function triggerUpdateDecorations(throttle = false) {
 		if (timeout) {

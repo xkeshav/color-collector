@@ -1,4 +1,16 @@
 @import url('base.css');
+@import url('other.css');
+
+
+:root {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
 
 html {
   color: currentColor;
@@ -6,25 +18,14 @@ html {
 }
 
 body {
-  background-color: #1a10;
-  color: #2a2;
+  background-color: #fff;
+  color: #000;
   display: grid;
   grid-template-areas: 
   "head - "
   "nav main"
   "nav foot";
   grid-gap: 0.25rem;
-}
-
-@container (width > 400px) {
-  h2 {
-    font-size: 1.5em;
-  }
-}
-
-@namespace example url(http://www.example.com);
-example|h1 {
-  color: rgb(0, 255, 98);
 }
 
 .floating + * {
@@ -51,7 +52,7 @@ button, button[type="submit"] {
 }
 
 a::after {
-  content: ' -- ';
+  content: '--';
   box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
 }
 
@@ -78,7 +79,7 @@ main {
 }
 
 
-.joinBtn:hover {
+.btn:hover {
   background-color: rgb(40, 24, 5);
 }
 
@@ -116,8 +117,6 @@ main {
 }
 
 
-
-
 /* A one-line comment */
 
 /*
@@ -126,6 +125,13 @@ which stretches
 over several
 lines
 */
+
+@keyframes jump {
+  0% {
+    border-color: hwb(hue rgb(116, 59, 59) #854343);
+  }
+}
+
 
 /* The comment below is used to
 
@@ -143,13 +149,10 @@ disable specific styling
 */
 
 
-@keyframes jump {
-  0% {
-    border-color: hwb(hue rgb(116, 59, 59) #854343);
-  }
-}
 
 #footer {
   bottom: 0;
   text-shadow: #ffe;
 }
+
+

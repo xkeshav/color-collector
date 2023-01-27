@@ -6,11 +6,8 @@ export type RegExpMatchArrayWithIndices = RegExpMatchArray & { indices: Array<[n
 
 export type SelectorMap = Map<number, string>;
 
-export type FnVariableNameType = {
-	hexCode: string;
-	nonHexCode: string;
+export type VariableNameParameter = {
 	selectorName: string;
-	previousProperty: string;
+	propertyName: string;
 	num: number;
-	variableList: VariableList;
 };
