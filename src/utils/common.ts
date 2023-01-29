@@ -28,3 +28,40 @@ export const setVariableName = ({ selectorName, propertyName, num }: VariableNam
 	const property = PROPERTY_ALIAS_MAPPER.get(propertyName) ?? 'thisElement'; // default element name if not found
 	return `--${selectorName}__${property}--${num}`;
 };
+
+/* check all color variation for given hex value */
+export const hexColorVariation = (value: string) => {
+  const cv = value.slice(1);
+  const initial =  [value];
+	let output: string[] = [];
+  if (cv.length === 3) {
+    const longHexValue = [...cv].reduce((p, n) => p.concat(n.repeat(2)), '#');
+    initial.push(longHexValue, longHexValue + 'ff');
+  }
+  if (cv.length === 4) {
+    const longHexValue = [...cv].reduce((p, n) => p.concat(n.repeat(2)), '#');
+    if(cv[3] === 'f') {
+      const shortHexValue = '#' + longHexValue.slice(2);
+      initial.push(shortHexValue, longHexValue);
+    }
+    else { 
+      initial.push(longHexValue);
+    }
+  }
+  if (cv.length === 6) {
+    const longHexValue  = '#' + cv + 'ff';
+    if (cv[0] === cv[1] && cv[2] === cv[3] && cv[4] === cv[5]) {
+      const shortHexValue = `#${cv[1]}${cv[3]}${cv[5]}`;
+      initial.push(shortHexValue, longHexValue);
+    } else {
+      initial.push(longHexValue);
+    }
+  }
+  if (cv.length === 8) {
+    if (cv[0] === cv[1] && cv[2] === cv[3] && cv[4] === cv[5] && cv[6] === cv[7]) {
+      const shortHexValue = `#${cv[1]}${cv[3]}${cv[5]}${cv[7] !== 'f' ? cv[7] : ''}`;
+      initial.push(shortHexValue);
+    }
+  }
+	return output.concat(initial);
+};

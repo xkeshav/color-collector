@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import * as vscode from 'vscode';
 import { RegExpMatchArrayWithIndices, SelectorMap, VariableList } from './models/base';
-import { combinedPattern, createRootSelector, getParentSelectorName, setVariableName } from './utils/common';
+import { combinedPattern, createRootSelector, getParentSelectorName, hexColorVariation, setVariableName } from './utils/common';
 import { PATTERN_LIST } from './utils/constants';
 
 
@@ -80,6 +80,7 @@ export function activate(context: vscode.ExtensionContext) {
 				const colorMatchList = cssDocument.matchAll(colorRegex);
 				for (const matchingColor of colorMatchList) {
 					//console.log({matchingColor});
+					let existingVariable = true;
 					const { groups: colorGroup, indices: { groups: indicesGroup } } = matchingColor as RegExpMatchArrayWithIndices;
 					const { PROPERTY, HEX_COLOR, NON_HEX_COLOR } = colorGroup!;
 					if (PROPERTY !== undefined) {
@@ -87,16 +88,35 @@ export function activate(context: vscode.ExtensionContext) {
 					} else {
 						const colorIndexList = indicesGroup.HEX_COLOR ?? indicesGroup.NON_HEX_COLOR;
 						const [start, end] = colorIndexList;
-						const colorValue = HEX_COLOR || NON_HEX_COLOR;
-						const existingVariable = Object.entries(variableList).find( ([_,vv]) => colorValue === vv);
-						if(existingVariable === undefined) {
+						let colorValue = HEX_COLOR || NON_HEX_COLOR;
+						// check variation of all kind of hex value
+						if (HEX_COLOR) {
+							const hexVariationList = hexColorVariation(HEX_COLOR) as string[];
+							console.log({hexVariationList});
+							console.log({variableList});
+							const existingHexColor= Object.entries(variableList).find(([_, vv]) => hexVariationList.includes(vv) );
+							if(existingHexColor === undefined) {
+								existingVariable = false;
+							} else {
+								existingVariable = true;
+								[variableName] = existingHexColor;
+							}
+						} 
+						else {
+							const nonHexVariableList = Object.entries(variableList).find(([_, vv]) => colorValue === vv);
+							if(nonHexVariableList === undefined) {
+								existingVariable = false;
+							} else {
+								existingVariable = true;
+								[variableName] = nonHexVariableList;
+							}
+						}
+						if (!existingVariable) {
 							num++;
 							const selectorName = getParentSelectorName(selectorList, start);
 							variableName = setVariableName({ selectorName, num, propertyName });
-							Object.assign(variableList, { [variableName]: colorValue });
-						} else {
-							[variableName] = existingVariable;
-						}
+							Object.assign(variableList, { [variableName]: colorValue.toLowerCase() });
+						} 
 						//console.log({variableName});
 						//console.log({variableList});
 						const startPos = document.positionAt(start);
