@@ -1,23 +1,23 @@
 {
-  "name": "css-variable-generator",
-  "displayName": "css variable generator",
+  "name": "css-color-collector",
+  "displayName": "css color collector",
   "description": "collect all css color property and collect under :root as a variable and use that variable in place of color code in a css file.",
   "version": "0.0.1",
   "publisher": "xkeshav",
   "engines": {
     "vscode": "^1.74.0"
   },
-  "repository": "https://github.com/xkeshav/parixan.git",
+  "repository": "https://github.com/xkeshav/color-collector.git",
   "keywords": [
     "cssVariableGenerator",
-    "css variable collector",
-    "css variables"
+    "css color collector",
+    "css color variables"
   ],
   "categories": [
     "Programming Languages"
   ],
   "activationEvents": [
-    "onCommand:css-variable-generator.init",
+    "onCommand:css-color-collector.init",
     "onLanguage:css",
     "workspaceContains:**/*.css"
   ],
@@ -25,20 +25,20 @@
   "contributes": {
     "commands": [
       {
-        "command": "css-variable-generator.init",
-        "category": "cvg",
-        "title": "Find CSS"
+        "command": "css-color-collector.init",
+        "category": "ccc",
+        "title": "Collect CSS"
       }
     ],
     "configuration": {
-      "title": "Css Variable Generator",
+      "title": "Css Color Collector",
       "properties": {
-        "cssVariableGenerator.collectCssVariables": {
+        "cssColorCollector.collectColorVariables": {
           "type": "boolean",
           "default": false,
           "description": "collect color from the CSS file."
         },
-        "cssVariableGenerator.lookupFiles": {
+        "cssColorCollector.lookupFiles": {
           "type": "array",
           "default": [
             "**/*.css"
@@ -49,7 +49,7 @@
     },
     "keybindings": [
       {
-        "command": "css-variable-generator.init",
+        "command": "css-color-collector.init",
         "key": "ctrl+f1",
         "mac": "cmd+f1",
         "when": "editorTextFocus"
@@ -74,7 +74,7 @@
     "menus": {
       "commandPalette": [
         {
-          "command": "css-variable-generator.init",
+          "command": "css-color-collector.init",
           "when": "editorLangId == css"
         }
       ]

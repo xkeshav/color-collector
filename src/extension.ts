@@ -2,7 +2,7 @@
 import * as vscode from 'vscode';
 
 import { HexString, RegExpMatchArrayWithIndices, SelectorMap, VariableList } from './models/base';
-import { checkDuplicateHexColor, checkDuplicateNonHexColor, combinedPattern, createRootSelector, getParentSelectorName, setVariableName } from './utils/common';
+import { checkDuplicateHexColor, checkDuplicateNonHexColor, combinedColorPattern, createRootSelector, getParentSelectorName, setVariableName } from './utils/common';
 import { PATTERN_LIST } from './utils/constants';
 
 
@@ -12,16 +12,16 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "css-variable-generator" is now active!');
+	console.log('Congratulations, your extension "css-color-collector" is now active!');
 
 	let timeout: NodeJS.Timer | undefined = undefined;
 
-	const command = 'css-variable-generator.init';
+	const command = 'css-color-collector.init';
 
 	const commandHandler = () => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello CSS World from css variable generator!');
+		vscode.window.showInformationMessage('Hello CSS World from css color Collector!');
 	};
 
 	// The command has been defined in the package.json file
@@ -82,7 +82,7 @@ export function activate(context: vscode.ExtensionContext) {
 			function colorFinder(cssDocument: string) {
 				let num = 0;
 				let variableName = '';
-				const colorRegex = new RegExp(combinedPattern, 'imgd');
+				const colorRegex = new RegExp(combinedColorPattern, 'imgd');
 				const colorMatchList = cssDocument.matchAll(colorRegex);
 				for (const matchingColor of colorMatchList) {
 					//console.log({matchingColor});

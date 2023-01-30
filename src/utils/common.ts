@@ -1,7 +1,7 @@
 import { HexString, SelectorMap, VariableList, VariableNameParameter } from '../models/base';
 import { PATTERN_LIST, PROPERTY_ALIAS_MAPPER } from './constants';
 
-const regexPatterns = [
+const colorPatterns = [
 	PATTERN_LIST.PROPERTY,
 	PATTERN_LIST.COLOR_HEX_FORMAT,
 	PATTERN_LIST.COLOR_NON_HEX_FORMAT,
@@ -9,7 +9,7 @@ const regexPatterns = [
 ];
 
 
-export const combinedPattern = regexPatterns.map((rx) => rx).join('|');
+export const combinedColorPattern = colorPatterns.map((rx) => rx).join('|');
 
 export const createRootSelector = (list: VariableList) => {
 	const op = Object.entries(list).reduce((p, [k, v]) => p += `\t${k}: ${v};\n`, ``);
@@ -30,7 +30,7 @@ export const setVariableName = ({ selectorName, propertyName, num }: VariableNam
 	return `--${selectorName}__${property}--${num}`;
 };
 
-/* check all color variation for given hex value 
+/* check all color variation for a given hex value 
   #fff === #ffff === #ffffff === #ffffffff
   #abcd === #aabbccdd
   #abcf === #abc === #aabbcc === #aabbccff
