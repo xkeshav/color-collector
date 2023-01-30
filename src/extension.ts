@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import * as vscode from 'vscode';
 import { RegExpMatchArrayWithIndices, SelectorMap, VariableList } from './models/base';
-import { combinedPattern, createRootSelector, getParentSelectorName, hexColorVariation, setVariableName } from './utils/common';
+import { checkDuplicateHexColor, checkDuplicateNonHexColor, combinedPattern, createRootSelector, getParentSelectorName, setVariableName } from './utils/common';
 import { PATTERN_LIST } from './utils/constants';
 
 
@@ -56,12 +56,17 @@ export function activate(context: vscode.ExtensionContext) {
 				const { SELECTOR: selectorName } = selectorGroup!;
 				const { SELECTOR: selectorIndex } = selectorIndicesGroup;
 				const [, lastIndex] = selectorIndex;
-				//console.log({selectorName});
-				if (selectorName.trim() === '*') { // special case
+				let trimmedSelectorName = selectorName.trim();
+				//console.log({trimmedSelectorName});
+				if (trimmedSelectorName === '*') { // special case
 					selector = 'starSelector';
-				} else {
+				} 
+				else {
+					if(trimmedSelectorName.startsWith('@keyframes')) { // capture keyframe identifier 
+						[, trimmedSelectorName] = trimmedSelectorName.split(' ');
+					}
 					const wordRegex = new RegExp(PATTERN_LIST.WORD, 'img');
-					const [firstMatch] = selectorName.match(wordRegex) as [string];
+					const [firstMatch] = trimmedSelectorName.match(wordRegex) as [string];
 					selector = firstMatch;
 				}
 				//console.log({ selector });
@@ -80,43 +85,28 @@ export function activate(context: vscode.ExtensionContext) {
 				const colorMatchList = cssDocument.matchAll(colorRegex);
 				for (const matchingColor of colorMatchList) {
 					//console.log({matchingColor});
-					let existingVariable = true;
+					let isColorVariableExist = false;
 					const { groups: colorGroup, indices: { groups: indicesGroup } } = matchingColor as RegExpMatchArrayWithIndices;
 					const { PROPERTY, HEX_COLOR, NON_HEX_COLOR } = colorGroup!;
 					if (PROPERTY !== undefined) {
 						propertyName = PROPERTY;
 					} else {
+						let colorValue = HEX_COLOR || NON_HEX_COLOR;
+						if (HEX_COLOR) {
+							[isColorVariableExist, variableName] = checkDuplicateHexColor(HEX_COLOR, variableList);
+						}
+						else {
+							[isColorVariableExist, variableName] = checkDuplicateNonHexColor(colorValue, variableList);
+						}
+						//console.log({num, isColorVariableExist});
 						const colorIndexList = indicesGroup.HEX_COLOR ?? indicesGroup.NON_HEX_COLOR;
 						const [start, end] = colorIndexList;
-						let colorValue = HEX_COLOR || NON_HEX_COLOR;
-						// check variation of all kind of hex value
-						if (HEX_COLOR) {
-							const hexVariationList = hexColorVariation(HEX_COLOR) as string[];
-							console.log({hexVariationList});
-							console.log({variableList});
-							const existingHexColor= Object.entries(variableList).find(([_, vv]) => hexVariationList.includes(vv) );
-							if(existingHexColor === undefined) {
-								existingVariable = false;
-							} else {
-								existingVariable = true;
-								[variableName] = existingHexColor;
-							}
-						} 
-						else {
-							const nonHexVariableList = Object.entries(variableList).find(([_, vv]) => colorValue === vv);
-							if(nonHexVariableList === undefined) {
-								existingVariable = false;
-							} else {
-								existingVariable = true;
-								[variableName] = nonHexVariableList;
-							}
-						}
-						if (!existingVariable) {
+						if (!isColorVariableExist) {
 							num++;
 							const selectorName = getParentSelectorName(selectorList, start);
 							variableName = setVariableName({ selectorName, num, propertyName });
 							Object.assign(variableList, { [variableName]: colorValue.toLowerCase() });
-						} 
+						}
 						//console.log({variableName});
 						//console.log({variableList});
 						const startPos = document.positionAt(start);
@@ -126,6 +116,7 @@ export function activate(context: vscode.ExtensionContext) {
 						editBuilder.replace(range, `var(${variableName})`);
 					}
 				}
+
 			}
 
 		}).then(async () => {

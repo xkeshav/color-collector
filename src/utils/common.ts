@@ -65,3 +65,28 @@ export const hexColorVariation = (value: string) => {
   }
 	return output.concat(initial);
 };
+
+// check all variation of a hex value
+export const checkDuplicateHexColor = (colorValue: string, list: VariableList): [boolean, string]=>  {
+  let isDuplicateColor = false;
+  let colorVariable = '';
+  const hexVariationList = hexColorVariation(colorValue) as string[];
+  const hexColorEntry = Object.entries(list).find(([_, vv]) => hexVariationList.includes(vv));
+  if (hexColorEntry !== undefined) {
+    [colorVariable] = hexColorEntry;
+    isDuplicateColor = true;
+  }
+  return [isDuplicateColor, colorVariable];
+};
+
+
+export const checkDuplicateNonHexColor = (colorValue: string, list: VariableList): [boolean, string]=> {
+  let isDuplicateColor = false;
+  let colorVariable = '';
+  const nonHexColorEntry = Object.entries(list).find(([_, vv]) => colorValue === vv);
+  if (nonHexColorEntry !== undefined) {
+    [colorVariable] = nonHexColorEntry;
+    isDuplicateColor = true;
+  }
+  return [isDuplicateColor, colorVariable];
+};

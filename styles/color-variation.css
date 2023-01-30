@@ -1,0 +1,26 @@
+body {
+	color:#fff;
+	background-color: #123d;
+}
+
+main {
+	color: #ffffff;
+}
+
+p:hover {
+	background-color: #112233;
+	color: hwb(90 10% 10% / 0.5)
+}
+
+a::after {
+  content: '--';
+  box-shadow:rgba(0, 0, 255, .2);
+}
+
+
+@keyframes jump {
+  0% {
+    border-color: hsl(270, 60%, 50%, 15%);
+		background-color: hwb(0.25turn 0% 40%);
+  }
+}
