@@ -2,9 +2,9 @@ import { HexString, SelectorMap, VariableList, VariableNameParameter } from '../
 import { PATTERN_LIST, PROPERTY_ALIAS_MAPPER } from './constants';
 
 const colorPatterns = [
-	PATTERN_LIST.PROPERTY,
-	PATTERN_LIST.COLOR_HEX_FORMAT,
-	PATTERN_LIST.COLOR_NON_HEX_FORMAT,
+  PATTERN_LIST.PROPERTY,
+  PATTERN_LIST.COLOR_HEX_FORMAT,
+  PATTERN_LIST.COLOR_NON_HEX_FORMAT,
   PATTERN_LIST.COLOR_NAME
 ];
 
@@ -12,22 +12,22 @@ const colorPatterns = [
 export const combinedColorPattern = colorPatterns.map((rx) => rx).join('|');
 
 export const createRootSelector = (list: VariableList) => {
-	const op = Object.entries(list).reduce((p, [k, v]) => p += `\t${k}: ${v};\n`, ``);
-	return `:root { \r\n${op}}\n`;
+  const op = Object.entries(list).reduce((p, [k, v]) => p += `\n\t${k}: ${v};`, ``);
+  return `:root {${op}\n}\n`;
 };
 
 /* find the parent selector name, in which we capture the color so that we can assign this parent selector name to identify */
 
 export const getParentSelectorName = (selectorList: SelectorMap, start: number) => {
-	const selectorPositionIndex = Array.from(selectorList.keys());
-	const selectorKey = (selectorPositionIndex as any).findLast((sl: number) => sl < start);
-	const selectorName = selectorList.get(selectorKey) ?? 'thisBlock'; // default selector name if not found
-	return selectorName;
+  const selectorPositionIndex = Array.from(selectorList.keys());
+  const selectorKey = (selectorPositionIndex as any).findLast((sl: number) => sl < start);
+  const selectorName = selectorList.get(selectorKey) ?? 'thisBlock'; // default selector name if not found
+  return selectorName;
 };
 
 export const setVariableName = ({ selectorName, propertyName, num }: VariableNameParameter): keyof VariableList => {
-	const property = PROPERTY_ALIAS_MAPPER.get(propertyName) ?? 'thisElement'; // default element name if not found
-	return `--${selectorName}__${property}--${num}`;
+  const property = PROPERTY_ALIAS_MAPPER.get(propertyName) ?? 'thisElement'; // default element name if not found
+  return `--${selectorName}__${property}--${num}`;
 };
 
 /* check all color variation for a given hex value 
