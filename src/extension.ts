@@ -87,19 +87,20 @@ export function activate(context: vscode.ExtensionContext) {
 					//console.log({matchingColor});
 					let isColorVariableExist = false;
 					const { groups: colorGroup, indices: { groups: indicesGroup } } = matchingColor as RegExpMatchArrayWithIndices;
-					const { PROPERTY, HEX_COLOR, NON_HEX_COLOR } = colorGroup!;
+					const { PROPERTY, HEX_COLOR, NON_HEX_COLOR, COLOR_NAME } = colorGroup!;
 					if (PROPERTY !== undefined) {
 						propertyName = PROPERTY;
 					} else {
-						let colorValue = HEX_COLOR || NON_HEX_COLOR;
+						const colorValue = HEX_COLOR || NON_HEX_COLOR || COLOR_NAME;
+						//console.log({colorValue});
 						if (HEX_COLOR) {
 							[isColorVariableExist, variableName] = checkDuplicateHexColor(HEX_COLOR, variableList);
 						}
 						else {
 							[isColorVariableExist, variableName] = checkDuplicateNonHexColor(colorValue, variableList);
 						}
-						//console.log({num, isColorVariableExist});
-						const colorIndexList = indicesGroup.HEX_COLOR ?? indicesGroup.NON_HEX_COLOR;
+						//console.log({variableName, isColorVariableExist});
+						const colorIndexList = indicesGroup.HEX_COLOR || indicesGroup.NON_HEX_COLOR || indicesGroup.COLOR_NAME;
 						const [start, end] = colorIndexList;
 						if (!isColorVariableExist) {
 							num++;
@@ -116,7 +117,6 @@ export function activate(context: vscode.ExtensionContext) {
 						editBuilder.replace(range, `var(${variableName})`);
 					}
 				}
-
 			}
 
 		}).then(async () => {

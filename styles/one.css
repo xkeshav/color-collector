@@ -1,53 +1,58 @@
 body {
-  background-color: var(--var-body-2);
-  color: var(--var-body-4);
+  background-color: hsla(30, 100%, 50%, .1);
+  color: hsl(270 60% 70%);
+}
+
+@media only screen and (max-width: 480px) {
+  table {
+    -webkit-text-fill-color: #567;
+  }
 }
 
 main {
-  color: var(--var-main-6);
+  color:  hwb(0.25rad 0% 40%);
   padding: 4px;
 }
 
 .class {
-  border-color: var(--var-class-9);
+  border-color: rgb(255,0,0);
   margin-top: inherit;
 }
 
-.more {
-  color: var(--var-more-12);
-  border-color: var(--var-more-14);
-  caret-color: var(--var-more-16);
-  color: var(--var-more-18);
-  color: var(--var-more-20);
+table {
+  color: rgb(100%, 0%, 0%);
+  border-color: rgb(255,-10,0);
+  caret-color: rgba(255,0,0,1);
+  border-inline-color: rgba(100%,0%,0%,1);
+  border-block-color: rgba(100%, 50%, 0%, 0.1);
 }
 
 .other-nearby:has(nth-child(3)) {
-  color: var(--var-other-22);
-  color: var(--var-other-24);
-  color: var(--var-other-26);
+  color: hsl(0, 100%, 50%);
+  opacity: hsl(120, 100%, 50%);
+  background-color: hsl(120, 75%, 75%);
 }
 
-@media only screen and (max-width: 480px) {
-  table[class='max-width-pad'] {
-    max-width: 100% !important;
-    width: 100% !important;
-    padding-top: 15px !important;
-    height: auto !important;
-    border-color: var(--var-table-33);
-  }
-}
+
 
 .panel__cell:nth-child(10n + 0) {
-  background-color: var(--var-panel__cell-35);
+  background-color: hwb(0.25turn 0% 40%);
 }
 
-.panel__cell:nth-child(1) {
-  --ry: var(--ry);
+/* The comment below is used to */
+
+.user {
+  background: conic-gradient(
+    #ff9 0.25turn,
+     #009 0.25turn 0.5turn, 
+     #999 0.5turn 0.75turn, 
+     #900 0.75turn) 
+     top left / 25% 25% repeat;
 }
 
 .orientation--kind input[type='radio']:checked + label {
   color: white;
-  background-color: var(--var-orientation-39);
+  background-color: rebeccapurple;
 }
 
 @keyframes jump {

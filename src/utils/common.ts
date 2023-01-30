@@ -4,15 +4,16 @@ import { PATTERN_LIST, PROPERTY_ALIAS_MAPPER } from './constants';
 const regexPatterns = [
 	PATTERN_LIST.PROPERTY,
 	PATTERN_LIST.COLOR_HEX_FORMAT,
-	PATTERN_LIST.COLOR_NON_HEX_FORMAT
+	PATTERN_LIST.COLOR_NON_HEX_FORMAT,
+  PATTERN_LIST.COLOR_NAME
 ];
 
 
 export const combinedPattern = regexPatterns.map((rx) => rx).join('|');
 
 export const createRootSelector = (list: VariableList) => {
-	const op = Object.entries(list).reduce((p, [k, v]) => p += `${k}: ${v};\n`, ``);
-	return `:root { \r\n${op}}`;
+	const op = Object.entries(list).reduce((p, [k, v]) => p += `\t${k}: ${v};\n`, ``);
+	return `:root { \r\n${op}}\n`;
 };
 
 /* find the parent selector name, in which we capture the color so that we can assign this parent selector name to identify */
