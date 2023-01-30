@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import * as vscode from 'vscode';
-import { RegExpMatchArrayWithIndices, SelectorMap, VariableList } from './models/base';
+
+import { HexString, RegExpMatchArrayWithIndices, SelectorMap, VariableList } from './models/base';
 import { checkDuplicateHexColor, checkDuplicateNonHexColor, combinedPattern, createRootSelector, getParentSelectorName, setVariableName } from './utils/common';
 import { PATTERN_LIST } from './utils/constants';
 
@@ -94,7 +95,7 @@ export function activate(context: vscode.ExtensionContext) {
 						const colorValue = HEX_COLOR || NON_HEX_COLOR || COLOR_NAME;
 						//console.log({colorValue});
 						if (HEX_COLOR) {
-							[isColorVariableExist, variableName] = checkDuplicateHexColor(HEX_COLOR, variableList);
+							[isColorVariableExist, variableName] = checkDuplicateHexColor(HEX_COLOR as HexString, variableList);
 						}
 						else {
 							[isColorVariableExist, variableName] = checkDuplicateNonHexColor(colorValue, variableList);

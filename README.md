@@ -1,6 +1,6 @@
 # color-collector
 
-a simple vs code extension which works with .CSS files
+a simple vs code extension which works with .css files
 
 which collect all color code from a css file 
 and assign the color in a variable 
@@ -11,7 +11,9 @@ so that once all color collected on one place, we can change theme by changing t
 
 ## Features
 
-- support all color format except where user described turn|rad as color variable
+- support all color format
+- parse css file with all At Rules
+-  duplicate color comes under one variable ( all hex format )
 
 
 ![collect and convert color into variable gif](images/collector.gif)
@@ -35,16 +37,16 @@ run `cfg`
 
 ## Known Issues
 
-- currently selector not getting changed , all comes with first variable name.
+- media query selector name need to append media in variable name
 
 ## TODO
 
- - check whether file is correct ( i.e. valid css file)
- - check file is in save mode
- - confirm before leaving the file after conversion or prompt the user create a copy of file
- - handle error if no selector/color present in file
- - comments need to be escaped while parsing the css
- - other at rules selector need to handle such as 
+ - [ ] check whether file is correct (i.e. valid css file)  
+ - [ ] check file is in save mode  
+ - [ ] confirm before leaving the file after conversion or prompt the user create a copy of file
+ - [ ] handle error if no selector/color present in file  
+ - [x] comments need to be escaped while parsing the css  
+ - [x] other at rules selector need to handle such as 
   
      - `@keyframes`,
      - `@import`,
@@ -53,12 +55,12 @@ run `cfg`
      - `@page` , 
      - `@supports` ,
      - `@charset`,
- - need to captured named color also.
+  
+- [x] need to captured named color also.
+- [x]  support all color format
+- [x] when there are multiple color on same line such as liner-background()
+- [x] insert :root after _@import_ statements
 
 ## Release Notes
+ - This is in beta version, need to write unit test for all code
 
-## TODO
-
-- support all format
-- when there are multiple color on same line such as liner-background()
-- - remove keyframes/ import / media / container

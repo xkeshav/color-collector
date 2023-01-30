@@ -1,4 +1,4 @@
-import { SelectorMap, VariableList, VariableNameParameter } from '../models/base';
+import { HexString, SelectorMap, VariableList, VariableNameParameter } from '../models/base';
 import { PATTERN_LIST, PROPERTY_ALIAS_MAPPER } from './constants';
 
 const regexPatterns = [
@@ -30,45 +30,53 @@ export const setVariableName = ({ selectorName, propertyName, num }: VariableNam
 	return `--${selectorName}__${property}--${num}`;
 };
 
-/* check all color variation for given hex value */
-export const hexColorVariation = (value: string) => {
-  const cv = value.slice(1);
-  const initial =  [value];
-	let output: string[] = [];
+/* check all color variation for given hex value 
+  #fff === #ffff === #ffffff === #ffffffff
+  #abcd === #aabbccdd
+  #abcf === #abc === #aabbcc === #aabbccff
+  #aabbcc === #abc === #abcf === #aabbccff
+  #aabb2233 === #ab23
+*/
+export const hexColorVariation = (value: HexString): HexString[] => {
+  const cv = value.slice(1); // remove # from start
+  const initial = [cv];
   if (cv.length === 3) {
-    const longHexValue = [...cv].reduce((p, n) => p.concat(n.repeat(2)), '#');
-    initial.push(longHexValue, longHexValue + 'ff');
+    const longHexValue = [...cv].reduce((p, n) => p.concat(n.repeat(2)), '');
+    initial.push( cv + 'f', longHexValue, longHexValue + 'ff');
   }
   if (cv.length === 4) {
-    const longHexValue = [...cv].reduce((p, n) => p.concat(n.repeat(2)), '#');
-    if(cv[3] === 'f') {
-      const shortHexValue = '#' + longHexValue.slice(2);
-      initial.push(shortHexValue, longHexValue);
+    const longHexValue = [...cv].reduce((p, n) => p.concat(n.repeat(2)), '');
+    if(cv.endsWith('f')) {
+      const shortHexValue = longHexValue.slice(0, -2);
+      initial.push(cv.slice(0, -1), shortHexValue,  longHexValue);
     }
     else { 
       initial.push(longHexValue);
     }
   }
   if (cv.length === 6) {
-    const longHexValue  = '#' + cv + 'ff';
+    const longHexValue  = cv + 'ff';
     if (cv[0] === cv[1] && cv[2] === cv[3] && cv[4] === cv[5]) {
-      const shortHexValue = `#${cv[1]}${cv[3]}${cv[5]}`;
-      initial.push(shortHexValue, longHexValue);
+      const shortHexValue = `${cv[1]}${cv[3]}${cv[5]}`;
+      initial.push(shortHexValue, shortHexValue + 'f', longHexValue );
     } else {
       initial.push(longHexValue);
     }
   }
   if (cv.length === 8) {
     if (cv[0] === cv[1] && cv[2] === cv[3] && cv[4] === cv[5] && cv[6] === cv[7]) {
-      const shortHexValue = `#${cv[1]}${cv[3]}${cv[5]}${cv[7] !== 'f' ? cv[7] : ''}`;
-      initial.push(shortHexValue);
+      const shortHexValue = `${cv[1]}${cv[3]}${cv[5]}${cv[7] === 'f' ? '' : cv[7] }`;
+      initial.push(shortHexValue, shortHexValue + 'f');
+    }
+    if(cv.endsWith('ff')) {
+      initial.push(cv.slice(0,-2));
     }
   }
-	return output.concat(initial);
+  return initial.map( i => `#${i}`) as HexString[];
 };
 
 // check all variation of a hex value
-export const checkDuplicateHexColor = (colorValue: string, list: VariableList): [boolean, string]=>  {
+export const checkDuplicateHexColor = (colorValue: HexString, list: VariableList): [boolean, string]=>  {
   let isDuplicateColor = false;
   let colorVariable = '';
   const hexVariationList = hexColorVariation(colorValue) as string[];
@@ -80,7 +88,7 @@ export const checkDuplicateHexColor = (colorValue: string, list: VariableList): 
   return [isDuplicateColor, colorVariable];
 };
 
-
+/* check all non hex color value whether it is named color or in other format */
 export const checkDuplicateNonHexColor = (colorValue: string, list: VariableList): [boolean, string]=> {
   let isDuplicateColor = false;
   let colorVariable = '';
