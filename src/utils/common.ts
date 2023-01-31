@@ -19,6 +19,7 @@ export const createRootSelector = (list: VariableList) => {
 /* find the parent selector name, in which we capture the color so that we can assign this parent selector name to identify */
 
 export const getParentSelectorName = (selectorList: SelectorMap, start: number) => {
+  console.log({selectorList});
   const selectorPositionIndex = Array.from(selectorList.keys());
   const selectorKey = (selectorPositionIndex as any).findLast((sl: number) => sl < start);
   const selectorName = selectorList.get(selectorKey) ?? 'thisBlock'; // default selector name if not found
