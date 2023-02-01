@@ -9,7 +9,7 @@ export type RegExpMatchArrayWithIndices = RegExpMatchArray & { indices: Array<[n
 
 export type SelectorMap = Map<number, string>;
 
-export type VariableNameParameter = {
+export type VariableNameParams = {
 	selectorName: string;
 	propertyName: string;
 	num: number;
