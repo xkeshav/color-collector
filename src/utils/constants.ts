@@ -2,7 +2,7 @@
 
 export const PATTERN_LIST = {
 	PROPERTY: '(?<PROPERTY>[\\w-]+[^:])(?=:\s*)',
-	SELECTOR_WITH_MEDIA: '^(?!.*@media)[\\t ]*(?<SELECTOR>[@a-zA-Z#.:*[][^{\\/]*\\s*){[\\s\\S]*?}',
+	SELECTOR_WITH_MEDIA: '(^(?!.*@media)[\\t ]*(?<SELECTOR>[@a-zA-Z#.:*[][^{\\/]*\\s*){[\\s\\S]*?})',
 	COLOR_HEX_FORMAT: '(?<HEX_COLOR>#[0-9a-f]{3,8})',
 	COLOR_NON_HEX_FORMAT: '((?<NON_HEX_COLOR>(?:rgba?|hsla?|hsv|hwb)?\\((:?-?[\\d\.]+%?(deg|rad|grad|turn)?[,\\s]+){2,3}[\\s\/]*[\\d\.]+%?\\)))',
 	WORD: '(\\w+)',

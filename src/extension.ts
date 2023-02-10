@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import * as vscode from 'vscode';
 
-import { HexString, RegExpMatchArrayWithIndices, SelectorMap, VariableList } from './models/base';
-import { checkDuplicateHexColor, checkDuplicateNonHexColor, combinedColorPattern, createRootSelector, getParentSelectorName, setVariableName } from './utils/common';
-import { PATTERN_LIST } from './utils/constants';
+import { Collector } from './utils/classMatcher';
+import { createRootContent } from './utils/common';
 
 
 // This method is called when your extension is activated
@@ -14,156 +13,60 @@ export function activate(context: vscode.ExtensionContext) {
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "css-color-collector" is now active!');
 
-	let timeout: NodeJS.Timer | undefined = undefined;
-
 	const command = 'css-color-collector.init';
-
 	const commandHandler = () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
 		vscode.window.showInformationMessage('Hello CSS World from css color Collector!');
 	};
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand(command, commandHandler);
+	let disposableInit = vscode.commands.registerCommand(command, commandHandler);
 
 	/** work starts here */
 
-	let activeEditor = vscode.window.activeTextEditor;
-
-	const variableList: VariableList = {};
-	const selectorList: SelectorMap = new Map();
-
-	let propertyName = ''; // use to respected property name which is in previous capture group in regex
-
-	//console.log({ combinedPatternWithProperty });
+	const collectCommand = 'css-color-collector.collect';
 
 	function replaceWithinDocument() {
+		let activeEditor = vscode.window.activeTextEditor;
+		
 		if (!activeEditor) {
 			return;
 		}
 		const { document } = activeEditor;
-		const text = document.getText();
+		const cssDoc = document.getText();
 		//console.log({ text });
-
-		function selectorFinder(cssDocument: string) {
-			let selector = '';
-			const selectorRegex = new RegExp(PATTERN_LIST.SELECTOR_WITH_MEDIA, 'imgd');
-			const selectorMatchList = cssDocument.matchAll(selectorRegex);
-			for (const matchingSelector of selectorMatchList) {
-				const { groups: selectorGroup, indices: { groups: selectorIndicesGroup } } = matchingSelector as RegExpMatchArrayWithIndices;
-				const { SELECTOR: selectorName } = selectorGroup!;
-				const { SELECTOR: selectorIndex } = selectorIndicesGroup;
-				const [, lastIndex] = selectorIndex;
-				let trimmedSelectorName = selectorName.trim();
-				//console.log({trimmedSelectorName});
-				if (trimmedSelectorName === '*') { // special case
-					selector = 'starSelector';
-				} 
-				else {
-					if(trimmedSelectorName.startsWith('@keyframes')) { // capture keyframe identifier 
-						[, trimmedSelectorName] = trimmedSelectorName.split(' ');
-					}
-					const wordRegex = new RegExp(PATTERN_LIST.WORD, 'img');
-					const [firstMatch] = trimmedSelectorName.match(wordRegex) as [string];
-					selector = firstMatch;
-				}
-				//console.log({ selector });
-				selectorList.set(lastIndex, selector);
+		const collectorObject =  new Collector(cssDoc);
+		activeEditor?.edit((editBuilder:vscode.TextEditorEdit) => {
+			collectorObject.selectorFinder();
+			collectorObject.colorFinder();
+			const colorMapper = collectorObject.colorMapper;
+			//console.log({colorMapper});
+			// replace color name with variable
+			for (const [positionList, color] of colorMapper) {
+				const [start, end] = positionList;
+				const startPos = document.positionAt(start);
+				const endPos = document.positionAt(end);
+				const range = new vscode.Range(startPos, endPos);
+				editBuilder.replace(range, `var(${color})`);
 			}
-		}
-
-		activeEditor?.edit(editBuilder => {
-			selectorFinder(text);
-			//console.log({ selectorList });
-			colorFinder(text);
-			function colorFinder(cssDocument: string) {
-				let num = 0;
-				let variableName = '';
-				const colorRegex = new RegExp(combinedColorPattern, 'imgd');
-				const colorMatchList = cssDocument.matchAll(colorRegex);
-				for (const matchingColor of colorMatchList) {
-					//console.log({matchingColor});
-					let isColorVariableExist = false;
-					const { groups: colorGroup, indices: { groups: indicesGroup } } = matchingColor as RegExpMatchArrayWithIndices;
-					const { PROPERTY, HEX_COLOR, NON_HEX_COLOR, COLOR_NAME } = colorGroup!;
-					if (PROPERTY !== undefined) {
-						propertyName = PROPERTY;
-					} else {
-						const colorValue = HEX_COLOR || NON_HEX_COLOR || COLOR_NAME;
-						//console.log({colorValue});
-						if (HEX_COLOR) {
-							[isColorVariableExist, variableName] = checkDuplicateHexColor(HEX_COLOR as HexString, variableList);
-						}
-						else {
-							[isColorVariableExist, variableName] = checkDuplicateNonHexColor(colorValue, variableList);
-						}
-						//console.log({variableName, isColorVariableExist});
-						const colorIndexList = indicesGroup.HEX_COLOR || indicesGroup.NON_HEX_COLOR || indicesGroup.COLOR_NAME;
-						const [start, end] = colorIndexList;
-						if (!isColorVariableExist) {
-							num++;
-							const selectorName = getParentSelectorName(selectorList, start);
-							variableName = setVariableName({ selectorName, num, propertyName });
-							Object.assign(variableList, { [variableName]: colorValue.toLowerCase() });
-						}
-						//console.log({variableName});
-						//console.log({variableList});
-						const startPos = document.positionAt(start);
-						const endPos = document.positionAt(end);
-						//Creating a new range with startLine, startCharacter & endLine, endCharacter.
-						const range = new vscode.Range(startPos, endPos);
-						editBuilder.replace(range, `var(${variableName})`);
-					}
-				}
-			}
-
 		}).then(async () => {
-			const rootContent = createRootSelector(variableList);
-			insertRootContent(rootContent);
-		});
-
-		function insertRootContent(content: string) {
-			const importRegex = new RegExp(PATTERN_LIST.IMPORT_STMT, 'imgd');
-			const importMatchList = text.matchAll(importRegex);
-			const importMatchDetails = [...importMatchList];
-			let position = new vscode.Position(0, 0);
-			if (importMatchDetails.length) {
-				const lastImportStatement = importMatchDetails.pop() as RegExpMatchArrayWithIndices;;
-				const { input, index } = lastImportStatement;
-				// find line number on last @import statement and place :root after that
-				const line = (input as any).substr(0, index).match(/\n/g).length + 1;
-				position = new vscode.Position(line, 0);
-			}
-
-			activeEditor?.edit(editBuilder => {
-				editBuilder.insert(position, `\n${content}\n`);
+			const variableList = collectorObject.variableList;
+			//console.log({variableList});
+			const rootContent = createRootContent(variableList);
+			const [initial, final] = collectorObject.getRootPosition();
+			const position = new vscode.Position(initial, final);
+			//console.log({rootContent});
+			activeEditor?.edit((editBuilder: vscode.TextEditorEdit) => {
+				editBuilder.insert(position, `\n${rootContent}\n`);
+				vscode.window.showInformationMessage('variable conversion done by css color collector!');
 			});
-		};
-
+		});
 	}
 
-	function triggerUpdateDecorations(throttle = false) {
-		if (timeout) {
-			clearTimeout(timeout);
-			timeout = undefined;
-		}
-		if (throttle) {
-			timeout = setTimeout(replaceWithinDocument, 500);
-		} else {
+
+	let disposableCollect = vscode.commands.registerCommand(collectCommand, () => {
 			replaceWithinDocument();
-		}
-	}
+	});
 
-	if (activeEditor) {
-		triggerUpdateDecorations();
-	}
 
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(disposableInit,disposableCollect);
 
 }
 
-// This method is called when your extension is deactivated
-export function deactivate() { }

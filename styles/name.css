@@ -1,20 +1,29 @@
+
+:root {
+	--body__bg--1: hsla(30, 100%, 50%, .1);
+	--body__txt--2: red;
+	--table__txt__fill--3: rebeccapurple;
+	--main__txt--4: white;
+	--class__border--5: whitesmoke;
+}
+
 body {
-  background-color: hsla(30, 100%, 50%, .1);
-  color: red;
+  background-color: var(--body__bg--1);
+  color: var(--body__txt--2);
 }
 
 @media only screen and (max-width: 480px) {
   table {
-    -webkit-text-fill-color: rebeccapurple
+    -webkit-text-fill-color: var(--table__txt__fill--3)
   }
 }
 
 main {
-  color:  white;
+  color:  var(--main__txt--4);
   padding: 4px;
 }
 
 .class {
-  border-color: whitesmoke;
-  background-color: white;
+  border-color: var(--class__border--5);
+  background-color: var(--main__txt--4);
 }

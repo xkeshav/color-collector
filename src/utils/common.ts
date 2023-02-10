@@ -11,7 +11,7 @@ const colorPatterns = [
 
 export const combinedColorPattern = colorPatterns.map((rx) => rx).join('|');
 
-export const createRootSelector = (list: VariableList) => {
+export const createRootContent = (list: VariableList) => {
   const op = Object.entries(list).reduce((p, [k, v]) => p += `\n\t${k}: ${v};`, ``);
   return `:root {${op}\n}\n`;
 };

@@ -8,7 +8,7 @@ import * as commonFunction from '../../utils/common';
 
 suite('createRootSelector method', () => {
     test('when no item in list', () => {
-      const output = commonFunction.createRootSelector({});
+      const output = commonFunction.createRootContent({});
       assert.strictEqual(output, `:root {\n}\n`);
     });
 
@@ -18,7 +18,7 @@ suite('createRootSelector method', () => {
 	--body: #123;
 }
 `;
-      const output = commonFunction.createRootSelector(input);
+      const output = commonFunction.createRootContent(input);
       assert.strictEqual(output, expectedOutput);
     });
 
@@ -29,7 +29,7 @@ suite('createRootSelector method', () => {
 	--other: rgb(255,0,255);
 }
 `;
-      const output = commonFunction.createRootSelector(input);
+      const output = commonFunction.createRootContent(input);
       assert.strictEqual(output, expectedOutput);
     });
 });
@@ -116,7 +116,6 @@ suite('hexColorVariation method', () => {
 suite('checkDuplicateHexColor method', () => {
   let list: VariableList = {};
   suiteSetup(() => {
-    console.log('beforeEach called');
     list = { '--main__color-1': '#234', '--body__bg-1': '#112233', '--class__bg-3': '#abcd'};
   });
   

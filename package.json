@@ -9,7 +9,7 @@
   },
   "repository": "https://github.com/xkeshav/color-collector.git",
   "keywords": [
-    "cssVariableGenerator",
+    "cssColorCollector",
     "css color collector",
     "css color variables"
   ],
@@ -17,8 +17,6 @@
     "Programming Languages"
   ],
   "activationEvents": [
-    "onCommand:css-color-collector.init",
-    "onLanguage:css",
     "workspaceContains:**/*.css"
   ],
   "main": "./out/extension.js",
@@ -26,6 +24,11 @@
     "commands": [
       {
         "command": "css-color-collector.init",
+        "category": "ccc",
+        "title": "Initialize CSS "
+      },
+      {
+        "command": "css-color-collector.collect",
         "category": "ccc",
         "title": "Collect CSS"
       }
@@ -53,6 +56,12 @@
         "key": "ctrl+f1",
         "mac": "cmd+f1",
         "when": "editorTextFocus"
+      },
+      {
+        "command": "css-color-collector.collect",
+        "key": "ctrl+f7",
+        "mac": "cmd+f7",
+        "when": "editorTextFocus"
       }
     ],
     "languages": [
@@ -75,6 +84,10 @@
       "commandPalette": [
         {
           "command": "css-color-collector.init",
+          "when": "editorLangId == css"
+        },
+        {
+          "command": "css-color-collector.collect",
           "when": "editorLangId == css"
         }
       ]

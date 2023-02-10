@@ -9,6 +9,8 @@ export type RegExpMatchArrayWithIndices = RegExpMatchArray & { indices: Array<[n
 
 export type SelectorMap = Map<number, string>;
 
+export type ColorMap = Map<[number, number], string>;
+
 export type VariableNameParams = {
 	selectorName: string;
 	propertyName: string;
