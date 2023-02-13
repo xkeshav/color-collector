@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import * as vscode from 'vscode';
 
-import { Collector } from './utils/classMatcher';
+import { Collector } from './utils/collector';
 import { createRootContent } from './utils/common';
 
 
@@ -31,7 +31,7 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 		const { document } = activeEditor;
 		const cssDoc = document.getText();
-		//console.log({ text });
+		//console.log({ cssDoc });
 		const collectorObject =  new Collector(cssDoc);
 		activeEditor?.edit((editBuilder:vscode.TextEditorEdit) => {
 			collectorObject.selectorFinder();

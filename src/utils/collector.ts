@@ -17,7 +17,7 @@ export class Collector {
 	#colorRegex: RegExp;
 	#propertyName;
 
-	constructor(document: string) {
+	constructor(document = '') {
 		this.cssDocument = document;
 		this.#selectorMapper = new Map();
 		this.#colorMapper = new Map();
@@ -32,6 +32,10 @@ export class Collector {
 
 	get colorMapper() {
 		return this.#colorMapper;
+	}
+
+	get selectorMapper() {
+		return this.#selectorMapper;
 	}
 
 	get variableList() {
@@ -85,7 +89,7 @@ export class Collector {
 				}
 				//console.log({variableName, isColorVariableExist});
 				const colorIndexList = indicesGroup.HEX_COLOR || indicesGroup.NON_HEX_COLOR || indicesGroup.COLOR_NAME;
-				const [start, end] = colorIndexList;
+				const [start] = colorIndexList;
 				if (!isColorVariableExist) {
 					num++;
 					const selectorName = getParentSelectorName(this.#selectorMapper, start);
