@@ -80,16 +80,30 @@ suite('selectorFinder method', () => {
 		}		
 		`;
 		classObject = new Collector(input);
-		const op = classObject.selectorFinder();
-		//console.log(classObject.selectorMapper);
-		expectedMapper = new Map([[8, 'body'], [98, 'table'], [162, 'jump'], [261, 'other']]);
+    classObject.selectorFinder();
+		expectedMapper = new Map([
+			[8, 'body'],
+			[98, 'table'],
+			[162, 'jump'],
+			[261, 'other']
+    ]);
 		assert.deepEqual(classObject.selectorMapper, expectedMapper);
 	});
 
 	test('when various At-rules and comments presented in the css file', () => {
 		classObject = new Collector(inputFile);
 		classObject.selectorFinder();
-		const expectedMapper = new Map([[59, 'import'], [92, 'starSelector'], [148, 'scope'], [230, 'where'], [314, 'supports'], [458, 'flash'], [650, 'example'], [687, 'page'], [806, 'page'], [903, 'page']]);
+		const expectedMapper = new Map([
+			[59, 'import'],
+			[92, 'starSelector'],
+			[148, 'scope'],
+			[230, 'where'],
+			[314, 'supports'],
+			[458, 'flash'],
+			[650, 'example'],
+			[687, 'page'],
+			[806, 'page'],
+			[903, 'page']]);
 		assert.deepEqual(classObject.selectorMapper, expectedMapper);
 	});
 
@@ -111,16 +125,15 @@ suite('colorFinder method', () => {
 		}
 		`;
 		classObject = new Collector(input);
-		await classObject.selectorFinder();
-		await classObject.colorFinder();
-		console.log(classObject.colorMapper);
-		//assert.equal(classObject.colorMapper.size, 0);
+		classObject.selectorFinder();
+		classObject.colorFinder();
+		assert.equal(classObject.colorMapper.size, 0);
 	});
 
 	test('when there are multiple color variation with duplicate colors in css file', async () => {
 		classObject = new Collector(colorVariationDocument);
-		await classObject.selectorFinder();
-		await classObject.colorFinder();
+		classObject.selectorFinder();
+		classObject.colorFinder();
 
 		const expectedSelectorMapper = new Map([
 			[6, "body"],
@@ -146,6 +159,7 @@ suite('colorFinder method', () => {
 		]);
 		assert.equal(classObject.colorMapper.size, 10);
 		assert.deepEqual(classObject.colorMapper, expectedColorMapper);
+
 		const expectedVariableList = {
 			"--body__txt--1": "#fff",
 			"--body__bg--2": "#123d",
@@ -163,10 +177,10 @@ suite('colorFinder method', () => {
 
 	suite('getRootPosition method', () => {
 
-	let input;
-	let classObject: Collector;
+		let input;
+		let classObject: Collector;
 
-	test('when there is no import statement then root position is top of teh file', () => {
+		test('when there is no import statement then root position is top of teh file', () => {
 		input = `
 		body { 
 			box-sizing: border-box;
@@ -176,12 +190,12 @@ suite('colorFinder method', () => {
 			padding:0;
 		}
 		`;
-		classObject = new Collector(input);
-		const position = classObject.getRootPosition();
-		assert.deepEqual(position, [0,0]);
-	});
+			classObject = new Collector(input);
+			const position = classObject.getRootPosition();
+			assert.deepEqual(position, [0, 0]);
+		});
 
-	test('when there are import statement then root position is after import statements', () => {
+		test('when there are import statement then root position is after import statements', () => {
 		input = `
 		@import url('base.css');
 		@import url('core.css');
@@ -193,11 +207,11 @@ suite('colorFinder method', () => {
 			padding:0;
 		}
 		`;
-		classObject = new Collector(input);
-		const position = classObject.getRootPosition();
-		assert.deepEqual(position, [3,0]);
-	});
-		
+			classObject = new Collector(input);
+			const position = classObject.getRootPosition();
+			assert.deepEqual(position, [3, 0]);
+		});
+
 	});
 
 });
