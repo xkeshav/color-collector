@@ -1,7 +1,7 @@
 
 /* special test for at rules, and pseudo selectors */
 
-export const input: string = `
+const atRulesDocument: string = `
 @import url('base.css');
 @import url('other.css');
 
@@ -67,7 +67,7 @@ example|h1 {
 }`;
 
 
-export const colorVariationDocument: string = `
+const mixedCssDocument: string = `
 body {
 	color:#fff;
 	background-color: #123d;
@@ -96,3 +96,50 @@ a::after {
 		background-color: hwb(0.25turn 0% 40%);
   }
 }`;
+
+
+const colorVariationDocument = {
+  sample: `
+        body {
+          background-color: #1a10;
+          color: #2a2;
+        }
+
+        main {
+          color: #334455ff;
+          padding: 4px;
+        }
+
+        .class {
+          border-color: #6ff;
+          margin-top: inherit;
+        }
+
+        .more {
+          color: rgb(255, 0, 0 / 1);
+          color: rgb(100%, 0%, 0%);
+          color: rgb(300, 0, 0);
+          color: rgb(255, -10, 0);
+          color: rgb(110%, 0%, 0%);
+          color: rgba(255, 0, 0, 1);
+          color: rgba(100%, 0%, 0%, 1);
+          color: rgba(0, 0, 255, 0.5);
+          color: rgba(100%, 50%, 0%, 0.1);
+          color: hsl(0, 100%, 50%);
+          color: hsl(120, 100%, 50%);
+          color: hsl(120, 75%, 75%);
+          color: hsl(120, 100%, 50%);
+          color: hsla(120, 100%, 50%, 1);
+          color: hsla(240, 100%, 50%, 0.5);
+          color: hsla(30, 100%, 50%, 0.1);
+          color: hsla(30, 100%, 50%, 0.1);
+          color: hwb(0.25turn 0% 40%);
+          color: hwb(90 10% 10%);
+          color: rgb(255, 0, 153);
+          color: rgb(255, 0, 153);
+          color: rgb(255, 0, 153);
+        }
+    `,
+};
+
+export { atRulesDocument, mixedCssDocument, colorVariationDocument };

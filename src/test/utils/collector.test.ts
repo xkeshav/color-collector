@@ -3,7 +3,7 @@ import * as assert from 'assert';
 
 import { Collector } from '../../utils/collector';
 
-import { colorVariationDocument, input as inputFile } from "../styles/advance.js";
+import { atRulesDocument, mixedCssDocument } from "../sample/cssDocumentList.js";
 
 
 suite('Collector Class', () => {
@@ -16,7 +16,7 @@ suite('Collector Class', () => {
 
 	test('initialize Collector class with css document', () => {
 
-		let input = `
+		const input = `
 		body { 
 			box-sizing: border-box;
 		} 
@@ -91,7 +91,7 @@ suite('selectorFinder method', () => {
 	});
 
 	test('when various At-rules and comments presented in the css file', () => {
-		classObject = new Collector(inputFile);
+		classObject = new Collector(atRulesDocument);
 		classObject.selectorFinder();
 		const expectedMapper = new Map([
 			[59, 'import'],
@@ -131,7 +131,7 @@ suite('colorFinder method', () => {
 	});
 
 	test('when there are multiple color variation with duplicate colors in css file', async () => {
-		classObject = new Collector(colorVariationDocument);
+		classObject = new Collector(mixedCssDocument);
 		classObject.selectorFinder();
 		classObject.colorFinder();
 
