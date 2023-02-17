@@ -39,7 +39,7 @@ run `cfg`
 
 - media query selector name need to append media in variable name
 
-## TODO
+## CHECK-LIST
 
  - [ ] check whether file is correct (i.e. valid css file)  
  - [ ] check file is in save mode  
@@ -57,10 +57,13 @@ run `cfg`
      - `@charset`,
   
 - [x] need to captured named color also.
-- [x]  support all color format
+- [x] support all color format
 - [x] when there are multiple color on same line such as liner-background()
 - [x] insert :root after _@import_ statements
 
 ## Release Notes
  - This is in beta version, need to write unit test for all code
 
+### foot note
+
+- if you have todo-tree extension enabled then this extension will likely to fail , reason unknown so far, [issue raised here](https://github.com/Gruntfuggly/todo-tree/issues/732)

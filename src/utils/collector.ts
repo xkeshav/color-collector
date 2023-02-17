@@ -46,7 +46,7 @@ export class Collector {
 		let selector = '';
 		const selectorMatchList = this.cssDocument.matchAll(this.#selectorRegex);
 		for (const matchingSelector of selectorMatchList) {
-			const { groups: selectorGroup, indices: { groups: selectorIndicesGroup } } = matchingSelector as RegExpMatchArrayWithIndices;
+			const { groups: selectorGroup, indices: { groups: selectorIndicesGroup } } = <RegExpMatchArrayWithIndices>matchingSelector;
 			const { SELECTOR: selectorName } = selectorGroup!;
 			const { SELECTOR: selectorIndex } = selectorIndicesGroup;
 			const [, lastIndex] = selectorIndex;
