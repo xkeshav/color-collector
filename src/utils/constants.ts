@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
+
+export const extensionID =  'xkeshav.css-color-collector';
+
 export const PATTERN_LIST = {
 	PROPERTY: '(?<PROPERTY>[\\w-]+[^:])(?=:\s*)',
 	SELECTOR_WITH_MEDIA: '(^(?!.*@media)[\\t ]*(?<SELECTOR>[@a-zA-Z#.:*[][^{\\/]*\\s*){[\\s\\S]*?})',
@@ -17,9 +20,13 @@ const COLOR_PROPERTY_LIST = {
 	'background-image': 'bg__img',
 	'border': 'border',
 	'border-color': 'border',
+	'border-bottom': 'border__bottom',
 	'border-bottom-color': 'border__bottom',
+	'border-left': 'border__left',
 	'border-left-color': 'border__left',
+	'border-right': 'border__right',
 	'border-right-color': 'border__right',
+	'border-top': 'border__top',
 	'border-top-color': 'border__top',
 	'border-block-color': 'border__block',
 	'border-inline-color': 'border__inline',
