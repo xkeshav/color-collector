@@ -10,7 +10,7 @@ export class Collector {
 	#variableList: VariableList;
 	#selectorMapper: SelectorMap;
 	#colorMapper: ColorMap;
-	
+
 	#selectorRegex: RegExp;
 	#wordRegex: RegExp;
 	#importRegex: RegExp;

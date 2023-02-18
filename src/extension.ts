@@ -10,7 +10,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let collectorExtension = vscode.extensions.getExtension(extensionID);
 
-	console.log({collectorExtension});
+	console.log({ collectorExtension });
 
 	function collectCommandHandler() {
 		let activeEditor = vscode.window.activeTextEditor;

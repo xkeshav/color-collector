@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 
-export const extensionID =  'xkeshav.css-color-collector';
+export const extensionID = 'xkeshav.css-color-collector';
 
 export const PATTERN_LIST = {
 	PROPERTY: '(?<PROPERTY>[\\w-]+[^:])(?=:\s*)',

@@ -1,22 +1,15 @@
 import * as assert from 'assert';
-import path = require('path');
-
-
 import { commands, Disposable, Extension, extensions, Uri, window, workspace } from 'vscode';
 import { extensionID } from '../../utils/constants';
+import path = require('path');
 
-
-const testFolderLocation = '/../../sample/';
-
-const wait = async (seconds: number = 200) => new Promise(resolve => setTimeout(resolve, seconds*1000));
-
+const testFolderLocation = '/../../../sample/';
 const disposables: Disposable[] = [];
 
+const wait = async (seconds: number = 200) => new Promise(resolve => setTimeout(resolve, seconds * 1000));
 
 const getFileText = async (file: string) => {
-	const uri = Uri.file(
-		path.resolve(__dirname + testFolderLocation + file)
-	);
+	const uri = Uri.file(path.resolve(__dirname + testFolderLocation + file));
 	const document = await workspace.openTextDocument(uri);
 	await window.showTextDocument(document);
 	const text = document.getText();
@@ -39,7 +32,6 @@ suite('Extension Test Suite', () => {
 		assert.notEqual(extension.packageJSON, undefined);
 	});
 
-
 	test('Activation test', async () => {
 		await extension.activate();
 		assert.equal(extension.isActive, true);
@@ -49,9 +41,9 @@ suite('Extension Test Suite', () => {
 		await wait(10);
 		assert.equal(extension.isActive, true);
 	});
-
 });
-suite('It registers color-collector commands successfully', () => {
+
+suite('extension registers the collect commands successfully', () => {
 	let commandList: string[];
 	suiteSetup((done) => {
 		commands.getCommands().then(commands => {
@@ -60,44 +52,26 @@ suite('It registers color-collector commands successfully', () => {
 		});
 	});
 
-	test('It registers the css-color-collector.collect command', (done) => {
+	test('commandList should have css-color-collector.collect command', (done) => {
 		assert.ok(commandList.includes('css-color-collector.collect'));
 		done();
 	});
 });
 
 suite('extension setup', () => {
-	test('run collect command', async () => {
-		const text = await getFileText('test.css');
+	test('convert css into variable css file on collect command', async () => {
+		const cssDoc = await getFileText('test.css');
 		await commands.executeCommand('css-color-collector.collect');
 		await wait(5);
 		// check after change
-		const textNow = await getFileText('test.css');
-
-		const expectedDocument = `
-		
-		:root {
-			--body__txt--1: #fff;
-			--body__bg--2: #123d;
-			--main__txt__fill--3: purple;
-		}
-		
-		body {
-			color:var(--body__txt--1);
-			background-color: var(--body__bg--2);
-		}
-		
-		main {
-			color: var(--body__txt--1);
-			-webkit-text-fill-color: var(--main__txt__fill--3);
-		}
-		`;
-		console.log({ textNow });
-		assert.strictEqual(textNow, expectedDocument);
+		const convertedCSSDoc = await getFileText('test.css');
+		const expectedCSSDoc = await getFileText('test-after-command.css');
+		//console.log({ convertedCSSDoc });
+		assert.strictEqual(convertedCSSDoc, expectedCSSDoc);
 	});
-	
+
 	suiteTeardown(async () => {
-    console.log('Disposing all resources');
-    disposables.forEach((d) => d.dispose());
-  });
+		console.log('Disposing all resources');
+		disposables.forEach((d) => d.dispose());
+	});
 });

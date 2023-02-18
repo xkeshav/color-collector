@@ -1,0 +1,22 @@
+
+:root {
+	--body__bg--1: #1a10;
+	--body__txt--2: #2a2;
+	--main__txt--3: #334455ff;
+	--main__txt__fill--4: purple;
+	--class__border--5: #6ff;
+}
+
+body {
+  background-color: var(--body__bg--1);
+  color: var(--body__txt--2);
+}
+
+main {
+  color: var(--main__txt--3);
+  -webkit-text-fill-color: var(--main__txt__fill--4);
+}
+
+.class {
+  border: 1px solid var(--class__border--5);
+}

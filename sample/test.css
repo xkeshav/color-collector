@@ -1,9 +1,13 @@
 body {
-	color:#fff;
-	background-color: #123d;
+  background-color: #1a10;
+  color: #2a2;
 }
 
 main {
-	color: #ffffff;
-	-webkit-text-fill-color: PURPLE;
+  color: #334455ff;
+  -webkit-text-fill-color: purple;
+}
+
+.class {
+  border: 1px solid #6ff;
 }
