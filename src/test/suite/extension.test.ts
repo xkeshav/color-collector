@@ -58,14 +58,25 @@ suite('extension registers the collect commands successfully', () => {
 	});
 });
 
-suite('extension setup', () => {
-	test('convert css into variable css file on collect command', async () => {
-		const cssDoc = await getFileText('test.css');
+suite('collect command execution on css file', () => {
+	test('convert colors into variables in css file', async () => {
+		await getFileText('test.css');
 		await commands.executeCommand('css-color-collector.collect');
 		await wait(5);
 		// check after change
 		const convertedCSSDoc = await getFileText('test.css');
 		const expectedCSSDoc = await getFileText('test-after-command.css');
+		//console.log({ convertedCSSDoc });
+		assert.strictEqual(convertedCSSDoc, expectedCSSDoc);
+	});
+
+	test('convert colors in css not the property with color name', async () => {
+		await getFileText('name.css');
+		await commands.executeCommand('css-color-collector.collect');
+		await wait(5);
+		// check after change
+		const convertedCSSDoc = await getFileText('name.css');
+		const expectedCSSDoc = await getFileText('name-after-command.css');
 		//console.log({ convertedCSSDoc });
 		assert.strictEqual(convertedCSSDoc, expectedCSSDoc);
 	});

@@ -8,5 +8,5 @@ body {
 }
 
 .class ~ .red {
-  border-color: red;
+  border-color:red;
 }

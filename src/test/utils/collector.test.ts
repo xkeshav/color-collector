@@ -3,7 +3,7 @@ import * as assert from 'assert';
 
 import { Collector } from '../../utils/collector';
 
-import { atRulesDocument, mixedCssDocument } from "../sample/cssDocumentList.js";
+import { atRulesDocument, mixedCssDocument } from "../sample/cssDocumentList";
 
 
 suite('Collector Class', () => {
