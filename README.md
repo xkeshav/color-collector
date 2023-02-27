@@ -1,13 +1,13 @@
 # color-collector
 
-a simple vs code extension which works with .css files
+A simple vs code extension which works with *.css* files
 
-which collect all color code from a css file
-and assign the color in a variable
-and add a :root selector which contains all variables
-and also replace the color code with new variable name
+it scan all color value ( hex, name or any other format) across all property in the opened css file
+and assign the color value into a variable which somehow represent property and selector as a prefix 
+and add a `:root` selector which contains all these color variables
+and replace the color with new variable name in the css file
 
-so that once all color collected on one place, we can change theme by changing that :root color-schema only
+extension also check for duplicate color used in multiple places and assign into a single variable
 
 ## Features
 
@@ -34,18 +34,18 @@ user must have installed
 
 ## Extension Settings
 
-run `cfg`
+- when you open a css file the from command panel ( `Ctrl + F1` or `Cmd + F1` )
+- search for `ccc: collect css` command or use `Ctrl + F7` or `Cmd + F7` 
+- after running this command, your file will be changed with css color variables 
 
 ## Known Issues
 
 - media query selector name need to append media in variable name
-- selecting color named selector such as .red as a color which need to fix
 
 ## CHECK-LIST
 
 - [ ] check whether file is correct (i.e. valid css file)
 - [ ] check file is in save mode
-- [ ] confirm before leaving the file after conversion or prompt the user create a copy of file
 - [ ] handle error if no selector/color present in file
 - [x] comments need to be escaped while parsing the css
 - [x] other at rules selector need to handle such as
@@ -65,11 +65,11 @@ run `cfg`
 
 ## Release Notes
 
-- This is in beta version, need to write unit test for all code
+- Unit Test Done
 
 ### foot note
 
-- if you have todo-tree extension enabled then this extension will likely to fail , reason unknown so far, [issue raised here](https://github.com/Gruntfuggly/todo-tree/issues/732)
+- if you have todo-tree extension enabled then this extension will likely to fail, reason unknown so far, [issue raised here](https://github.com/Gruntfuggly/todo-tree/issues/732)
 
 
 [collect]: images/collector.gif

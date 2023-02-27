@@ -1,5 +1,5 @@
 body {
-  background-color: #123;
+  background-color:#123;
 }
 
 
@@ -8,5 +8,5 @@ body {
 }
 
 .class ~ .red {
-  border-color:red;
+  border-color: red;
 }
