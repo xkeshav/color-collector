@@ -7,14 +7,22 @@
   "engines": {
     "vscode": "^1.74.0"
   },
-  "repository": "https://github.com/xkeshav/color-collector.git",
+  "license" : "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/xkeshav/color-collector/issues",
+    "email": "xkeshav@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xkeshav/color-collector.git"
+  },
   "keywords": [
     "cssColorCollector",
     "css color collector",
-    "css color variables"
+    "color collector"
   ],
   "categories": [
-    "Programming Languages"
+    "Programming Languages", "Other"
   ],
   "activationEvents": [
     "workspaceContains:**/*.css"
@@ -22,11 +30,6 @@
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
-      {
-        "command": "css-color-collector.init",
-        "category": "ccc",
-        "title": "Initialize CSS "
-      },
       {
         "command": "css-color-collector.collect",
         "category": "ccc",
@@ -82,10 +85,6 @@
     ],
     "menus": {
       "commandPalette": [
-        {
-          "command": "css-color-collector.init",
-          "when": "editorLangId == css"
-        },
         {
           "command": "css-color-collector.collect",
           "when": "editorLangId == css"

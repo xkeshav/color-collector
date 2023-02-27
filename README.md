@@ -1,21 +1,52 @@
 # color-collector
 
-A simple vs code extension which works with *.css* files
+A simple vs code extension which works with *.css* files and assign all color in document into a variable
 
-it scan all color value ( hex, name or any other format) across all property in the opened css file
-and assign the color value into a variable which somehow represent property and selector as a prefix 
-and add a `:root` selector which contains all these color variables
-and replace the color with new variable name in the css file
+
+## Description 
+
+This extension scan all color value across all css property in an opened css file
+and collect the color value and assign into an individual variable for every different color
+and add a `:root` selector on top of document which contains all these variables
+and also replace the color values with new variable name in the css file.
 
 extension also check for duplicate color used in multiple places and assign into a single variable
 
 ## Features
 
-- support all color format
-- parse css file with all At Rules
-- duplicate color comes under one variable ( all hex format )
+- scan over all color format, including `hex`,  `rgb`, `rgba`, `hsla`, `hwb`, `hsl`,  named color such as `red` with all variations. 
+- variable name would be more verbose which contains property and selector as a prefix 
+- for eg. 
 
-![collect and convert color into variable gif][collect]
+initial css file 
+```css
+body {
+    color: red; 
+  }
+```
+
+here variable name will be `--body-txt-1`
+
+final css file, after execution of command
+
+```css
+:root {
+  --body-txt-1: red;
+}
+
+body {
+  color: var(--body-txt-1);
+}
+
+```
+
+here number will be prepend in each variable to get exact how many color code are being used in the file, we can change the name using `Rename Symbol` action of vs code.
+
+- duplicate or repeated colors comes under one variable, which comes first in document, including all variation of hex color format
+
+- after successfully execution of the command `ccc:collect css`  your file will be changed where color value will be replaced by css variables and a :root property added on top of file , after all `url` statements ( if any )
+
+
 
 #### input
 
@@ -36,7 +67,8 @@ user must have installed
 
 - when you open a css file the from command panel ( `Ctrl + F1` or `Cmd + F1` )
 - search for `ccc: collect css` command or use `Ctrl + F7` or `Cmd + F7` 
-- after running this command, your file will be changed with css color variables 
+
+![extension working demo][collect]
 
 ## Known Issues
 
@@ -62,6 +94,7 @@ user must have installed
 - [x] support all color format
 - [x] when there are multiple color on same line such as liner-background()
 - [x] insert :root after _@import_ statements
+- [ ] add feature to change variable naming convention
 
 ## Release Notes
 
@@ -72,4 +105,4 @@ user must have installed
 - if you have todo-tree extension enabled then this extension will likely to fail, reason unknown so far, [issue raised here](https://github.com/Gruntfuggly/todo-tree/issues/732)
 
 
-[collect]: images/collector.gif
+[collect]: images/collector-demo.gif

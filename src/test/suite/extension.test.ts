@@ -63,7 +63,7 @@ suite('collect command execution on css file', () => {
 		await getFileText('test.css');
 		await commands.executeCommand('css-color-collector.collect');
 		await wait(5);
-		// check after change
+		// check after change in the css file
 		const convertedCSSDoc = await getFileText('test.css');
 		const expectedCSSDoc = await getFileText('test-after-command.css');
 		//console.log({ convertedCSSDoc });
@@ -74,7 +74,7 @@ suite('collect command execution on css file', () => {
 		await getFileText('name.css');
 		await commands.executeCommand('css-color-collector.collect');
 		await wait(5);
-		// check after change
+		// check after change in file
 		const convertedCSSDoc = await getFileText('name.css');
 		const expectedCSSDoc = await getFileText('name-after-command.css');
 		//console.log({ convertedCSSDoc });
@@ -83,6 +83,6 @@ suite('collect command execution on css file', () => {
 
 	suiteTeardown(async () => {
 		console.log('Disposing all resources');
-		disposables.forEach((d) => d.dispose());
+		disposables.forEach((d:Disposable) => d.dispose());
 	});
 });
