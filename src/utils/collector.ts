@@ -6,11 +6,9 @@ import { PATTERN_LIST } from './constants';
 export class Collector {
 
 	cssDocument: string;
-
 	#variableList: VariableList;
 	#selectorMapper: SelectorMap;
 	#colorMapper: ColorMap;
-
 	#selectorRegex: RegExp;
 	#wordRegex: RegExp;
 	#importRegex: RegExp;
@@ -51,7 +49,6 @@ export class Collector {
 			const { SELECTOR: selectorIndex } = selectorIndicesGroup;
 			const [, lastIndex] = selectorIndex;
 			let trimmedSelectorName = selectorName.trim();
-			//console.log({trimmedSelectorName});
 			if (trimmedSelectorName === '*') { // special case
 				selector = 'starSelector';
 			}
@@ -62,7 +59,6 @@ export class Collector {
 				const [firstMatch] = trimmedSelectorName.match(this.#wordRegex) as [string];
 				selector = firstMatch;
 			}
-			//console.log({ selector });
 			this.#selectorMapper.set(lastIndex, selector);
 		}
 	};
@@ -72,23 +68,19 @@ export class Collector {
 		let variableName = '';
 		const colorMatchList = this.cssDocument.matchAll(this.#colorRegex);
 		for (const matchingColor of colorMatchList) {
-			//console.log({matchingColor});
 			let isColorVariableExist = false;
-			const { groups: colorGroup, indices: { groups: indicesGroup } } = matchingColor as RegExpMatchArrayWithIndices;
+			const { groups: colorGroup, indices: { groups: colorIndicesGroup } } = matchingColor as RegExpMatchArrayWithIndices;
 			const { PROPERTY, HEX_COLOR, NON_HEX_COLOR, COLOR_NAME } = colorGroup!;
 			if (PROPERTY !== undefined) {
 				this.#propertyName = PROPERTY;
 			} else {
 				const colorValue = HEX_COLOR || NON_HEX_COLOR || COLOR_NAME;
-				//console.log({colorValue});
 				if (HEX_COLOR) {
 					[isColorVariableExist, variableName] = checkDuplicateHexColor(HEX_COLOR as HexString, this.#variableList);
-				}
-				else {
+				} else {
 					[isColorVariableExist, variableName] = checkDuplicateNonHexColor(colorValue, this.#variableList);
 				}
-				//console.log({variableName, isColorVariableExist});
-				const colorIndexList = indicesGroup.HEX_COLOR || indicesGroup.NON_HEX_COLOR || indicesGroup.COLOR_NAME;
+				const colorIndexList = colorIndicesGroup.HEX_COLOR || colorIndicesGroup.NON_HEX_COLOR || colorIndicesGroup.COLOR_NAME;
 				const [start] = colorIndexList;
 				if (!isColorVariableExist) {
 					num++;

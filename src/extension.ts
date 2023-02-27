@@ -3,14 +3,9 @@ import * as vscode from 'vscode';
 
 import { Collector } from './utils/collector';
 import { createRootContent } from './utils/common';
-import { extensionID } from './utils/constants';
 
 export function activate(context: vscode.ExtensionContext) {
 	const collectCommand = 'css-color-collector.collect';
-
-	let collectorExtension = vscode.extensions.getExtension(extensionID);
-
-	console.log({ collectorExtension });
 
 	function collectCommandHandler() {
 		let activeEditor = vscode.window.activeTextEditor;
@@ -40,7 +35,7 @@ export function activate(context: vscode.ExtensionContext) {
 			// insert color variable on css file under :root
 			activeEditor?.edit((editBuilder: vscode.TextEditorEdit) => {
 				editBuilder.insert(position, `\n${rootContent}\n`);
-				vscode.window.showInformationMessage('variable conversion done successfully!');
+				vscode.window.showInformationMessage('CSS variable conversion done successfully!');
 			});
 		});
 	}

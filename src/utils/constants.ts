@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-
 export const extensionID = 'xkeshav.css-color-collector';
 
 export const PATTERN_LIST = {
@@ -55,5 +54,3 @@ const COLOR_PROPERTY_LIST = {
 
 
 export const PROPERTY_ALIAS_MAPPER = new Map(Object.entries(COLOR_PROPERTY_LIST));
-
-
