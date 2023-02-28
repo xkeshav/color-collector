@@ -1,39 +1,62 @@
 body {
-  background-color: #1a10;
-  color: #2a2;
+  background-color: hsla(30, 100%, 50%, .1);
+  color: hsl(270 60% 70%);
+}
+
+@media only screen and (max-width: 480px) {
+  table {
+    -webkit-text-fill-color: #567;
+  }
 }
 
 main {
-  color: #334455ff;
+  color:  hwb(0.25rad 0% 40%);
   padding: 4px;
 }
 
 .class {
-  border-color: #6ff;
+  border-color: rgb(255,0,0);
   margin-top: inherit;
 }
 
-.more {
-  color: rgb(255, 0, 0 / 1);
+table {
   color: rgb(100%, 0%, 0%);
-  color: rgb(300, 0, 0);
-  color: rgb(255, -10, 0);
-  color: rgb(110%, 0%, 0%);
-  color: rgba(255, 0, 0, 1);
-  color: rgba(100%, 0%, 0%, 1);
-  color: rgba(0, 0, 255, 0.5);
-  color: rgba(100%, 50%, 0%, 0.1);
+  border-color: rgb(255,-10,0);
+  caret-color: rgba(255,0,0,1);
+  border-inline-color: rgba(100%,0%,0%,1);
+  border-block-color: rgba(100%, 50%, 0%, 0.1);
+}
+
+.other-nearby:has(nth-child(3)) {
   color: hsl(0, 100%, 50%);
-  color: hsl(120, 100%, 50%);
-  color: hsl(120, 75%, 75%);
-  color: hsl(120, 100%, 50%);
-  color: hsla(120, 100%, 50%, 1);
-  color: hsla(240, 100%, 50%, 0.5);
-  color: hsla(30, 100%, 50%, 0.1);
-  color: hsla(30, 100%, 50%, 0.1);
-  color: hwb(0.25turn 0% 40%);
-  color: hwb(90 10% 10%);
-  color: rgb(255, 0, 153);
-  color: rgb(255, 0, 153);
-  color: rgb(255, 0, 153);
+  opacity: hsl(120, 100%, 50%);
+  background-color: hsl(120, 75%, 75%);
+}
+
+
+
+.panel__cell:nth-child(10n + 0) {
+  background-color: hwb(0.25turn 0% 40%);
+}
+
+/* The comment below is used to */
+
+.user {
+  background: conic-gradient(
+    #ff9 0.25turn,
+     #009 0.25turn 0.5turn, 
+     #999 0.5turn 0.75turn, 
+     #900 0.75turn) 
+     top left / 25% 25% repeat;
+}
+
+.orientation--kind input[type='radio']:checked + label {
+  color: white;
+  background-color: rebeccapurple;
+}
+
+@keyframes jump {
+  0% {
+    border-color: hwb(hue rgb(116, 59, 59) #854343);
+  }
 }

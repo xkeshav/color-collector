@@ -1,0 +1,12 @@
+body {
+  background-color: #123;
+}
+
+
+.black {
+  color:black;
+}
+
+.class ~ .red {
+  border-color: red;
+}

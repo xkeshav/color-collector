@@ -1,44 +1,52 @@
 {
-  "name": "css-variable-generator",
-  "displayName": "css variable generator",
+  "name": "css-color-collector",
+  "displayName": "css color collector",
   "description": "collect all css color property and collect under :root as a variable and use that variable in place of color code in a css file.",
-  "version": "0.0.1",
+  "version": "0.3.0",
   "publisher": "xkeshav",
   "engines": {
     "vscode": "^1.74.0"
   },
-  "repository": "https://github.com/xkeshav/parixan.git",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/xkeshav/color-collector/issues",
+    "email": "xkeshav@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xkeshav/color-collector.git"
+  },
+  "icon": "/images/logo.png",
   "keywords": [
-    "cssVariableGenerator",
-    "css variable collector",
-    "css variables"
+    "cssColorCollector",
+    "css color collector",
+    "color collector"
   ],
   "categories": [
-    "Programming Languages"
+    "Programming Languages",
+    "Other"
   ],
   "activationEvents": [
-    "onCommand:css-variable-generator.init",
-    "onLanguage:css",
     "workspaceContains:**/*.css"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "css-variable-generator.init",
-        "category": "cvg",
-        "title": "Find CSS"
+        "command": "css-color-collector.collect",
+        "category": "ccc",
+        "title": "Collect CSS"
       }
     ],
     "configuration": {
-      "title": "Css Variable Generator",
+      "title": "Css Color Collector",
       "properties": {
-        "cssVariableGenerator.collectCssVariables": {
+        "cssColorCollector.collectColorVariables": {
           "type": "boolean",
           "default": false,
           "description": "collect color from the CSS file."
         },
-        "cssVariableGenerator.lookupFiles": {
+        "cssColorCollector.lookupFiles": {
           "type": "array",
           "default": [
             "**/*.css"
@@ -49,9 +57,15 @@
     },
     "keybindings": [
       {
-        "command": "css-variable-generator.init",
+        "command": "css-color-collector.init",
         "key": "ctrl+f1",
         "mac": "cmd+f1",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "css-color-collector.collect",
+        "key": "ctrl+f7",
+        "mac": "cmd+f7",
         "when": "editorTextFocus"
       }
     ],
@@ -74,7 +88,7 @@
     "menus": {
       "commandPalette": [
         {
-          "command": "css-variable-generator.init",
+          "command": "css-color-collector.collect",
           "when": "editorLangId == css"
         }
       ]
@@ -86,19 +100,22 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./out/test/runTest.js",
+    "coverage": "nyc --reporter=html npm run test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.74.0",
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@types/glob": "^8.0.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
+    "@types/vscode": "^1.74.0",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
+    "@vscode/test-electron": "^2.2.0",
     "eslint": "^8.28.0",
     "glob": "^8.0.3",
     "mocha": "^10.1.0",
-    "typescript": "^4.9.3",
-    "@vscode/test-electron": "^2.2.0"
+    "nyc": "^15.1.0",
+    "typescript": "^4.9.3"
   }
 }

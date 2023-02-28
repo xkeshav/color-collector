@@ -1,0 +1,76 @@
+
+/* special test for at rules, and pseudo selectors */
+
+@import url('base.css');
+@import url('other.css');
+
+:root {
+	--scope__bg--1: #00ff00;
+	--where__txt--2: #008000;
+	--supports__txt__fill--3: #567;
+	--supports__txt__stroke--4: #d2691e;
+	--flash__border--5: rgb(116, 59, 59);
+	--flash__border--6: #666;
+	--flash__bg--7: #777;
+	--example__txt--8: rgb(0, 255, 98);
+	--page__bg--9: #1a10;
+	--page__border--10: red;
+	--page__border__bottom--11: #6ff;
+}
+
+
+:root {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
+
+:scope {
+  background-color: var(--scope__bg--1);
+}
+
+:where(ol, ul, menu:unsupported) :where(ol, ul) {
+  color: var(--where__txt--2);
+}
+
+@supports (text-stroke: 10px) or (-webkit-text-stroke: 10px) {
+  :is(:nth-child(2n + 1) a, details > summary) {
+    -webkit-text-fill-color: var(--supports__txt__fill--3);
+    -webkit-text-stroke: var(--supports__txt__stroke--4);
+  }
+}
+
+@keyframes flash {
+  0% {
+    border-color: hwb(hue var(--flash__border--5) var(--flash__border--6));
+  }
+
+  50% {
+    background-color: hwb(hue var(--flash__border--5) var(--flash__bg--7));
+  }
+}
+
+@namespace example url(http://www.example.com);
+example|h1 {
+  color: var(--example__txt--8);
+}
+
+@page {
+  size: landscape;
+  margin: 20%;
+  background-color: var(--page__bg--9);
+  @top-left {
+    border-color: var(--page__border--10);
+  }
+}
+
+/* Targets all even-numbered pages */
+@page :left {
+  margin-top: 4in;
+  border-bottom: var(--page__border__bottom--11);
+}
+
