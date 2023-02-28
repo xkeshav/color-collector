@@ -6,7 +6,6 @@ src/**
 .gitignore
 .eslintignore
 typings/**
-images/**
 .yarnrc
 vsc-extension-quickstart.md
 **/tsconfig.json
