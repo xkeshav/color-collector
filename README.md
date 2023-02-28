@@ -51,10 +51,6 @@ here number will be prepend in each variable to count how many color code are be
 
 ![extension working demo with relative path](./images/collector-demo.gif)
 
-or 
-
-![extension working demo with full path from github](https://github.com/xkeshav/color-collector/blob/develop/images/collector-demo.gif)
-
 
 ## Examples
 

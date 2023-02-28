@@ -1,7 +1,7 @@
 {
   "name": "css-color-collector",
   "displayName": "css color collector",
-  "description": "collect all css color property and collect under :root as a variable and use that variable in place of color code in a css file.",
+  "description": "collect all css color property from css file and assign them in descriptive css variable name and add :root on top of the file.",
   "version": "0.3.0",
   "publisher": "xkeshav",
   "engines": {
@@ -56,12 +56,6 @@
       }
     },
     "keybindings": [
-      {
-        "command": "css-color-collector.init",
-        "key": "ctrl+f1",
-        "mac": "cmd+f1",
-        "when": "editorTextFocus"
-      },
       {
         "command": "css-color-collector.collect",
         "key": "ctrl+f7",
