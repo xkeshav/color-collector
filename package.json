@@ -2,12 +2,12 @@
   "name": "css-color-collector",
   "displayName": "css color collector",
   "description": "collect all css color property and collect under :root as a variable and use that variable in place of color code in a css file.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "publisher": "xkeshav",
   "engines": {
     "vscode": "^1.74.0"
   },
-  "license" : "SEE LICENSE IN LICENSE",
+  "license": "SEE LICENSE IN LICENSE",
   "bugs": {
     "url": "https://github.com/xkeshav/color-collector/issues",
     "email": "xkeshav@gmail.com"
@@ -16,14 +16,17 @@
     "type": "git",
     "url": "https://github.com/xkeshav/color-collector.git"
   },
-  "icon": ["./images/logo.png"],
+  "icon": [
+    "./images/logo.png"
+  ],
   "keywords": [
     "cssColorCollector",
     "css color collector",
     "color collector"
   ],
   "categories": [
-    "Programming Languages", "Other"
+    "Programming Languages",
+    "Other"
   ],
   "activationEvents": [
     "workspaceContains:**/*.css"
