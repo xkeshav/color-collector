@@ -25,36 +25,14 @@ body {
   }
 ```
 
-here variable name will be `--body-txt-1`
+then  variable name will be `--body-txt-1`
 
-final css file, after execution of command
-
-```css
-:root {
-  --body-txt-1: red;
-}
-
-body {
-  color: var(--body-txt-1);
-}
-
-```
-
-here number will be prepend in each variable to get exact how many color code are being used in the file, we can change the name using `Rename Symbol` action of vs code.
+here number will be prepend in each variable to count how many color code are being used in the file, we can change the name using `Rename Symbol` action of vs code.
 
 - duplicate or repeated colors comes under one variable, which comes first in document, including all variation of hex color format
 
-- after successfully execution of the command `ccc:collect css`  your file will be changed where color value will be replaced by css variables and a :root property added on top of file , after all `url` statements ( if any )
+- after successfully execution of the command, the css file will be changed where color value will be replaced by css variables and a `:root` selector added on the top of the file, after all `url` statements ( if any )
 
-
-
-#### input
-
-![input](images/input2.png)
-
-#### output
-
-![output](images/output2.png)
 
 ## Requirements
 
@@ -65,14 +43,32 @@ user must have installed
 
 ## Extension Settings
 
-- when you open a css file the from command panel ( `Ctrl + F1` or `Cmd + F1` )
+- when a css file opens, open command panel using <kbd>F1</kbd>. 
 - search for `ccc: collect css` command or use `Ctrl + F7` or `Cmd + F7` 
 
-![extension working demo][collect]
+## Working Demo
 
-## Known Issues
+### Basic Example 
 
-- media query selector name need to append media in variable name
+![extension working demo](https://github.com/xkeshav/color-collector/blob/develop/images/collector-demo.gif)
+#### input file
+
+![input css file](https://github.com/xkeshav/color-collector/blob/develop/images/input.png)
+
+#### output file
+
+![converted file with css variable](https://github.com/xkeshav/color-collector/blob/develop/images/output.png)
+
+
+### Advance example
+
+#### input file 
+![css file with various color and selector](https://github.com/xkeshav/color-collector/blob/develop/images/input2.png)
+
+#### output file 
+
+![output css file ](https://github.com/xkeshav/color-collector/blob/develop/images/output2.png)
+
 
 ## CHECK-LIST
 
@@ -95,14 +91,14 @@ user must have installed
 - [x] when there are multiple color on same line such as liner-background()
 - [x] insert :root after _@import_ statements
 - [ ] add feature to change variable naming convention
+- [ ] media query selector name need to append media in variable name
 
 ## Release Notes
 
-- Unit Test Done
+- This is first version and my first extension so if you find it useful then support it.
 
-### foot note
+### Known issues
 
-- if you have todo-tree extension enabled then this extension will likely to fail, reason unknown so far, [issue raised here](https://github.com/Gruntfuggly/todo-tree/issues/732)
+- if you have [todo-tree extension](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree) enabled in your vs code then my extension will likely to fail, reason unknown so far, [issue raised here for the same](https://github.com/Gruntfuggly/todo-tree/issues/732)
 
-
-[collect]: images/collector-demo.gif
+- if you found any defect, kindly raise new defect [here](https://github.com/xkeshav/color-collector/issues/new)
