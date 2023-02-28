@@ -12,6 +12,13 @@ and also replace the color values with new variable name in the css file.
 
 extension also check for duplicate color used in multiple places and assign into a single variable
 
+## Install 
+
+Open Extensions sideBar panel in Visual Studio Code and choose the menu options for *View → Extensions* or use `Ctrl + Shift + X` or `Cmd + Shift + X`
+Search for `Css Color Collector`
+Click *Install*
+Click *Reload*, if required
+
 ## Features
 
 - scan over all color format, including `hex`,  `rgb`, `rgba`, `hsla`, `hwb`, `hsl`,  named color such as `red` with all variations. 
@@ -34,21 +41,19 @@ here number will be prepend in each variable to count how many color code are be
 - after successfully execution of the command, the css file will be changed where color value will be replaced by css variables and a `:root` selector added on the top of the file, after all `url` statements ( if any )
 
 
-## Requirements
+## Extension Usage
 
-user must have installed
-
-- node js
-- vs code
-
-## Extension Settings
-
-- when a css file opens, open command panel using <kbd>F1</kbd>. 
-- search for `ccc: collect css` command or use `Ctrl + F7` or `Cmd + F7` 
+- Open a css file
+- Press <kbd>F1</kbd> to open the command palette
+- Type `ccc: collect css` or type <kbd>Ctrl + F7</kbd> or <kbd>Cmd + F7</kbd>
 
 ## Working Demo
 
-![extension working demo](./images/collector-demo.gif)
+![extension working demo with relative path](./images/collector-demo.gif)
+
+or 
+
+![extension working demo with full path from github](https://github.com/xkeshav/color-collector/blob/develop/images/collector-demo.gif)
 
 
 ## Examples
@@ -106,4 +111,4 @@ user must have installed
 
 - if you have [todo-tree extension](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree) enabled in your vs code then my extension will likely to fail, reason unknown so far, [issue raised here for the same](https://github.com/Gruntfuggly/todo-tree/issues/732)
 
-- if you found any defect, kindly raise new defect [here](https://github.com/xkeshav/color-collector/issues/new)
+- if you found any issue, kindly raise  [here](https://github.com/xkeshav/color-collector/issues/)

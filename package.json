@@ -12,7 +12,11 @@
     "url": "https://github.com/xkeshav/color-collector/issues",
     "email": "xkeshav@gmail.com"
   },
-  "repository": "https://github.com/xkeshav/color-collector.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xkeshav/color-collector.git"
+  },
+  "icon": ["./images/logo.png"],
   "keywords": [
     "cssColorCollector",
     "css color collector",
