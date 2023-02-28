@@ -48,7 +48,7 @@ user must have installed
 
 ## Working Demo
 
-![extension working demo](https://github.com/xkeshav/color-collector/blob/develop/images/collector-demo.gif)
+![extension working demo](./images/collector-demo.gif)
 
 
 ## Examples
@@ -57,22 +57,22 @@ user must have installed
 
 #### input file
 
-![input css file](https://github.com/xkeshav/color-collector/blob/develop/images/input.png)
+![input css file](./images/input.png)
 
 #### output file
 
-![converted file with css variable](https://github.com/xkeshav/color-collector/blob/develop/images/output.png)
+![converted file with css variable](./images/output.png)
 
 
 ### Advance
 
 #### input file
 
-![css file with various color and selector](https://github.com/xkeshav/color-collector/blob/develop/images/input2.png)
+![css file with various color and selector](./images/advance-css-input.png)
 
 #### output file 
 
-![output css file ](https://github.com/xkeshav/color-collector/blob/develop/images/output2.png)
+![output css file ](./images/advance-css-output.png)
 
 
 ## CHECK-LIST
