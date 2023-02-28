@@ -48,9 +48,13 @@ user must have installed
 
 ## Working Demo
 
-### Basic Example 
-
 ![extension working demo](https://github.com/xkeshav/color-collector/blob/develop/images/collector-demo.gif)
+
+
+## Examples
+
+### Basic
+
 #### input file
 
 ![input css file](https://github.com/xkeshav/color-collector/blob/develop/images/input.png)
@@ -60,9 +64,10 @@ user must have installed
 ![converted file with css variable](https://github.com/xkeshav/color-collector/blob/develop/images/output.png)
 
 
-### Advance example
+### Advance
 
-#### input file 
+#### input file
+
 ![css file with various color and selector](https://github.com/xkeshav/color-collector/blob/develop/images/input2.png)
 
 #### output file 
