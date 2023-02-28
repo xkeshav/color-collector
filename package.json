@@ -2,7 +2,7 @@
   "name": "css-color-collector",
   "displayName": "css color collector",
   "description": "collect all css color property and collect under :root as a variable and use that variable in place of color code in a css file.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publisher": "xkeshav",
   "engines": {
     "vscode": "^1.74.0"
