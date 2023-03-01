@@ -2,14 +2,16 @@ import { HexString, SelectorMap, VariableList, VariableNameParams } from '../mod
 import { PATTERN_LIST, PROPERTY_ALIAS_MAPPER } from './constants';
 
 const colorPatterns = [
-  PATTERN_LIST.PROPERTY,
   PATTERN_LIST.COLOR_HEX_FORMAT,
   PATTERN_LIST.COLOR_NON_HEX_FORMAT,
-  PATTERN_LIST.COLOR_NAME
+  PATTERN_LIST.COLOR_NAME,
+  PATTERN_LIST.PROPERTY, /* keep this as last element of array */
 ];
 
 
-export const combinedColorPattern = colorPatterns.map((rx: string) => rx).join('|');
+export const combinedColorAndPropertyPattern = colorPatterns.map((rx: string) => rx).join('|');
+export const combinedColorPattern = colorPatterns.slice(0,-1).map((rx: string) => rx).join('|');
+
 
 export const createRootContent = (list: VariableList) => {
   const content = Object.entries(list).reduce((p: string, [k, v]: [string, string]) => p += `\n\t${k}: ${v};`, ``);

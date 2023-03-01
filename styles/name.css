@@ -1,12 +1,18 @@
-body {
-  background-color: #123;
+
+@import 'other.css';
+
+:root {
+  box-sizing: border-box;
+  color: #123;
 }
 
-
-.black {
-  color:black;
+* {
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
 }
 
-.class ~ .red {
-  border-color: red;
+body, html {
+  color: initial;
+  border-color: inherit;
 }

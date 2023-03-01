@@ -126,14 +126,14 @@ suite('colorFinder method', () => {
 		`;
 		classObject = new Collector(input);
 		classObject.selectorFinder();
-		classObject.colorFinder();
+		classObject.colorWithPropertyFinder();
 		assert.equal(classObject.colorMapper.size, 0);
 	});
 
 	test('when there are multiple color variation with duplicate colors in css file', async () => {
 		classObject = new Collector(mixedCssDocument);
 		classObject.selectorFinder();
-		classObject.colorFinder();
+		classObject.colorWithPropertyFinder();
 
 		const expectedSelectorMapper = new Map([
 			[6, "body"],

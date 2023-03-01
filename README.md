@@ -14,10 +14,9 @@ extension also check for duplicate color used in multiple places and assign into
 
 ## Install 
 
-Open Extensions sideBar panel in Visual Studio Code and choose the menu options for *View → Extensions* or use `Ctrl + Shift + X` or `Cmd + Shift + X`
-Search for `Css Color Collector`
-Click *Install*
-Click *Reload*, if required
+- Open Extensions sideBar panel in Visual Studio Code and choose the menu options for *View → Extensions* or use `Ctrl + Shift + X` or `Cmd + Shift + X`
+- Search for `Css Color Collector`
+- Click *Install*
 
 ## Features
 
@@ -46,6 +45,7 @@ here number will be prepend in each variable to count how many color code are be
 - Open a css file
 - Press <kbd>F1</kbd> to open the command palette
 - Type `ccc: collect css` or type <kbd>Ctrl + F7</kbd> or <kbd>Cmd + F7</kbd>
+- After conversion done, you will see notification on bottom with message *CSS variable conversion done successfully!*
 
 ## Working Demo
 
@@ -76,7 +76,7 @@ here number will be prepend in each variable to count how many color code are be
 ![output css file ](./images/advance-css-output.png)
 
 
-## CHECK-LIST
+## check-list
 
 - [ ] check whether file is correct (i.e. valid css file)
 - [ ] check file is in save mode
@@ -98,6 +98,7 @@ here number will be prepend in each variable to count how many color code are be
 - [x] insert :root after _@import_ statements
 - [ ] add feature to change variable naming convention
 - [ ] media query selector name need to append media in variable name
+- [ ] escape :root {} while scanning document
 
 ## Release Notes
 
@@ -105,6 +106,9 @@ here number will be prepend in each variable to count how many color code are be
 
 ### Known issues
 
-- if you have [todo-tree extension](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree) enabled in your vs code then my extension will likely to fail, reason unknown so far, [issue raised here for the same](https://github.com/Gruntfuggly/todo-tree/issues/732)
+- error *"invalid flag 'dgim'"*
+    if you run the command or press `Ctrl + F7` and get above error then check whether you have [todo-tree extension](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree) enabled in your vs code then please disable this extension,  the reason is unknown so far, [issue raised for the same](https://github.com/Gruntfuggly/todo-tree/issues/732)
 
 - if you found any issue, kindly raise  [here](https://github.com/xkeshav/color-collector/issues/)
+
+

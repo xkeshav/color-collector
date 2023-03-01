@@ -1,11 +1,12 @@
 import { ColorMap, HexString, RegExpMatchArrayWithIndices, SelectorMap, VariableList } from '../models/base';
-import { checkDuplicateHexColor, checkDuplicateNonHexColor, combinedColorPattern, getParentSelectorName, setVariableName } from './common';
+import { checkDuplicateHexColor, checkDuplicateNonHexColor, combinedColorAndPropertyPattern, combinedColorPattern, getParentSelectorName, setVariableName } from './common';
 import { PATTERN_LIST } from './constants';
 
 
 export class Collector {
 
 	cssDocument: string;
+	#rootSelectorClosingIndex: number;
 	#variableList: VariableList;
 	#selectorMapper: SelectorMap;
 	#colorMapper: ColorMap;
@@ -13,6 +14,7 @@ export class Collector {
 	#wordRegex: RegExp;
 	#importRegex: RegExp;
 	#colorRegex: RegExp;
+	#colorAndPropertyRegex: RegExp;
 	#propertyName;
 
 	constructor(document = '') {
@@ -21,11 +23,13 @@ export class Collector {
 		this.#colorMapper = new Map();
 		this.#variableList = {};
 		this.#propertyName = '';
+		this.#rootSelectorClosingIndex = 0;
 		/* all regex initialized first */
 		this.#wordRegex = new RegExp(PATTERN_LIST.WORD, 'img');
+		this.#colorRegex = new RegExp(combinedColorPattern, 'img');
 		this.#selectorRegex = new RegExp(PATTERN_LIST.SELECTOR_WITH_MEDIA, 'imgd');
 		this.#importRegex = new RegExp(PATTERN_LIST.IMPORT_STMT, 'imgd');
-		this.#colorRegex = new RegExp(combinedColorPattern, 'imgd');
+		this.#colorAndPropertyRegex = new RegExp(combinedColorAndPropertyPattern, 'imgd');
 	}
 
 	get colorMapper() {
@@ -40,8 +44,23 @@ export class Collector {
 		return this.#variableList;
 	}
 
-	public selectorFinder() {
+	/* check whether there are any color in css file except inside the :root selector */
+	hasAnyColorExist() {
+		this.#colorRegex.lastIndex = this.#rootSelectorClosingIndex;
+		const colorMatchResult = this.#colorRegex.exec(this.cssDocument); // note: here using .exec to get more control than .match
+		return colorMatchResult !== null;
+	}
+
+	/* make sure we do not check in :root selector , so getting the index position of closing bracket of :root */
+	escapeRootProperty() {
+		const startIndex = this.cssDocument.lastIndexOf(':root');
+		const endIndex = this.cssDocument.indexOf('}', startIndex);
+		this.#rootSelectorClosingIndex = endIndex;
+	}
+
+	selectorFinder() {
 		let selector = '';
+		this.#selectorRegex.lastIndex = this.#rootSelectorClosingIndex;
 		const selectorMatchList = this.cssDocument.matchAll(this.#selectorRegex);
 		for (const matchingSelector of selectorMatchList) {
 			const { groups: selectorGroup, indices: { groups: selectorIndicesGroup } } = <RegExpMatchArrayWithIndices>matchingSelector;
@@ -63,10 +82,13 @@ export class Collector {
 		}
 	};
 
-	public colorFinder() {
+	/* get color value and it's respective property */
+
+	colorWithPropertyFinder() {
 		let num = 0;
 		let variableName = '';
-		const colorMatchList = this.cssDocument.matchAll(this.#colorRegex);
+		this.#colorAndPropertyRegex.lastIndex = this.#rootSelectorClosingIndex;
+		const colorMatchList = this.cssDocument.matchAll(this.#colorAndPropertyRegex);
 		for (const matchingColor of colorMatchList) {
 			let isColorVariableExist = false;
 			const { groups: colorGroup, indices: { groups: colorIndicesGroup } } = matchingColor as RegExpMatchArrayWithIndices;
@@ -94,7 +116,7 @@ export class Collector {
 		}
 	}
 
-	public getRootPosition(): number[] {
+	getRootPosition(): number[] {
 		const importMatchList = this.cssDocument.matchAll(this.#importRegex);
 		const importMatchDetails = [...importMatchList];
 		let position = [0, 0];
