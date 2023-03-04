@@ -1,4 +1,4 @@
-# color-collector
+# css-color-collector
 
 A simple vs code extension which works with *.css* files and assign all color in document into a variable
 
