@@ -52,7 +52,7 @@ note: variable ends with `-<num>` to keep track how many colors are collected an
 
 ## Working Demo
 
-![extension working demo with relative path](./images/collector-demo.gif)
+![extension working demo with relative path](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/collector-demo.gif)
 
 ## Examples
 
@@ -60,21 +60,21 @@ note: variable ends with `-<num>` to keep track how many colors are collected an
 
 #### input file
 
-![input css file](./images/input.png)
+![input css file](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/input.png)
 
 #### output file
 
-![converted file with css variable](./images/output.png)
+![converted file with css variable](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/output.png)
 
 ### Advance
 
 #### input file
 
-![css file with various color and selector](./images/advance-css-input.png)
+![css file with various color and selector](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/advance-css-input.png)
 
 #### output file
 
-![output css file ](./images/advance-css-output.png)
+![output css file ](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/advance-css-output.png)
 
 ## check-list
 
