@@ -80,13 +80,13 @@ suite('selectorFinder method', () => {
 		}		
 		`;
 		classObject = new Collector(input);
-    classObject.selectorFinder();
+		classObject.selectorFinder();
 		expectedMapper = new Map([
 			[8, 'body'],
 			[98, 'table'],
 			[162, 'jump'],
 			[261, 'other']
-    ]);
+		]);
 		assert.deepEqual(classObject.selectorMapper, expectedMapper);
 	});
 
@@ -181,7 +181,7 @@ suite('colorFinder method', () => {
 		let classObject: Collector;
 
 		test('when there is no import statement then root position is top of teh file', () => {
-		input = `
+			input = `
 		body { 
 			box-sizing: border-box;
 		} 
@@ -191,12 +191,12 @@ suite('colorFinder method', () => {
 		}
 		`;
 			classObject = new Collector(input);
-			const position = classObject.getRootPosition();
+			const position = classObject.locateRootPosition();
 			assert.deepEqual(position, [0, 0]);
 		});
 
 		test('when there are import statement then root position is after import statements', () => {
-		input = `
+			input = `
 		@import url('base.css');
 		@import url('core.css');
 		body { 
@@ -208,8 +208,46 @@ suite('colorFinder method', () => {
 		}
 		`;
 			classObject = new Collector(input);
-			const position = classObject.getRootPosition();
+			const position = classObject.locateRootPosition();
 			assert.deepEqual(position, [3, 0]);
+		});
+
+	});
+
+	suite('skipRootProperty method', () => {
+		let input: string;
+		test('when no :root declaration block in css document', () => {
+			input = `
+				* {
+					box-sizing: border-box;
+				}
+		`;
+			const classObject = new Collector(input);
+			classObject.skipRootDeclarationBlock();
+			assert.equal(classObject.rootSelectorEndingIndex, 0);
+		});
+
+		test('when there is :root declaration block on top of document', () => {
+			const classObject = new Collector(input);
+			input = `
+				:root {
+					--min: 16px;
+				}
+		`;
+			classObject.skipRootDeclarationBlock();
+			assert.equal(classObject.rootSelectorEndingIndex, 2);
+		});
+
+		test('when there is :root declaration block in the document but not on top', () => {
+			const classObject = new Collector(input);
+			input = `
+			import(url);
+			:root {
+				--min: 16px;
+			}
+		`;
+			classObject.skipRootDeclarationBlock();
+			assert.equal(classObject.rootSelectorEndingIndex, 2);
 		});
 
 	});
