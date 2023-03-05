@@ -27,7 +27,6 @@ export function activate(context: vscode.ExtensionContext) {
 					collectorObject.selectorFinder();
 					collectorObject.colorWithPropertyFinder();
 					const colorMapper = collectorObject.colorMapper;
-					console.log({ colorMapper });
 					// replace color name with variable
 					for (const [colorPosition, colorValue] of colorMapper) {
 						const [start, end] = colorPosition;

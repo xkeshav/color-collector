@@ -1,3 +1,9 @@
+:root {
+  --font-sm: 0.5rem;
+  --font-md: 0.75rem;
+  --font-lg: 1.25rem;
+}
+
 body {
   background-color: #1a10;
   color: #2a2;

@@ -81,8 +81,19 @@ suite('collect command execution on css file', () => {
 		assert.strictEqual(convertedCSSDoc, expectedCSSDoc);
 	});
 
+	test('skip pre defined :root block and its property', async () => {
+		await getFileText('multi-root.css');
+		await commands.executeCommand('css-color-collector.collect');
+		await wait(5);
+		// check after change in file
+		const convertedCSSDoc = await getFileText('multi-root.css');
+		const expectedCSSDoc = await getFileText('multi-root-after-command.css');
+		//console.log({ convertedCSSDoc });
+		assert.strictEqual(convertedCSSDoc, expectedCSSDoc);
+	});
+
 	suiteTeardown(async () => {
 		console.log('Disposing all resources');
-		disposables.forEach((d:Disposable) => d.dispose());
+		disposables.forEach((d: Disposable) => d.dispose());
 	});
 });

@@ -235,7 +235,7 @@ suite('colorFinder method', () => {
 				}
 		`;
 			classObject.skipRootDeclarationBlock();
-			assert.equal(classObject.rootSelectorEndingIndex, 2);
+			assert.equal(classObject.rootSelectorEndingIndex, 0);
 		});
 
 		test('when there is :root declaration block in the document but not on top', () => {
@@ -247,7 +247,28 @@ suite('colorFinder method', () => {
 			}
 		`;
 			classObject.skipRootDeclarationBlock();
-			assert.equal(classObject.rootSelectorEndingIndex, 2);
+			assert.equal(classObject.rootSelectorEndingIndex, 35);
+		});
+
+		test('when there is multiple :root declaration block in document', () => {
+			const classObject = new Collector(input);
+			input = `
+				@media (prefers-color-scheme: dark) {
+					:root {
+						--accent-color: hsl(225, 31%, 96%);
+						--background-color: hsl(0, 2%, 20%);
+					}
+				}
+
+				@media (prefers-color-scheme: light) {
+					:root {
+						--accent-color: hsl(0, 0%, 0%);
+						--background-color: hsl(0, 0%, 100%);
+					}
+				}
+		`;
+			classObject.skipRootDeclarationBlock();
+			assert.equal(classObject.rootSelectorEndingIndex, 48);
 		});
 
 	});

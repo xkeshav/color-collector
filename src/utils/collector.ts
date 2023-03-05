@@ -61,9 +61,7 @@ export class Collector {
 			const { indices: { groups } } = <RegExpMatchArrayWithIndices>lastRootBlock;
 			const { ROOT_BLOCK } = groups;
 			const [, lastIndex] = ROOT_BLOCK;
-			console.log({ lastIndex });
 			const closingBlockIndex = this.cssDocument.indexOf('}', lastIndex);
-			console.log(closingBlockIndex);
 			this.rootSelectorEndingIndex = closingBlockIndex !== -1 ? closingBlockIndex : 0;
 		}
 	}

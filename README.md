@@ -47,7 +47,7 @@ note: variable ends with `-<num>` to keep track how many colors are collected an
 
 - Open a css file
 - Press <kbd>F1</kbd> to open the command palette
-- Type `ccc: collect css` or type <kbd>Ctrl + F7</kbd> or <kbd>Cmd + F7</kbd>
+- Type `ccc` and select `collect css` command or type <kbd>Ctrl + F7</kbd> or <kbd>Cmd + F7</kbd>
 - After conversion done, you will see notification on bottom with message _CSS variable conversion done successfully!_
 
 ## Working Demo
