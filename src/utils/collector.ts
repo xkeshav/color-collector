@@ -26,7 +26,7 @@ export class Collector {
 		this.#propertyName = '';
 		this.rootSelectorEndingIndex = 0; // where first `{` ends if :root defined in css file 
 		/* all regex initialized first */
-		this.#wordRegex = new RegExp(PATTERN_LIST.WORD, 'img');
+		this.#wordRegex = new RegExp(PATTERN_LIST.WORD, 'imgu');
 		this.#colorRegex = new RegExp(combinedColorPattern, 'img');
 		this.#selectorRegex = new RegExp(PATTERN_LIST.SELECTOR_WITH_MEDIA, 'imgd');
 		this.#importRegex = new RegExp(PATTERN_LIST.IMPORT_STMT, 'imgd');
