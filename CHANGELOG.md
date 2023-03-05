@@ -1,9 +1,12 @@
 # Change Log
 
-All notable changes to the "css-variable-generator" extension will be documented in this file.
+All notable changes to the "css-color-collector" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## [0.1.0]
 
 - Initial release
+- Convert css file color values into variables
+
+## [0.3.0]
+- updated README, added screenshots and demo gif
