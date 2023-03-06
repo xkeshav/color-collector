@@ -4,22 +4,26 @@ A simple vs code extension that works with _.css_ files and assigns all colors i
 
 ## Description
 
-In an open CSS file, this extension scans for all color values.
-and collect the color value and assign into an individual variable for every different color and include all these variables in a `:root` selector at the top of document.
-and replace the color values with the new variable name in the same CSS file,
+In an open CSS file, this extension parse file for all color values and collect the color value and assign into an descriptive variable for every different color and include all these variables in a `:root` pseudo-class at the very top, also replace the color values in file with these new variable name.
+
+## Use Case
+
+This approach has a few benefits. First, it can help make your code more readable by giving names to colors that might otherwise be difficult to remember. Second, it can help you avoid duplicating colors throughout your code. And third, if you ever need to change a color value, you can do so in one place and have the change propagate throughout your entire stylesheet.
 
 ## Install
 
-- Open Extensions sideBar panel in Visual Studio Code and choose the menu options for _View → Extensions_ or use `Ctrl + Shift + X` or `Cmd + Shift + X`
-- Search for `css color collector`
+- Open Extensions sideBar panel in VS Code and choose the menu options for _View → Extensions_ or use `Ctrl + Shift + X` or `Cmd + Shift + X`
+- Search for `css color collector` or `xkeshav`,
 - Click _Install_
 
 ## Features
 
 - Collect all color format, including `hex`, `rgb`, `rgba`, `hsl`, `hsla`, `hwb` and 148 named color.
-- Names of variables are intuitive and include property and selector as prefixes
-- Prevent duplicate color and assign it into same variable name ( which comes first in file)
-- a different hex format of color also counted as duplicate color and handled properly. for eg. `#fff` and `#ffffff` and `#fffffff` are same color
+- Prevent duplicate color and assign it into same variable name based on which comes first in the file.
+- hex format color variations are treated as duplicate colors and are handled properly. for eg. `#fff` and `#ffffff` and `#ffffffff` are same color.
+- Names of variables are intuitive and include property and selector as prefixes. for eg.
+
+below css file
 
 ```css
 body {
@@ -27,7 +31,7 @@ body {
 }
 ```
 
-converted into
+will be converted into
 
 ```css
 :root {
@@ -39,7 +43,7 @@ body {
 }
 ```
 
-note: variable ends with `-<num>` to keep track how many colors are collected and used, further you can rename the variable using `Rename Symbol(F2)` action in vs code.
+- each variable name ends with `-<num>` to keep track how many colors are collected and used, further you can rename the variable using `Rename Symbol(F2)` action in vs code.
 
 - After successfully execution of the command, the css file will be changed where color value will be replaced by css variables and a `:root` selector will be placed on the top of the file,after all `import` statements and also display notification of successful conversion.
 
@@ -47,12 +51,12 @@ note: variable ends with `-<num>` to keep track how many colors are collected an
 
 - Open a css file
 - Press <kbd>F1</kbd> to open the command palette
-- Type `ccc` and select `collect css` command or type <kbd>Ctrl + F7</kbd> or <kbd>Cmd + F7</kbd>
-- After conversion done, you will see notification on bottom with message _CSS variable conversion done successfully!_
+- Type `ccc` and select `collect colors` command or type <kbd>Ctrl + F7</kbd> or <kbd>Cmd + F7</kbd>
+- After conversion done, you will see notification on bottom with message _variable conversion done successfully!_
 
 ## Working Demo
 
-![extension working demo with relative path](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/collector-demo.gif)
+![extension working demo gif ](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/collector-demo.gif)
 
 ## Examples
 
@@ -74,7 +78,7 @@ note: variable ends with `-<num>` to keep track how many colors are collected an
 
 #### output file
 
-![output css file ](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/advance-css-output.png)
+![converted output css file with variables ](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/advance-css-output.png)
 
 ## check-list
 
@@ -84,21 +88,21 @@ note: variable ends with `-<num>` to keep track how many colors are collected an
 - [x] comments need to be escaped while parsing the css
 - [x] other at rules selector need to handle such as
 
-  - `@keyframes`,
-  - `@import`,
+  - `@keyframes`
+  - `@import`
   - `@media`
-  - `@container` ,
-  - `@page` ,
-  - `@supports` ,
-  - `@charset`,
+  - `@container`
+  - `@page`
+  - `@supports`
+  - `@charset`
 
 - [x] need to captured named color also.
 - [x] support all color format ,
 - [x] when there are multiple color on same line such as liner-background()
 - [x] insert :root after _@import_ statements
 - [ ] media query selector name need to append media in variable name
-- [x] skip :root {} while scanning document
-- [] capture unicode selector such as 🎵
+- [x] skip existing `:root {}` while parsing the CSS file.
+- [x] capture unicode selector such as 🎵
 
 ## Release Notes
 

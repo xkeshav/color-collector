@@ -1,3 +1,4 @@
+/*cspell */
 import { ColorMap, HexString, RegExpMatchArrayWithIndices, SelectorMap, VariableList } from '../models/base';
 import { checkDuplicateHexColor, checkDuplicateNonHexColor, combinedColorAndPropertyPattern, combinedColorPattern, getParentSelectorName, setVariableName } from './common';
 import { PATTERN_LIST } from './constants';
@@ -6,37 +7,38 @@ import { PATTERN_LIST } from './constants';
 export class Collector {
 
 	cssDocument: string;
-	rootSelectorEndingIndex: number;
+	rootSelectorEndingIndex: number; // where first `{` ends if :root defined in css file 
+	#propertyName: string;
 	#variableList: VariableList;
-	#selectorMapper: SelectorMap;
 	#colorMapper: ColorMap;
-	#selectorRegex: RegExp;
-	#wordRegex: RegExp;
-	#importRegex: RegExp;
+	#selectorMapper: SelectorMap;
 	#colorRegex: RegExp;
 	#colorAndPropertyRegex: RegExp;
-	#propertyName: string;
+	#importRegex: RegExp;
+	#selectorRegex: RegExp;
 	#rootRegex: RegExp;
+	#wordRegex: RegExp;
 
 	constructor(document = '') {
 		this.cssDocument = document;
-		this.#selectorMapper = new Map();
-		this.#colorMapper = new Map();
-		this.#variableList = {};
+		this.rootSelectorEndingIndex = 0;
 		this.#propertyName = '';
-		this.rootSelectorEndingIndex = 0; // where first `{` ends if :root defined in css file 
+		this.#variableList = {};
+		this.#colorMapper = new Map();
+		this.#selectorMapper = new Map();
 		/* all regex initialized first */
-		this.#wordRegex = new RegExp(PATTERN_LIST.WORD, 'imgu');
 		this.#colorRegex = new RegExp(combinedColorPattern, 'img');
-		this.#selectorRegex = new RegExp(PATTERN_LIST.SELECTOR_WITH_MEDIA, 'imgd');
-		this.#importRegex = new RegExp(PATTERN_LIST.IMPORT_STMT, 'imgd');
-		this.#rootRegex = new RegExp(PATTERN_LIST.ROOT_SELECTOR, 'imgd');
 		this.#colorAndPropertyRegex = new RegExp(combinedColorAndPropertyPattern, 'imgd');
+		this.#importRegex = new RegExp(PATTERN_LIST.IMPORT_STMT, 'imgd');
+		this.#selectorRegex = new RegExp(PATTERN_LIST.SELECTOR_WITH_MEDIA, 'imgd');
+		this.#rootRegex = new RegExp(PATTERN_LIST.ROOT_SELECTOR, 'imgd');
+		this.#wordRegex = new RegExp(PATTERN_LIST.WORD, 'imgu');
 	}
 
 	get colorMapper() {
 		return this.#colorMapper;
 	}
+
 	get selectorMapper() {
 		return this.#selectorMapper;
 	}
@@ -83,8 +85,8 @@ export class Collector {
 				if (trimmedSelectorName.startsWith('@keyframes')) { // capture keyframe identifier 
 					[, trimmedSelectorName] = trimmedSelectorName.split(' ');
 				}
-				const [firstMatch] = trimmedSelectorName.match(this.#wordRegex) as [string];
-				selector = firstMatch;
+				const match = trimmedSelectorName.match(this.#wordRegex) as [string];
+				selector = match ? match[0] : 'unicodeSelector';
 			}
 			this.#selectorMapper.set(lastIndex, selector);
 		}
@@ -124,13 +126,13 @@ export class Collector {
 		}
 	}
 
+	/* locate position where :root need to be insert in file ; will place after all import statements  */
 	locateRootPosition(): number[] {
 		const importMatchList = this.cssDocument.matchAll(this.#importRegex);
-		const importMatchDetails = [...importMatchList];
+		const lastImportStatement = Array.from(importMatchList).pop();
 		let position = [0, 0];
-		if (importMatchDetails.length) {
-			const lastImportStatement = importMatchDetails.pop() as RegExpMatchArrayWithIndices;;
-			const { indices: { groups: { IMPORT: importGroup } } } = lastImportStatement;
+		if (lastImportStatement) {
+			const { indices: { groups: { IMPORT: importGroup } } } = <RegExpMatchArrayWithIndices>lastImportStatement;
 			const [, last] = importGroup;
 			// find line number on last @import statement and place :root after that
 			const line = this.cssDocument.substring(0, last);

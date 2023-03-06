@@ -16,12 +16,12 @@ export function activate(context: vscode.ExtensionContext) {
 		const { document } = activeEditor;
 		const cssDoc = document.getText();
 		if (cssDoc?.length < DOCUMENT_MINIMUM_LENGTH) {
-			vscode.window.showInformationMessage('no color property in file');
+			vscode.window.showInformationMessage('css file is too small to contain color.');
 		} else {
 			const collectorObject = new Collector(cssDoc);
 			const hasColorInDocument = collectorObject.verifyColorExistInDocument();
 			if (!hasColorInDocument) {
-				vscode.window.showInformationMessage('no color value in file');
+				vscode.window.showInformationMessage('no color value found in css file.');
 			} else {
 				activeEditor?.edit((editBuilder: vscode.TextEditorEdit) => {
 					collectorObject.selectorFinder();
@@ -43,7 +43,7 @@ export function activate(context: vscode.ExtensionContext) {
 					// insert color variable on css file under :root
 					activeEditor?.edit((editBuilder: vscode.TextEditorEdit) => {
 						editBuilder.insert(position, '');
-						editBuilder.insert(position, `\n${rootComment}\r\n${rootContent}\n`);
+						editBuilder.insert(position, `\n${rootComment}\r\n${rootContent}`);
 						vscode.window.showInformationMessage('variable conversion done successfully!');
 					});
 				});

@@ -1,7 +1,7 @@
 {
   "name": "css-color-collector",
   "displayName": "css color collector",
-  "description": "collect all css color property from css file and assign them in descriptive css variable name and add :root on top of the file.",
+  "description": "collect every color values from css file and assign them in intuitive css variable name and add :root pseudo selector on top of the file which contains all variables.",
   "version": "0.4.0",
   "publisher": "xkeshav",
   "engines": {
@@ -19,8 +19,12 @@
   "icon": "/images/logo.png",
   "keywords": [
     "cssColorCollector",
+    "color variable",
     "css color collector",
-    "color collector"
+    "css color",
+    "color collector",
+    "color parser",
+    "css variable generator"
   ],
   "categories": [
     "Programming Languages",
@@ -35,7 +39,7 @@
       {
         "command": "css-color-collector.collect",
         "category": "ccc",
-        "title": "Collect CSS"
+        "title": "collect colors"
       }
     ],
     "configuration": {

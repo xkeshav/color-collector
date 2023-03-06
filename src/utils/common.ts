@@ -9,9 +9,9 @@ const colorPatterns = [
 ];
 
 
-export const combinedColorAndPropertyPattern = colorPatterns.map((rx: string) => rx).join('|');
+export const combinedColorAndPropertyPattern = colorPatterns.map((rx: string) => rx).filter(Boolean).join('|');
 
-export const combinedColorPattern = colorPatterns.slice(0, -1).map((rx: string) => rx).join('|');
+export const combinedColorPattern = colorPatterns.slice(0, -1).map((rx: string) => rx).filter(Boolean).join('|');
 
 export const createRootContent = (list: VariableList) => {
   const content = Object.entries(list).reduce((p: string, [k, v]: [string, string]) => p += `\n\t${k}: ${v};`, ``);
@@ -81,7 +81,6 @@ export const hexColorVariation = (value: HexString): HexString[] => {
 };
 
 // check all variation of a hex value
-// @return array
 export const checkDuplicateHexColor = (colorValue: HexString, list: VariableList): [boolean, string] => {
   let isDuplicateColor = false;
   let colorVariable = '';
