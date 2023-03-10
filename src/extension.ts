@@ -16,12 +16,12 @@ export function activate(context: vscode.ExtensionContext) {
 		const { document } = activeEditor;
 		const cssDoc = document.getText();
 		if (cssDoc?.length < DOCUMENT_MINIMUM_LENGTH) {
-			vscode.window.showInformationMessage('css file is too small to contain color.');
+			vscode.window.showInformationMessage('css file have no color property.');
 		} else {
 			const collectorObject = new Collector(cssDoc);
 			const hasColorInDocument = collectorObject.verifyColorExistInDocument();
 			if (!hasColorInDocument) {
-				vscode.window.showInformationMessage('no color value found in css file.');
+				vscode.window.showInformationMessage('css file do not have any color value.');
 			} else {
 				activeEditor?.edit((editBuilder: vscode.TextEditorEdit) => {
 					collectorObject.selectorFinder();

@@ -1,7 +1,7 @@
 {
   "name": "css-color-collector",
   "displayName": "css color collector",
-  "description": "collect every color values from css file and assign them in intuitive css variable name and add :root pseudo selector on top of the file which contains all variables.",
+  "description": "collect every color values from css file and assign them in intuitive css variable name and add :root pseudo selector on top of the file which contains all the variables.",
   "version": "0.4.0",
   "publisher": "xkeshav",
   "engines": {

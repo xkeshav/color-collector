@@ -19,5 +19,5 @@ All notable changes to the "css-color-collector" extension will be documented in
 ## [0.5.0]
 
 - handle unicode selector names.
-- update README with clear detail.
-- change command name as _collect colors_ .
+- update README with more detail.
+- change command name  _collect colors_ .

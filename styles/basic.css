@@ -1,18 +1,18 @@
 :root {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-	background-color: #ebecf3;
-	color: black;
+  background-color: #bed0ee;
+  color: black;
 }
 
 main {
-	border-color: rgb(245, 245, 220);
+  border-color: rgb(245, 245, 220);
 }
 
 .red {
-  color:hsl(0, 100%, 50%);
+  color: hsl(0, 100%, 50%);
 }
 
 figure {
@@ -20,10 +20,10 @@ figure {
 }
 
 header {
-	background-image: linear-gradient(90deg, transparent 50%, rgba(255, 255, 255, 0.5) 50%);
+  background-image: linear-gradient(90deg, transparent 50%, rgba(255, 255, 255, 0.5) 50%);
 }
 
 footer {
-	text-shadow: hwb(0.25turn 0% 40%);
-	color: black;
+  text-shadow: #bed0ee;
+  color: black;
 }

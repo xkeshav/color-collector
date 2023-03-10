@@ -13,14 +13,14 @@ This approach has a few benefits. First, it can help make your code more readabl
 ## Install
 
 - Open Extensions sideBar panel in VS Code and choose the menu options for _View → Extensions_ or use `Ctrl + Shift + X` or `Cmd + Shift + X`
-- Search for `css color collector` or `xkeshav`,
+- Search for `css color collector` ,
 - Click _Install_
 
 ## Features
 
 - Collect all color format, including `hex`, `rgb`, `rgba`, `hsl`, `hsla`, `hwb` and 148 named color.
 - Prevent duplicate color and assign it into same variable name based on which comes first in the file.
-- hex format color variations are treated as duplicate colors and are handled properly. for eg. `#fff` and `#ffffff` and `#ffffffff` are same color.
+- Hex format color variations are treated as duplicate colors and are handled properly. for eg. `#fff` and `#ffffff` and `#ffffffff` are same color.
 - Names of variables are intuitive and include property and selector as prefixes. for eg.
 
 below css file
@@ -106,7 +106,7 @@ body {
 
 ## Release Notes
 
-- This is first version and my first extension so if you find it useful then please support it by installing and giving feedback.
+- This is my first extension so if you find it useful then please support it by installing and giving constructive feedback.
 
 ### Known issues
 
@@ -117,4 +117,4 @@ body {
 
 ## TODO
 
-- [ ] add feature to change variable naming for property , currently its hard coded like if property is `background-color` then its variable name would be `bg`
+- [] add feature to change variable naming for property , currently its hard coded like if property is `background-color` then its variable name would be `bg`
