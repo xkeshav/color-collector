@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import path = require('path');
 import * as vscode from 'vscode';
 
 import { Collector } from './utils/collector';
@@ -6,6 +7,7 @@ import { createRootContent } from './utils/common';
 import { DOCUMENT_MINIMUM_LENGTH, rootComment } from './utils/constants';
 
 export function activate(context: vscode.ExtensionContext) {
+
 	const collectCommand = 'css-color-collector.collect';
 
 	function collectCommandHandler() {
@@ -38,6 +40,7 @@ export function activate(context: vscode.ExtensionContext) {
 				}).then(async () => {
 					const variableList = collectorObject.variableList;
 					const rootContent = createRootContent(variableList);
+					//createFile(rootContent);
 					const [first, last] = collectorObject.locateRootPosition();
 					const position = new vscode.Position(first, last);
 					// insert color variable on css file under :root
@@ -55,5 +58,20 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(disposableCollect);
 
+}
+
+export async function createFile(content: string) {
+	const fileName = 'collector.css';
+	const wsEdit = new vscode.WorkspaceEdit();
+	const wsPath = (vscode.workspace.workspaceFolders as vscode.WorkspaceFolder[])[0].uri.fsPath;
+	const filePath = vscode.Uri.file(wsPath + '/' + fileName);
+	vscode.window.showInformationMessage(filePath.toString());
+	wsEdit.createFile(filePath, { overwrite: true  });
+	const position = new vscode.Position(1, 0);
+	wsEdit.insert(filePath, position, content);
+	vscode.workspace.applyEdit(wsEdit);
+	vscode.window.showInformationMessage('created a new file: => ' + fileName);
+	await vscode.workspace.openTextDocument(filePath);
+  vscode.window.showTextDocument(filePath);
 }
 

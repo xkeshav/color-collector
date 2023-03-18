@@ -18,10 +18,10 @@ This approach has a few benefits. First, it can help make your code more readabl
 
 ## Features
 
-- Collect all color format, including `hex`, `rgb`, `rgba`, `hsl`, `hsla`, `hwb` and 148 named color.
-- Prevent duplicate color and assign it into same variable name based on which comes first in the file.
-- Hex format color variations are treated as duplicate colors and are handled properly. for eg. `#fff` and `#ffffff` and `#ffffffff` are same color.
-- Names of variables are intuitive and include property and selector as prefixes. for eg.
+- Collect all supported color format such as `hex`, `rgb`, `rgba`, `hsl`, `hsla`, `hwb` `oklab()`, `lch`, `color()` and 148 named color.
+- Prevent duplicate hex color with variation and assign it into same variable name based on which comes first in the file.
+for eg. `#fff` and `#ffffff` and `#ffffffff` are same color.
+- Names of variables are intuitive and include property and selector name as prefixes. for eg.
 
 below css file
 
@@ -53,6 +53,7 @@ body {
 - Press <kbd>F1</kbd> to open the command palette
 - Type `ccc` and select `collect colors` command or type <kbd>Ctrl + F7</kbd> or <kbd>Cmd + F7</kbd>
 - After conversion done, you will see notification on bottom with message _variable conversion done successfully!_
+- To revert back the changes in file, user need to do undo 2 times just after conversion.
 
 ## Working Demo
 
@@ -99,7 +100,7 @@ body {
 - [x] need to captured named color also.
 - [x] support all color format ,
 - [x] when there are multiple color on same line such as liner-background()
-- [x] insert :root after _@import_ statements
+- [x] insert :root after _@import_ statements and add comment above it to identify
 - [ ] media query selector name need to append media in variable name
 - [x] skip existing `:root {}` while parsing the CSS file.
 - [x] capture unicode selector such as 🎵
@@ -118,3 +119,4 @@ body {
 ## TODO
 
 - [] add feature to change variable naming for property , currently its hard coded like if property is `background-color` then its variable name would be `bg`
+- [] undo changes to file

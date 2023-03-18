@@ -98,21 +98,21 @@ export class Collector {
 		let num = 0;
 		let variableName = '';
 		this.#colorAndPropertyRegex.lastIndex = this.rootSelectorEndingIndex;
-		const colorMatchList = this.cssDocument.matchAll(this.#colorAndPropertyRegex);
-		for (const matchingColor of colorMatchList) {
+		const colorAndPropertyMatchList = this.cssDocument.matchAll(this.#colorAndPropertyRegex);
+		for (const matchingColorAndProperty of colorAndPropertyMatchList) {
 			let isColorVariableExist = false;
-			const { groups: colorGroup, indices: { groups: colorIndicesGroup } } = matchingColor as RegExpMatchArrayWithIndices;
-			const { PROPERTY, HEX_COLOR, NON_HEX_COLOR, COLOR_NAME } = colorGroup!;
+			const { groups: colorAndPropertyGroup, indices: { groups: colorIndicesGroup } } = matchingColorAndProperty as RegExpMatchArrayWithIndices;
+			const { PROPERTY, HEX_COLOR, NON_HEX_COLOR, COLOR_NAME, COLOR_FUNCTION } = colorAndPropertyGroup!;
 			if (PROPERTY !== undefined) {
 				this.#propertyName = PROPERTY;
 			} else {
-				const colorValue = HEX_COLOR || NON_HEX_COLOR || COLOR_NAME;
+				const colorValue = HEX_COLOR || NON_HEX_COLOR || COLOR_NAME || COLOR_FUNCTION;
 				if (HEX_COLOR) {
 					[isColorVariableExist, variableName] = checkDuplicateHexColor(HEX_COLOR as HexString, this.#variableList);
 				} else {
 					[isColorVariableExist, variableName] = checkDuplicateNonHexColor(colorValue, this.#variableList);
 				}
-				const colorIndexList = colorIndicesGroup.HEX_COLOR || colorIndicesGroup.NON_HEX_COLOR || colorIndicesGroup.COLOR_NAME;
+				const colorIndexList = colorIndicesGroup.HEX_COLOR || colorIndicesGroup.NON_HEX_COLOR || colorIndicesGroup.COLOR_NAME || colorIndicesGroup.COLOR_FUNCTION;
 				const [start] = colorIndexList;
 				if (!isColorVariableExist) {
 					num++;

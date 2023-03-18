@@ -5,6 +5,7 @@ const colorPatterns = [
   PATTERN_LIST.COLOR_HEX_FORMAT,
   PATTERN_LIST.COLOR_NON_HEX_FORMAT,
   PATTERN_LIST.COLOR_NAME,
+  PATTERN_LIST.COLOR_FUNCTION,
   PATTERN_LIST.PROPERTY, /* keep this as last element of array */
 ];
 
