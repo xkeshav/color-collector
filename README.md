@@ -1,4 +1,4 @@
-# css-color-collector
+# css color collector
 
 A simple vs code extension that works with _.css_ files and assigns all colors into the css variables.
 
@@ -16,14 +16,37 @@ This approach has a few benefits. First, it can help make your code more readabl
 - Search for `css color collector` ,
 - Click _Install_
 
+## Settings and Configuration
+
+open vs code settings ( <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd>) and search __css color collector__
+
+you will see 3 settings and all are optional
+
+![extension settings](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/settings.png)
+
+1. if you need to run this extension for .scss/ .less also then add below setting as following
+  
+```json
+"cssColorCollector.lookupFiles": [
+      "**/*.css",
+      "**/*.scss",
+      "**/*.less"
+]
+```
+
+1.  if you want to create a separate file for collected color variable write below settings 
+
+```json
+"cssColorCollector.colorInSeparateFile": true
+```
+if it is true then a new file name will be created on same file location where current open css file is, and the new file name will be in **root-[open file name first word]-collector.css** format 
+
 ## Features
 
 - Collect all supported color format such as `hex`, `rgb`, `rgba`, `hsl`, `hsla`, `hwb` `oklab()`, `lch`, `color()` and 148 named color.
 - Prevent duplicate hex color with variation and assign it into same variable name based on which comes first in the file.
 for eg. `#fff` and `#ffffff` and `#ffffffff` are same color.
-- Names of variables are intuitive and include property and selector name as prefixes. for eg.
-
-below css file
+- color variable name are intuitive, included property and selector name as prefix. for eg.
 
 ```css
 body {
@@ -45,7 +68,16 @@ body {
 
 - each variable name ends with `-<num>` to keep track how many colors are collected and used, further you can rename the variable using `Rename Symbol(F2)` action in vs code.
 
-- After successfully execution of the command, the css file will be changed where color value will be replaced by css variables and a `:root` selector will be placed on the top of the file,after all `import` statements and also display notification of successful conversion.
+- After successfully execution of the command, the css file will be updated in 2 ways
+  
+    - color value will be replaced by css variables and 
+    - if `colorInSeparateFile` option enabled then an import statement will be added on the top of file and new file will be generated where all collected color will be written.
+    - otherwise a`:root` block will be added on the top of the file (after all `import` statements as per css specification )
+
+- After successful execution of command , vs code will display notification.
+
+
+
 
 ## Extension Usage
 
@@ -53,7 +85,6 @@ body {
 - Press <kbd>F1</kbd> to open the command palette
 - Type `ccc` and select `collect colors` command or type <kbd>Ctrl + F7</kbd> or <kbd>Cmd + F7</kbd>
 - After conversion done, you will see notification on bottom with message _variable conversion done successfully!_
-- To revert back the changes in file, user need to do undo 2 times just after conversion.
 
 ## Working Demo
 
@@ -104,6 +135,8 @@ body {
 - [ ] media query selector name need to append media in variable name
 - [x] skip existing `:root {}` while parsing the CSS file.
 - [x] capture unicode selector such as 🎵
+- [x] option to create separate file for collected color variables 
+- [.] scss and less file support  ( work partially, haven't checked for complex but simple scss file works)
 
 ## Release Notes
 
@@ -119,4 +152,5 @@ body {
 ## TODO
 
 - [] add feature to change variable naming for property , currently its hard coded like if property is `background-color` then its variable name would be `bg`
-- [] undo changes to file
+- [] To revert back the changes in file, user need to do undo 2 times just after conversion, that need to handle
+- [] scss file support

@@ -12,10 +12,12 @@ export function activate(context: vscode.ExtensionContext) {
 
 	function collectCommandHandler() {
 		let activeEditor = vscode.window.activeTextEditor;
+
 		if (!activeEditor) {
 			return;
 		}
 		const { document } = activeEditor;
+
 		const cssDoc = document.getText();
 		if (cssDoc?.length < DOCUMENT_MINIMUM_LENGTH) {
 			vscode.window.showInformationMessage('css file have no color property.');
@@ -40,38 +42,57 @@ export function activate(context: vscode.ExtensionContext) {
 				}).then(async () => {
 					const variableList = collectorObject.variableList;
 					const rootContent = createRootContent(variableList);
-					//createFile(rootContent);
+					// check user configure to create root in separate file
+					const hasRootInSeparateFile = vscode.workspace.getConfiguration().get('cssColorCollector.rootInSeparateFile');
+					const rootBlockOfCssCollector = `\n${rootComment}\r\n${rootContent}`;
+					let rootFileName: string;
+					if (hasRootInSeparateFile) {
+						rootFileName = separateRootFileName();
+						createSeparateRootFile(rootBlockOfCssCollector, rootFileName);
+					}
 					const [first, last] = collectorObject.locateRootPosition();
 					const position = new vscode.Position(first, last);
-					// insert color variable on css file under :root
 					activeEditor?.edit((editBuilder: vscode.TextEditorEdit) => {
 						editBuilder.insert(position, '');
-						editBuilder.insert(position, `\n${rootComment}\r\n${rootContent}`);
-						vscode.window.showInformationMessage('variable conversion done successfully!');
+						if(hasRootInSeparateFile) {
+							const importUrl = `\n/* import below file by css color collector */\n@import url('${rootFileName}');\n\n`;
+							editBuilder.insert(position, importUrl);
+						} else {
+							// insert color variable on css file under :root
+							editBuilder.insert(position, rootBlockOfCssCollector);
+						}
+						vscode.window.showInformationMessage('color collection done successfully!');
 					});
+
 				});
 			}
 		}
 	}
 
-	let disposableCollect = vscode.commands.registerCommand(collectCommand, () => collectCommandHandler());
+	const disposableCollect = vscode.commands.registerCommand(collectCommand, () => collectCommandHandler());
 
 	context.subscriptions.push(disposableCollect);
 
 }
 
-export async function createFile(content: string) {
-	const fileName = 'collector.css';
+export function separateRootFileName() {
+	const openFile = vscode.window.activeTextEditor?.document.fileName;
+	const fileNameOnly = openFile ? path.basename(openFile).split('.').shift() : 'color-collector';
+	const fileName = `root-${fileNameOnly}-collector.css`;
+	return fileName;
+}
+
+export async function createSeparateRootFile(content: string, fileName: string) {
 	const wsEdit = new vscode.WorkspaceEdit();
 	const wsPath = (vscode.workspace.workspaceFolders as vscode.WorkspaceFolder[])[0].uri.fsPath;
 	const filePath = vscode.Uri.file(wsPath + '/' + fileName);
-	vscode.window.showInformationMessage(filePath.toString());
-	wsEdit.createFile(filePath, { overwrite: true  });
+	vscode.window.showInformationMessage(filePath.toString(true));
+	wsEdit.createFile(filePath, { overwrite: true });
 	const position = new vscode.Position(1, 0);
 	wsEdit.insert(filePath, position, content);
-	vscode.workspace.applyEdit(wsEdit);
-	vscode.window.showInformationMessage('created a new file: => ' + fileName);
+	await vscode.workspace.applyEdit(wsEdit);
+	vscode.window.showInformationMessage('created a separate file: => ' + fileName);
 	await vscode.workspace.openTextDocument(filePath);
-  vscode.window.showTextDocument(filePath);
+	vscode.window.showTextDocument(filePath);
 }
 
