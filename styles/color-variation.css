@@ -19,3 +19,7 @@ a::after {
   border-color: hsla(30, 100%, 50%, 0.1);
 }
 
+form {
+  border-color: oklab(59.69% 0.1007 0.1191 / 0.5);
+  background-color: oklch(59.69% 0.156 49.77);
+}
