@@ -20,12 +20,12 @@ export function activate(context: vscode.ExtensionContext) {
 
 		const cssDoc = document.getText();
 		if (cssDoc?.length < DOCUMENT_MINIMUM_LENGTH) {
-			vscode.window.showInformationMessage('css file have no color property.');
+			vscode.window.showInformationMessage('no color property found in opened file.');
 		} else {
 			const collectorObject = new Collector(cssDoc);
 			const hasColorInDocument = collectorObject.verifyColorExistInDocument();
 			if (!hasColorInDocument) {
-				vscode.window.showInformationMessage('css file do not have any color value.');
+				vscode.window.showInformationMessage('no color value not found in opened file.');
 			} else {
 				activeEditor?.edit((editBuilder: vscode.TextEditorEdit) => {
 					collectorObject.selectorFinder();
@@ -43,10 +43,11 @@ export function activate(context: vscode.ExtensionContext) {
 					const variableList = collectorObject.variableList;
 					const rootContent = createRootContent(variableList);
 					// check user configure to create root in separate file
-					const hasRootInSeparateFile = vscode.workspace.getConfiguration().get('cssColorCollector.rootInSeparateFile');
-					const rootBlockOfCssCollector = `\n${rootComment}\r\n${rootContent}`;
+					const config = vscode.workspace.getConfiguration();
+					const useSeparateFile = config.get('cssColorCollector.colorInSeparateFile');
+					const rootBlockOfCssCollector = `${rootComment}\r\n${rootContent}`;
 					let rootFileName: string;
-					if (hasRootInSeparateFile) {
+					if (useSeparateFile) {
 						rootFileName = separateRootFileName();
 						createSeparateRootFile(rootBlockOfCssCollector, rootFileName);
 					}
@@ -54,11 +55,12 @@ export function activate(context: vscode.ExtensionContext) {
 					const position = new vscode.Position(first, last);
 					activeEditor?.edit((editBuilder: vscode.TextEditorEdit) => {
 						editBuilder.insert(position, '');
-						if(hasRootInSeparateFile) {
+						if(useSeparateFile) {
+							// create new css file which have all color variable and add import statement on top of file
 							const importUrl = `\n/* import below file by css color collector */\n@import url('${rootFileName}');\n\n`;
 							editBuilder.insert(position, importUrl);
 						} else {
-							// insert color variable on css file under :root
+							// add :root on top of file on same css file
 							editBuilder.insert(position, rootBlockOfCssCollector);
 						}
 						vscode.window.showInformationMessage('color collection done successfully!');
