@@ -3,7 +3,7 @@ import { commands, Disposable, Extension, extensions, Uri, window, workspace } f
 import { extensionID } from '../../utils/constants';
 import path = require('path');
 
-const testFolderLocation = '/../../../sample/';
+const testFolderLocation = '/../../../sample-files/';
 const disposables: Disposable[] = [];
 
 const wait = async (seconds: number = 200) => new Promise(resolve => setTimeout(resolve, seconds * 1000));

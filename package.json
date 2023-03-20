@@ -61,7 +61,7 @@
         "cssColorCollector.colorInSeparateFile": {
           "type": "boolean",
           "default": false,
-          "description": "create separate file for collected colors"
+          "description": "create separate file for collected colors."
         }
       }
     },
@@ -85,8 +85,7 @@
         ],
         "mimetypes": [
           "text/css"
-        ],
-        "configuration": "./language-configuration.json"
+        ]
       }
     ],
     "menus": {

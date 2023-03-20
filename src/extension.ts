@@ -20,12 +20,12 @@ export function activate(context: vscode.ExtensionContext) {
 
 		const cssDoc = document.getText();
 		if (cssDoc?.length < DOCUMENT_MINIMUM_LENGTH) {
-			vscode.window.showInformationMessage('no color property found in opened file.');
+			vscode.window.showInformationMessage('color property not found in the open file.');
 		} else {
 			const collectorObject = new Collector(cssDoc);
 			const hasColorInDocument = collectorObject.verifyColorExistInDocument();
 			if (!hasColorInDocument) {
-				vscode.window.showInformationMessage('no color value not found in opened file.');
+				vscode.window.showInformationMessage('color value not found in the open file.');
 			} else {
 				activeEditor?.edit((editBuilder: vscode.TextEditorEdit) => {
 					collectorObject.selectorFinder();

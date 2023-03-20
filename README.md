@@ -43,7 +43,7 @@ if it is true then a new file name will be created on same file location where c
 
 ## Features
 
-- Collect all supported color format such as `hex`, `rgb`, `rgba`, `hsl`, `hsla`, `hwb` `oklab()`, `lch`, `color()` and 148 named color.
+- Collect all supported color format such as `hex`, `rgb`, `rgba`, `hsl`, `hsla`, `hwb`, `lab()`, `oklab()`, `lch`, `oklch()`, `color()` and 148 named color.
 - Prevent duplicate hex color with variation and assign it into same variable name based on which comes first in the file.
 for eg. `#fff` and `#ffffff` and `#ffffffff` are same color.
 - color variable name are intuitive, included property and selector name as prefix. for eg.
@@ -153,4 +153,12 @@ body {
 
 - [] add feature to change variable naming for property , currently its hard coded like if property is `background-color` then its variable name would be `bg`
 - [] To revert back the changes in file, user need to do undo 2 times just after conversion, that need to handle
-- [] scss file support
+- [] scss file support, which works partially
+- [] support for new color format `color-mix()` and `color-contrast()` [reference](https://www.smashingmagazine.com/2021/11/guide-modern-css-colors/)
+- value currentColor, transparent, system-color are not being checked
+
+## Reference
+ - [w3.org color specification](https://www.w3.org/TR/css-color-4/#introduction)
+ - [Regular Expression](https://www.unicode.org/reports/tr18/#domain_of_properties)
+ - [Color from MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value)
+ - [VS code Discussion](https://github.com/microsoft/vscode-discussions)

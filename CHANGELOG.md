@@ -22,8 +22,13 @@ All notable changes to the "css-color-collector" extension will be documented in
 - update README with more detail.
 - change command name  _collect colors_ .
 
-## [0.6.0]
+## [0.7.0]
 
 - added settings to create separate file for collected variable
 - added support for new color format - `lch()`, `oklab()` and `color()`
 - update logo
+
+## [0.8.0]
+
+- test cases updated
+- SCSS file support added, working for simple .scss file
