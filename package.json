@@ -1,7 +1,7 @@
 {
   "name": "css-color-collector",
   "displayName": "css color collector",
-  "description": "collect every color values from css file and assign them in intuitive css variable name and add :root pseudo selector on top of the file which contains all the variables.",
+  "description": "collect and replace all color values from css file with an intuitive css variable name and place all these color variable under a new :root pseudo selector.",
   "version": "0.8.0",
   "publisher": "xkeshav",
   "engines": {
@@ -27,7 +27,6 @@
     "css variable generator"
   ],
   "categories": [
-    "Programming Languages",
     "Other"
   ],
   "activationEvents": [
@@ -48,20 +47,21 @@
         "cssColorCollector.collectColorVariables": {
           "type": "boolean",
           "default": false,
-          "description": "collect color from the CSS file."
+          "description": "collect color from the css file."
         },
         "cssColorCollector.lookupFiles": {
           "type": "array",
           "default": [
-            "**/*.css",
-            "**/**.scss"
+            ".css",
+            ".scss",
+            ".less"
           ],
-          "description": "extension list from where to collect."
+          "description": "file pattern from where to collect colors."
         },
         "cssColorCollector.colorInSeparateFile": {
           "type": "boolean",
           "default": false,
-          "description": "create separate file for collected colors."
+          "description": "create separate file for :root "
         }
       }
     },
@@ -70,18 +70,22 @@
         "command": "css-color-collector.collect",
         "key": "ctrl+f7",
         "mac": "cmd+f7",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && editorLangId == css || editorTextFocus && editorLangId == scss"
       }
     ],
     "languages": [
       {
         "id": "css",
         "extensions": [
-          ".css"
+          ".css", ".scss", ".less"
         ],
         "aliases": [
+          "css",
+          "sass",
+          "scss",
+          "less",
           "CSS",
-          "css"
+          "SCSS"
         ],
         "mimetypes": [
           "text/css"
@@ -92,7 +96,7 @@
       "commandPalette": [
         {
           "command": "css-color-collector.collect",
-          "when": "editorLangId == css"
+          "when": "editorLangId == css || editorLangId == scss"
         }
       ]
     }
