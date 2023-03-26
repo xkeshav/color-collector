@@ -2,7 +2,7 @@
   "name": "css-color-collector",
   "displayName": "css color collector",
   "description": "collect and replace all color values from css file with an intuitive css variable name and place all these color variable under a new :root pseudo selector.",
-  "version": "0.8.0",
+  "version": "1.0.0",
   "publisher": "xkeshav",
   "engines": {
     "vscode": "^1.74.0"
