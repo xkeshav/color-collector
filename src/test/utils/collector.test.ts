@@ -157,6 +157,8 @@ suite('colorFinder method', () => {
 			[[331, 354], "--jump__border--8"],
 			[[376, 396], "--jump__bg--9"]
 		]);
+
+		//console.log(classObject.colorMapper);
 		assert.equal(classObject.colorMapper.size, 10);
 		assert.deepEqual(classObject.colorMapper, expectedColorMapper);
 

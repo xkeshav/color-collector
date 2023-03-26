@@ -1,27 +1,36 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import path = require('path');
 import * as vscode from 'vscode';
 
 import { Collector } from './utils/collector';
 import { createRootContent } from './utils/common';
-import { DOCUMENT_MINIMUM_LENGTH, rootComment } from './utils/constants';
+import { DOCUMENT_MINIMUM_LENGTH, importComment, newFilePrefix, notFoundInFile, rootComment, successInfo } from './utils/constants';
 
 export function activate(context: vscode.ExtensionContext) {
+
+
+
 	const collectCommand = 'css-color-collector.collect';
 
 	function collectCommandHandler() {
 		let activeEditor = vscode.window.activeTextEditor;
+
 		if (!activeEditor) {
 			return;
 		}
+
 		const { document } = activeEditor;
+		const {uri: { fsPath }} = document;
+		const {base, name} = path.parse(fsPath);
+
 		const cssDoc = document.getText();
 		if (cssDoc?.length < DOCUMENT_MINIMUM_LENGTH) {
-			vscode.window.showInformationMessage('no color property in file');
+			vscode.window.showInformationMessage(notFoundInFile('property', base));
 		} else {
 			const collectorObject = new Collector(cssDoc);
 			const hasColorInDocument = collectorObject.verifyColorExistInDocument();
 			if (!hasColorInDocument) {
-				vscode.window.showInformationMessage('no color value in file');
+				vscode.window.showInformationMessage(notFoundInFile('value', base));
 			} else {
 				activeEditor?.edit((editBuilder: vscode.TextEditorEdit) => {
 					collectorObject.selectorFinder();
@@ -38,22 +47,52 @@ export function activate(context: vscode.ExtensionContext) {
 				}).then(async () => {
 					const variableList = collectorObject.variableList;
 					const rootContent = createRootContent(variableList);
+					// check user configure to create root in separate file
+					const config = vscode.workspace.getConfiguration();
+					const useSeparateFileConfigEnabled = config.get('cssColorCollector.colorInSeparateFile');
+					const rootBlockOfCssCollector = `${rootComment}\r\n${rootContent}`;
+					let newFileName: string;
+					if (useSeparateFileConfigEnabled) {
+						newFileName = `${newFilePrefix}-${name ?? 'collector'}.css`;
+						createSeparateRootFile(rootBlockOfCssCollector, newFileName);
+					}
 					const [first, last] = collectorObject.locateRootPosition();
 					const position = new vscode.Position(first, last);
-					// insert color variable on css file under :root
 					activeEditor?.edit((editBuilder: vscode.TextEditorEdit) => {
 						editBuilder.insert(position, '');
-						editBuilder.insert(position, `\n${rootComment}\r\n${rootContent}\n`);
-						vscode.window.showInformationMessage('variable conversion done successfully!');
+						if (useSeparateFileConfigEnabled) {
+							// create new css file which have all color variable and add import statement on top of file
+							const importUrl = `\n/${importComment}\n@import url('${newFileName}');\n\n`;
+							editBuilder.insert(position, importUrl);
+						} else {
+							// add :root on top of file on same css file
+							editBuilder.insert(position, rootBlockOfCssCollector);
+						}
+						vscode.window.showInformationMessage(successInfo(base));
 					});
+
 				});
 			}
 		}
 	}
 
-	let disposableCollect = vscode.commands.registerCommand(collectCommand, () => collectCommandHandler());
+	const disposableCollect = vscode.commands.registerCommand(collectCommand, () => collectCommandHandler());
 
 	context.subscriptions.push(disposableCollect);
 
+}
+
+export async function createSeparateRootFile(content: string, fileName: string) {
+	const wsEdit = new vscode.WorkspaceEdit();
+	const wsPath = (vscode.workspace.workspaceFolders as vscode.WorkspaceFolder[])[0].uri.fsPath;
+	const filePath = vscode.Uri.file(wsPath + '/' + fileName);
+	vscode.window.showInformationMessage(filePath.toString(true));
+	wsEdit.createFile(filePath, { overwrite: true });
+	const position = new vscode.Position(1, 0);
+	wsEdit.insert(filePath, position, content);
+	await vscode.workspace.applyEdit(wsEdit);
+	vscode.window.showInformationMessage('created a separate file: => ' + fileName);
+	await vscode.workspace.openTextDocument(filePath);
+	vscode.window.showTextDocument(filePath);
 }
 

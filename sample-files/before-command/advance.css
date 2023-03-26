@@ -39,10 +39,7 @@
   }
 }
 
-@namespace example url(http://www.example.com);
-example|h1 {
-  color: rgb(0, 255, 98);
-}
+
 
 @page {
   size: landscape;
