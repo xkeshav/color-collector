@@ -1,6 +1,6 @@
 # css color collector
 
-A vs code extension that works with _.css_ files which collect all color values from a css file and replace with a meaningful variable name and put all these color variables in a new :root pseudo selector
+A vs code extension that works with css file, collect all color values from a css file and replace with a meaningful variable name and put all these color variables in a new :root pseudo selector
 
 ## Description
 
