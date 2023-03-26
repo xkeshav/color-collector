@@ -35,7 +35,7 @@ Open vs code settings ( <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd>) and search *
 ]
 ```
 
-1.  if you want to create a separate file for collected color variable then enable the `colorInSeparateFile` settings as below
+1.  if you require a separate file for collected color then open your _Workspace_ ( if no workspace then in _User_ ) setting and search for _css.color.collector_ and check the tick box or add below setting file
 
 ```json
 "cssColorCollector.colorInSeparateFile": true
@@ -91,7 +91,13 @@ body {
 
 ## Working Demo
 
+### collect colors and add :root on same file
+
 ![working demo gif ](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/collector-demo.gif)
+
+### when `colorInSeparateFile` option enabled
+
+![working demo with separate file option enable](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/demo-when-colorInSeparteFile-option-enable.gif)
 
 ## Examples
 

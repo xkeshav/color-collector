@@ -20,7 +20,7 @@ All notable changes to the "css-color-collector" extension will be documented in
 
 - handle unicode selector names.
 - update README with more detail.
-- change command name  _collect colors_ .
+- change command name _collect colors_ .
 
 ## [0.7.0]
 
@@ -33,9 +33,11 @@ All notable changes to the "css-color-collector" extension will be documented in
 - test cases updated
 - SCSS file support added, working for simple .scss file
 
-## [0.9.0]
+## [1.0.0]
 
-- new screenshot and demo gif added
-- new file naming convention changed
+- new screenshot and option enable demo gif added
+- new file added on same directory where open file is
 - file name displayed in the information message.
 - new color property added
+- check whether file is valid valid and saved
+- date and original file name added in the new file

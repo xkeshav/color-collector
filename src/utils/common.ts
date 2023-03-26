@@ -1,5 +1,6 @@
 import { HexString, SelectorMap, VariableList, VariableNameParams } from '../models/base';
 import { PATTERN_LIST, PROPERTY_ALIAS_MAPPER } from './constants';
+import { importFileComment, successMessage } from './messages';
 
 const colorPatterns = [
   PATTERN_LIST.COLOR_HEX_FORMAT,
@@ -8,7 +9,6 @@ const colorPatterns = [
   PATTERN_LIST.COLOR_FUNCTION,
   PATTERN_LIST.PROPERTY, /* keep this as last element of array */
 ];
-
 
 export const combinedColorAndPropertyPattern = colorPatterns.map((rx: string) => rx).filter(Boolean).join('|');
 
@@ -109,11 +109,10 @@ export const checkDuplicateNonHexColor = (colorValue: string, list: VariableList
 
 export const notFoundInFile = (prop: string, fileName: string = '') => `no color ${prop} found in the file ${fileName} !`;
 
-export const successInfo = (fileName: string) => `color collection done successfully for ${fileName} !`;
+export const successInfo = (fileName: string) => `${successMessage} for ${fileName} !`;
 
-export const importFileComment = (fileName: string) => `/* 
-variables created by css color collector 
-and import statement added in the respective css file
+export const importDetailComment = (fileName: string) => `/* 
+${importFileComment}
 name: ${fileName}
 date: ${new Date().toISOString()}
 */`;

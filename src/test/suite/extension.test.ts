@@ -9,7 +9,7 @@ const disposables: Disposable[] = [];
 const wait = async (seconds: number = 200) => new Promise(resolve => setTimeout(resolve, seconds * 1000));
 
 const getFileText = async (file: string, afterCommand = false) => {
-	const filePath= afterCommand ? testFolderLocation + 'after-command/' : testFolderLocation + 'before-command/';
+	const filePath = afterCommand ? testFolderLocation + 'after-command/' : testFolderLocation + 'before-command/';
 	const uri = Uri.file(path.resolve(__dirname + filePath + file));
 	const document = await workspace.openTextDocument(uri);
 	await window.showTextDocument(document);
@@ -57,6 +57,10 @@ suite('extension registers the collect commands successfully', () => {
 		assert.ok(commandList.includes('css-color-collector.collect'));
 		done();
 	});
+});
+
+suite('check file validity', () => {
+
 });
 
 suite('collect command execution on css file', () => {
