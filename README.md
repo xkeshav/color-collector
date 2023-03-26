@@ -150,25 +150,29 @@ body {
 
 ## Release Notes
 
-- This is my first extension so if you find it useful then please provide feedback to improve the experience in better way. Thanks.
+- This is my first extension so if you find it useful then please [write review](https://marketplace.visualstudio.com/items?itemName=xkeshav.css-color-collector&ssr=false#review-details) to improve the experience in better way.
 
 ### Known issues
 
 - _"invalid flag 'dgim'"_
   if you run the command and get above error then check whether you have [todo-tree extension](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree) enabled in vs code then please disable that extension to make this extension work properly. [issue raised on the same](https://github.com/Gruntfuggly/todo-tree/issues/732) and checking for solution
 
-- if you found any issue or suggestion, please raise [here](https://github.com/xkeshav/color-collector/issues/)
+## Contribution
+
+to raise any issue/ suggestions / feature [write here](https://github.com/xkeshav/color-collector/issues/) , I am actively looking
+
+Please raise the [PR](https://github.com/xkeshav/color-collector/pulls) if you want to contribute.
 
 ## TODO
 
-- [] add feature to change variable naming for property , currently its hard coded like if property is `background-color` then its variable name would be `bg`
-- [] To revert back the changes in file, user need to do undo 2 times just after conversion, that need to handle
-- [] scss file support, which works partially. need to check for less file also
-- [] support for new color format `color-mix()` and `color-contrast()` [reference](https://www.smashingmagazine.com/2021/11/guide-modern-css-colors/)
-- value currentColor, transparent, system-color are not being checked
-- if there are style declaration above :root {} then this extension will not parse those block
+- [ ] add feature to change variable naming for property , currently its hard coded like if property is `background-color` then its variable name would be `bg`
+- [ ] To revert back the changes in file, user need to do undo 2 times just after conversion.
+- [ ] scss file support, which works partially. need to check for less file also
+- [ ] support for new color format `color-mix()` and `color-contrast()` [reference](https://www.smashingmagazine.com/2021/11/guide-modern-css-colors/)
+- [ ] if there are style declaration above :root {} then this extension will not parse those lines
+- [ ] create web extension for the same, currently it is for desktop
 
-## Reference
+## Useful Reference
 
 - [w3.org color specification](https://www.w3.org/TR/css-color-4/#introduction)
 - [Regular Expression](https://www.unicode.org/reports/tr18/#domain_of_properties)
