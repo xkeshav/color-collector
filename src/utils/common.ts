@@ -98,10 +98,22 @@ export const checkDuplicateHexColor = (colorValue: HexString, list: VariableList
 export const checkDuplicateNonHexColor = (colorValue: string, list: VariableList): [boolean, string] => {
   let isDuplicateColor = false;
   let colorVariable = '';
-  const nonHexColorEntry = Object.entries(list).find(([_, vv]) => colorValue === vv);
+  const nonHexColorEntry = Object.entries(list).find(([_, vv]) => colorValue.toLowerCase() === vv);
   if (nonHexColorEntry !== undefined) {
     [colorVariable] = nonHexColorEntry;
     isDuplicateColor = true;
   }
   return [isDuplicateColor, colorVariable];
 };
+
+
+export const notFoundInFile = (prop: string, fileName: string = '') => `no color ${prop} found in the file ${fileName} !`;
+
+export const successInfo = (fileName: string) => `color collection done successfully for ${fileName} !`;
+
+export const importFileComment = (fileName: string) => `/* 
+variables created by css color collector 
+and import statement added in the respective css file
+name: ${fileName}
+date: ${new Date().toISOString()}
+*/`;

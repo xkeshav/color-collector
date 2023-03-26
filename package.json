@@ -17,6 +17,9 @@
     "url": "https://github.com/xkeshav/color-collector.git"
   },
   "icon": "/images/logo.png",
+  "extensionKind": [
+    "workspace"
+  ],
   "keywords": [
     "cssColorCollector",
     "color variable",
@@ -52,9 +55,9 @@
         "cssColorCollector.lookupFiles": {
           "type": "array",
           "default": [
-            ".css",
-            ".scss",
-            ".less"
+            "*.css",
+            "*.scss",
+            "*.less"
           ],
           "description": "file pattern from where to collect colors."
         },
@@ -70,14 +73,16 @@
         "command": "css-color-collector.collect",
         "key": "ctrl+f7",
         "mac": "cmd+f7",
-        "when": "editorTextFocus && editorLangId == css || editorTextFocus && editorLangId == scss"
+        "when": "editorTextFocus && editorLangId == css"
       }
     ],
     "languages": [
       {
         "id": "css",
         "extensions": [
-          ".css", ".scss", ".less"
+          ".css",
+          ".scss",
+          ".less"
         ],
         "aliases": [
           "css",
@@ -96,7 +101,7 @@
       "commandPalette": [
         {
           "command": "css-color-collector.collect",
-          "when": "editorLangId == css || editorLangId == scss"
+          "when": "editorLangId == css || editorLangId == scss || editorLangId == less"
         }
       ]
     }

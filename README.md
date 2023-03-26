@@ -4,29 +4,29 @@ A vs code extension that works with _.css_ files which collect all color values 
 
 ## Description
 
-In an open CSS file, on execution of command, this extension parse the file and collect all color values and and assign them to a meaningful variable name and  replace the color values with these variable name in file, also these color variables placed under a `:root` pseudo selector.
+In an open CSS file, on execution of command, this extension parse the file and collect all color values and and assign them to a meaningful variable name and replace the color values with these variable name in file, also these color variables placed under a `:root` pseudo selector.
 
 ## Use Case
 
-This approach has a few benefits. 
-First, it can help make your code more readable by giving names to colors that might otherwise be difficult to remember. 
-Second, it can help you avoid duplicating colors throughout your code. 
+This approach has a few benefits.
+First, it can help make your code more readable by giving names to colors that might otherwise be difficult to remember.
+Second, it can help you avoid duplicating colors throughout your code.
 And third, if you ever need to change a color value, you can do so in one place and have the change propagate throughout your entire stylesheet.
 
 ## Install
 
 - Open Extensions sidebar panel in VS Code and choose the menu options for _View → Extensions_ or use `Ctrl + Shift + X` or `Cmd + Shift + X`
-- Search for `css color collector` 
+- Search for `css color collector`
 - Click _Install_
 
 ## Settings and Configuration
 
-Open vs code settings ( <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd>) and search __css color collector__ and found 3 settings and all are optional
+Open vs code settings ( <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd>) and search **css color collector** and found 3 settings and all are optional
 
 ![extension settings](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/settings.png)
 
-1. if you need to run this extension for .scss file ( which is experimental though) then add following setting 
-  
+1. if you need to run this extension for .scss file ( which is experimental though) then add following setting
+
 ```json
 "cssColorCollector.lookupFiles": [
       "**/*.css",
@@ -35,7 +35,7 @@ Open vs code settings ( <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd>) and search _
 ]
 ```
 
-1.  if you want to create a separate file for collected color variable then enable the `colorInSeparateFile` settings as below 
+1.  if you want to create a separate file for collected color variable then enable the `colorInSeparateFile` settings as below
 
 ```json
 "cssColorCollector.colorInSeparateFile": true
@@ -43,15 +43,15 @@ Open vs code settings ( <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd>) and search _
 
 then a new file will be created same as to the open file location, and new file name in below format
 
- **root-variable--[open file name].css** 
+**root-variable--[open file name].css**
 
- and it will open after conversion done.
+and it will open after conversion done.
 
 ## Features
 
 - Collect all supported color format such as `hex`, `rgb`, `rgba`, `hsl`, `hsla`, `hwb`, `lab()`, `oklab()`, `lch`, `oklch()`, `color()` and 148 named color.
 - Prevent duplicate hex color with variation and assign it into same variable name based on which comes first in the file.
-for eg. `#fff` and `#ffffff` and `#ffffffff` are same color.
+  for eg. `#fff` and `#ffffff` and `#ffffffff` are same color.
 - color variable name are intuitive, included property and selector name as prefix. for eg.
 
 ```css
@@ -75,19 +75,18 @@ body {
 - each variable name ends with `-<num>` to keep track how many colors are collected and used, further you can rename the variable using `Rename Symbol(F2)` action in vs code.
 
 - After successfully execution of the command, the css file will be updated in 2 ways
-  
-    - color value will be replaced by css variables and 
-    - if `colorInSeparateFile` option enabled then an import statement will be added on the top of file and new file will be generated where all collected color will be written.
-    - otherwise a`:root` block will be added on the top of the file (after all `import` statements as per css specification )
+
+  - color value will be replaced by css variables and
+  - if `colorInSeparateFile` option enabled then an import statement will be added on the top of file and new file will be generated where all collected color will be written.
+  - otherwise a`:root` block will be added on the top of the file (after all `import` statements as per css specification )
 
 - After successful execution of command , vs code will display notification.
 
-
-## How to Use 
+## How to Use
 
 - Open a css file
 - Press <kbd>F1</kbd> to open the command palette
-- Type `ccc` and select *collect colors* command OR type <kbd>Ctrl + F7</kbd> or <kbd>Cmd + F7</kbd>
+- Type `ccc` and select _collect colors_ command OR type <kbd>Ctrl + F7</kbd> or <kbd>Cmd + F7</kbd>
 - After completion of command, you will see notification message _variable conversion done successfully!_
 
 ## Working Demo
@@ -118,8 +117,8 @@ body {
 
 ## check-list
 
-- [ ] check whether file is correct (i.e. valid css file)
-- [ ] check file is in save mode
+- [x] check whether file is correct (i.e. valid css file)
+- [x] check file is in save mode
 - [x] handle when no color present in the css file
 - [x] comments need to be escaped while parsing the css
 - [x] At rules selector need to handle , such as
@@ -139,8 +138,9 @@ body {
 - [ ] media query selector name need to append media in variable name
 - [x] skip existing `:root {}` while parsing the css file.
 - [x] capture unicode selector such as 🎵
-- [x] option to create separate file for collected color variables 
-- [.] scss file support  (work partially, haven't checked for complex but simple scss file works)
+- [x] option to create separate file for collected color variables
+- [x] new file create parallel to open file whether it is on same workspace or different or just file opened.
+- [.] scss file support (work partially, haven't checked for complex but simple scss file works)
 
 ## Release Notes
 
@@ -164,7 +164,7 @@ body {
 
 ## Reference
 
- - [w3.org color specification](https://www.w3.org/TR/css-color-4/#introduction)
- - [Regular Expression](https://www.unicode.org/reports/tr18/#domain_of_properties)
- - [Color from MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value)
- - [VS code Discussion](https://github.com/microsoft/vscode-discussions)
+- [w3.org color specification](https://www.w3.org/TR/css-color-4/#introduction)
+- [Regular Expression](https://www.unicode.org/reports/tr18/#domain_of_properties)
+- [Color from MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value)
+- [VS code Discussion](https://github.com/microsoft/vscode-discussions)

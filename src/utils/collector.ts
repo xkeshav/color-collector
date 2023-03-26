@@ -48,7 +48,7 @@ export class Collector {
 	}
 
 	/* check whether there are any color in css file except inside the :root selector; return true if color exist */
-	verifyColorExistInDocument() {
+	verifyAnyColorExistInDocument() {
 		this.skipRootDeclarationBlock();
 		this.#colorRegex.lastIndex = this.rootSelectorEndingIndex;
 		const colorMatchResult = this.#colorRegex.exec(this.cssDocument); // note: here using .exec to get more control than .match
@@ -109,7 +109,7 @@ export class Collector {
 				const colorValue = HEX_COLOR || NON_HEX_COLOR || COLOR_NAME || COLOR_FUNCTION;
 				if (HEX_COLOR) {
 					[isColorVariableExist, variableName] = checkDuplicateHexColor(HEX_COLOR as HexString, this.#variableList);
-				} else {
+				} else { // check for named, color, and other color format with same value
 					[isColorVariableExist, variableName] = checkDuplicateNonHexColor(colorValue, this.#variableList);
 				}
 				const colorIndexList = colorIndicesGroup.HEX_COLOR || colorIndicesGroup.NON_HEX_COLOR || colorIndicesGroup.COLOR_NAME || colorIndicesGroup.COLOR_FUNCTION;
