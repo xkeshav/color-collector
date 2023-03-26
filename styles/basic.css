@@ -1,46 +1,53 @@
+@import url('black.css');
+
 :root {
-  box-sizing: border-box;
+	box-sizing: border-box;
+	--accent: rebeccapurple;
 }
 
 body {
-  background-color: #bed0ee;
-  color: black;
+	color: khaki;
+	background-color: #663399;
 }
 
 main {
-  border-color: rgb(245, 245, 220);
+	border-color: rgb(102, 51, 153);
 }
 
-.red {
-  color: hsl(0, 100%, 50%);
+a::after {
+	text-decoration: double rgba(40%, 20%, 60%, 100%);
+	outline-color: hsl(270deg 50% 40%);
+}
+
+:where(ol, ul, menu:unsupported) {
+	caret-color: #639f;
+}
+
+.purple {
+	column-rule-color: hsla(270, 50%, 40%, 100%);
 }
 
 figure {
-  filter: drop-shadow(16px 16px 20px oklab(59.69% 0.1007 0.1191 / 0.5));
+	filter: drop-shadow(1em 1em hwb(0.75turn 20% 40%));
+	box-shadow: 1px 7px 0 hwb(270 20% 40%);
 }
 
 header {
-  background-image: linear-gradient(90deg, 
-  lch(29.2345% 44.2 27) 20%
-  lch(52.2345% 72.2 56.2) 10%
-  lch(52.2345% 72.2 56.2 / .5) 30%, 
-  rgba(255, 255, 255, 0.5) 50%);
+	background-image: linear-gradient(
+		90deg,
+		lch(32.39 61.25 308.86) 20% oklch(0.44 0.16 303.38) 10%
+		lab(32.39 38.43 -47.69 / 1) 30%, oklab(44% 0.09 -0.13) 50%
+	);
 }
 
 footer {
-  text-shadow: #bed0ee;
-  color: oklab(40.1% 0.1143 0.045);
+	text-shadow: hwb(0.75turn 20% 40%);
+	text-emphasis-color: rgba(40%, 20%, 60%, 100%);
 }
 
-[data-color="red-a98-rgb"] {
-  background-color: conic-gradient(
-    color(display-p3 1 5 0),
-    color(display-p3 1 0.5 0 / .5),
-    hsl(45, 100%, 50%),
-    hsl(0, 100%, 50%)
-  );
-}
-
-[data-color="green-srgb-linear"] {
-  background-color: color(srgb-linear 0 1 0);
+@supports (-webkit-text-stroke: 10px) {
+	/* CSS comment */
+	[contenteditable] {
+		-webkit-text-stroke: hwb(4.712rad 20% 40%);
+	}
 }

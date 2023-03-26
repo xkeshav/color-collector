@@ -36,7 +36,7 @@
 }
 
 /* below color can be added in :root {}, 
-added above comment purposefully to check whether scan for right :root {} */
+above comment written purposefully to check whether parse for right :root {} block */
 :disabled {
   border-color: palevioletred;
 }

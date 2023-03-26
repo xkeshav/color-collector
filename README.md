@@ -40,7 +40,12 @@ Open vs code settings ( <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd>) and search _
 ```json
 "cssColorCollector.colorInSeparateFile": true
 ```
-Note: if `colorInSeparateFile` is  true then a new file will be created on the open file location, and file name will be in **root-[open file name first word]-collector.css** format 
+
+then a new file will be created same as to the open file location, and new file name in below format
+
+ **root-variable--[open file name].css** 
+
+ and it will open after conversion done.
 
 ## Features
 
@@ -87,7 +92,7 @@ body {
 
 ## Working Demo
 
-![extension working demo gif ](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/collector-demo.gif)
+![working demo gif ](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/collector-demo.gif)
 
 ## Examples
 
@@ -95,11 +100,11 @@ body {
 
 #### input file
 
-![input css file](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/input.png)
+![input css file](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/basic-css-input.png)
 
 #### output file
 
-![converted file with css variable](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/output.png)
+![converted file with css variable](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/basic-css-output.png)
 
 ### Advance
 
@@ -155,6 +160,7 @@ body {
 - [] scss file support, which works partially. need to check for less file also
 - [] support for new color format `color-mix()` and `color-contrast()` [reference](https://www.smashingmagazine.com/2021/11/guide-modern-css-colors/)
 - value currentColor, transparent, system-color are not being checked
+- if there are style declaration above :root {} then this extension will not parse those block
 
 ## Reference
 

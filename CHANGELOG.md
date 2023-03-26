@@ -32,3 +32,10 @@ All notable changes to the "css-color-collector" extension will be documented in
 
 - test cases updated
 - SCSS file support added, working for simple .scss file
+
+## [0.9.0]
+
+- new screenshot and demo gif added
+- new file naming convention changed
+- file name displayed in the information message.
+- new color property added

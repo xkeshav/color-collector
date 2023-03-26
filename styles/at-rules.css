@@ -1,0 +1,75 @@
+@charset "UTF-8";
+@import url('base.css'); @import "theme.css" layer(utilities);
+@import url("landscape.css") screen and (orientation: landscape);
+
+@namespace author url(http://www.xkeshav.com);
+
+/* this is pre defined variable and this :root {} must be escaped, 
+:root {
+  --black: hsl(0, 0%, 0%);
+}  
+*/
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent-color: hsl(225, 31%, 96%);
+    --background-color: hsl(0, 2%, 20%);
+  }
+}
+
+@container (width > 400px) and (width > 800px) or (orientation: portrait) {
+  input[type='radio']:checked + label {
+    text-decoration-color: Black;
+  }
+}
+
+* {
+  font-size: 18px;
+  background-color: hsl(270 60% 70%);
+}
+
+.profile > #image {
+  animation: 3s infinite alternate flash;
+}
+
+.author:is(h1)::before {
+  content: 'publisher', 'Keshav Mohta';
+  background-color: whitesmoke !important;
+}
+
+@page {
+  size: landscape;
+  margin: 20%;
+  background-color: #1a10;
+  @top-left {
+    border-color: red;
+  }
+}
+
+.class ~ .red {
+  border-color: red;
+}
+
+/* unicode selector */
+.♫ {
+  display: block;
+  background: #eee;
+}
+
+#© { /* matches the element with id="©" */
+  caret-color: burlywood;
+} 
+
+::grammar-error {
+  border-color: darkgoldenrod;
+}
+
+@keyframes flash {
+  from, 0% {
+    border-color: hwb(hue rgb(116, 59, 59) #666);
+  }
+
+  50%, 80% {
+    background-color: rgba(100%, 50%, 0%, 0.1);
+  }
+}

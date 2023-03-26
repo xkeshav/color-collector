@@ -1,6 +1,6 @@
 :root {
   box-sizing: border-box;
-  --grey: lightgray
+  --grey: lightgray;
 }
 
 body {
@@ -21,15 +21,15 @@ p:hover {
 
 a::after {
   content: '--';
-  box-shadow: rgba(0, 0, 255, 0.2);
+  box-shadow: rgba(40%, 20%, 60%, 100%);
   border-color: hsla(30, 100%, 50%, 0.1);
 }
 
 header {
   background-image: linear-gradient(90deg, 
-  lch(29.2345% 44.2 27) 20%
+  lch(29.23 44.2 27) 20%
   oklch(52.2345% 72.2 56.2) 10%
-  lab(52.2345% 72.2 56.2 / .5) 30%, 
+  lab(52.2345% 72.2 -56.2 / .5) 30%, 
   oklab(59.69% 0.1007 0.1191 / 0.5) 50%);
 }
 

@@ -4,9 +4,11 @@ import * as vscode from 'vscode';
 
 import { Collector } from './utils/collector';
 import { createRootContent } from './utils/common';
-import { DOCUMENT_MINIMUM_LENGTH, rootComment } from './utils/constants';
+import { DOCUMENT_MINIMUM_LENGTH, importComment, newFilePrefix, notFoundInFile, rootComment, successInfo } from './utils/constants';
 
 export function activate(context: vscode.ExtensionContext) {
+
+
 
 	const collectCommand = 'css-color-collector.collect';
 
@@ -16,16 +18,19 @@ export function activate(context: vscode.ExtensionContext) {
 		if (!activeEditor) {
 			return;
 		}
+
 		const { document } = activeEditor;
+		const {uri: { fsPath }} = document;
+		const {base, name} = path.parse(fsPath);
 
 		const cssDoc = document.getText();
 		if (cssDoc?.length < DOCUMENT_MINIMUM_LENGTH) {
-			vscode.window.showInformationMessage('color property not found in the open file.');
+			vscode.window.showInformationMessage(notFoundInFile('property', base));
 		} else {
 			const collectorObject = new Collector(cssDoc);
 			const hasColorInDocument = collectorObject.verifyColorExistInDocument();
 			if (!hasColorInDocument) {
-				vscode.window.showInformationMessage('color value not found in the open file.');
+				vscode.window.showInformationMessage(notFoundInFile('value', base));
 			} else {
 				activeEditor?.edit((editBuilder: vscode.TextEditorEdit) => {
 					collectorObject.selectorFinder();
@@ -44,26 +49,26 @@ export function activate(context: vscode.ExtensionContext) {
 					const rootContent = createRootContent(variableList);
 					// check user configure to create root in separate file
 					const config = vscode.workspace.getConfiguration();
-					const useSeparateFile = config.get('cssColorCollector.colorInSeparateFile');
+					const useSeparateFileConfigEnabled = config.get('cssColorCollector.colorInSeparateFile');
 					const rootBlockOfCssCollector = `${rootComment}\r\n${rootContent}`;
-					let rootFileName: string;
-					if (useSeparateFile) {
-						rootFileName = separateRootFileName();
-						createSeparateRootFile(rootBlockOfCssCollector, rootFileName);
+					let newFileName: string;
+					if (useSeparateFileConfigEnabled) {
+						newFileName = `${newFilePrefix}-${name ?? 'collector'}.css`;
+						createSeparateRootFile(rootBlockOfCssCollector, newFileName);
 					}
 					const [first, last] = collectorObject.locateRootPosition();
 					const position = new vscode.Position(first, last);
 					activeEditor?.edit((editBuilder: vscode.TextEditorEdit) => {
 						editBuilder.insert(position, '');
-						if(useSeparateFile) {
+						if (useSeparateFileConfigEnabled) {
 							// create new css file which have all color variable and add import statement on top of file
-							const importUrl = `\n/* import below file by css color collector */\n@import url('${rootFileName}');\n\n`;
+							const importUrl = `\n/${importComment}\n@import url('${newFileName}');\n\n`;
 							editBuilder.insert(position, importUrl);
 						} else {
 							// add :root on top of file on same css file
 							editBuilder.insert(position, rootBlockOfCssCollector);
 						}
-						vscode.window.showInformationMessage('color collection done successfully!');
+						vscode.window.showInformationMessage(successInfo(base));
 					});
 
 				});
@@ -75,13 +80,6 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(disposableCollect);
 
-}
-
-export function separateRootFileName() {
-	const openFile = vscode.window.activeTextEditor?.document.fileName;
-	const fileNameOnly = openFile ? path.basename(openFile).split('.').shift() : 'color-collector';
-	const fileName = `root-${fileNameOnly}-collector.css`;
-	return fileName;
 }
 
 export async function createSeparateRootFile(content: string, fileName: string) {

@@ -3,7 +3,8 @@
 	--body__bg--1: #1a10;
 	--body__txt--2: #2a2;
 	--main__txt--3: #334455ff;
-	--class__border--4: #6ff;
+	--main__txt__fill--4: purple;
+	--class__border--5: #6ff;
 }
 :root {
   --font-sm: 0.5rem;
@@ -18,9 +19,9 @@ body {
 
 main {
   color: var(--main__txt--3);
-  -webkit-text-fill-color: PURPLE;
+  -webkit-text-fill-color: var(--main__txt__fill--4);
 }
 
 .class {
-  border: 1px solid var(--class__border--4);
+  border: 1px solid var(--class__border--5);
 }
