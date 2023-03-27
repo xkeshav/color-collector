@@ -5,7 +5,7 @@ import * as vscode from 'vscode';
 import { Collector } from './utils/collector';
 import { createRootContent, importDetailComment, notFoundInFile, successInfo } from './utils/common';
 import { DOCUMENT_MINIMUM_LENGTH } from './utils/constants';
-import { importComment, invalidFileErrorMessage, newFilePrefix, rootComment, unsavedChangesWarningMessage, untitledFileErrorMessage } from './utils/messages';
+import { fileClosingError, importComment, invalidFileErrorMessage, newFilePrefix, rootComment, unsavedChangesWarningMessage, untitledFileErrorMessage } from './utils/messages';
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -83,13 +83,12 @@ export function activate(context: vscode.ExtensionContext) {
 						}
 						vscode.window.showInformationMessage(successInfo(base));
 					}).then(undefined, _ => {
-						vscode.window.showErrorMessage('closing the file while executing command might give wrong result.');
+						vscode.window.showErrorMessage(fileClosingError);
 					});
 				});
 			}
 		}
 	}
-
 	const disposableCollect = vscode.commands.registerCommand(collectCommand, () => collectCommandHandler());
 	context.subscriptions.push(disposableCollect);
 }
@@ -105,7 +104,7 @@ export async function createSeparateRootFile(content: string) {
 	const position = new vscode.Position(1, 0);
 	wsEdit.insert(fileLocation, position, content);
 	await vscode.workspace.applyEdit(wsEdit);
-	vscode.window.showInformationMessage('a new file created => ' + newFileName);
+	vscode.window.showInformationMessage('new file created => ' + newFileName);
 	await vscode.workspace.openTextDocument(fileLocation);
 	vscode.window.showTextDocument(fileLocation);
 	return newFileName;

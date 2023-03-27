@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Color World</title>
+	<link rel="stylesheet" href="color.css" />
+</head>
+
+<body>
+	<header>
+		Color Syntax
+		<!--<button type="button" class="btn" id="show">show</button>-->
+		<label class="switch">
+			<input type="checkbox" id="show">
+			<span class="slider round"></span>
+		</label>
+	</header>
+	<main>
+		<!--div[style="background-color:var(--color-$)"]{$}*5-->
+	</main>
+	<footer> Keshav Mohta </footer>
+	<script type="text/javascript" async>
+		const main = document.querySelector('main');
+		const fragment = document.createDocumentFragment();
+		const buildDiv = (n) => {
+			const div = document.createElement('div');
+			div.innerHTML = `${n}`;
+			div.style = `background-color: var(--color-${n})`;
+			fragment.appendChild(div);
+		};
+		Array.from({ length: 34 }, (_, i) => buildDiv(i));
+		main.appendChild(fragment);
+		/* show bg color property on hover */
+		const btn = document.getElementById('show');
+		let isPropertyVisible = false;
+		btn.addEventListener('click', () => {
+			isPropertyVisible = !isPropertyVisible;
+			btn.textContent = isPropertyVisible ? 'hide' : 'show';
+			const divList = document.querySelectorAll('div');
+			if(isPropertyVisible) {
+				const style = getComputedStyle(document.body);
+				divList.forEach((div, i) => {
+					const bg = style.getPropertyValue(`--color-${i}`);
+					const propertyDetail = isPropertyVisible ? `<em>${bg}</em>`: ``;
+					div.insertAdjacentHTML('beforeend', propertyDetail);
+				});		
+			} else {
+				divList.forEach( (div, i) => div.innerHTML = i );
+			}
+		});
+	</script>
+</body>
+
+</html>

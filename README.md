@@ -1,10 +1,10 @@
 # css color collector
 
-A vs code extension that works with css file, collect all color values from a css file and replace with a meaningful variable name and put all these color variables in a new :root pseudo selector
+A vs code extension that works with css file, collect each color value from css file and replace it with a meaningful css variable and place these variables under a new `:root` pseudo selector block
 
 ## Description
 
-In an open CSS file, on execution of `collect colors` command, this extension parse the open file and read all color written in the file and and assign every color value to a meaningful variable name and replace the color value with variable and these color variables collected under a `:root` pseudo selector.
+In an open css file, on execution of `collect colors` command, this extension parse the file and scan for color values of all color syntax and and assign every color value to a meaningful css variable name and replace the color value with variable and these color variables collected under a `:root` pseudo selector.
 
 ## Use Case
 
@@ -26,35 +26,22 @@ And third, if you ever need to change a color value, you can do so in one place 
 ## How to Use
 
 - Open a css file ( or sass file )
-- Press <kbd>F1</kbd> to open command palette
-- Type `ccc` and select _collect colors_ command
-- Or alternatively use keyboard shortcut <kbd>Ctrl + F7</kbd> or <kbd>Cmd + F7</kbd>
-- if there are any error while running the command then notification message will be displayed
+- Press <kbd>F1</kbd> to open command palette.
+- Type `ccc` and select _collect colors_ command or alternatively use keyboard shortcut <kbd>Ctrl + F7</kbd> or <kbd>Cmd + F7</kbd>
+- if there are any error in file while running the command then notification message will be displayed.
 - After completion of command, a notification message of successful conversion will be displayed.
 
-## Settings and Configuration
+## Configuration Option
 
-Open Settings using <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd> and search **color collector**
+Open VS code Settings using <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd> and search for **css color collector** and you will see below settings
 
-![cs code settings](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/vscode-settings-for-color-collector.png))
+![vs code settings](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/vscode-settings-for-color-collector.png))
 
-1. if you need to run this extension for .scss file ( which is experimental though) then add following setting
-
-```json
-"cssColorCollector.lookupFiles": [
-      "**/*.css",
-      "**/*.scss",
-      "**/*.less"
-]
-```
-
-1.  To create a separate file for `:root` selector then enable below setting in your _Workspace_ ( if no workspace then in _User_ ) Settings file (by default it is not enabled)
+To create a separate file for `:root` block , you need to check *Color in Separate File* option in your _Workspace _ ( if no workspace then in _User_ ) tab  or add below key in respective Setting file
 
 ```json
 "cssColorCollector.colorInSeparateFile": true
 ```
-
-_Note:_ New file will be created in the open file directory and file name will be **color-collector--[open file name].css**
 
 ## Features
 
@@ -95,9 +82,9 @@ _Note:_ if extension unable to parse property and selector of a color then varia
 
      - if `cssColorCollector.colorInSeparateFile` is enabled then `:root` will be placed in a new file and a import statement will be added in the css file.
 
-Note: new file will be created in the open css file's directory and name format will be _color-collector--[open-file-name].css_ and multi line comment will be added on top of `:root` which mention the source file and date of conversion.
+_Note:_ New file will be created in the same directory where the css file is opened and naming convention of file would be _color-collector--[open-file-name].css_ and multi line comment will be added on top of `:root` which mention the source file and date of conversion.
 
-- A single line comment will be added over the `:root` or `@import` statement to identify.
+- comment will be added over the `:root` block or `@import` statement to identify the changes.
 
 - A notification message will be displayed after successful execution of the _collect colors_ command.
 
@@ -164,18 +151,18 @@ Note: new file will be created in the open css file's directory and name format 
 
 ## Contribution Guide
 
-To raise any issue/ suggestions / feature [write here](https://github.com/xkeshav/color-collector/issues/) .
+To raise any issue / suggestion / request [write here](https://github.com/xkeshav/color-collector/issues/) .
 
 moreover, if you want to contribute, please feel free to raise the [PR](https://github.com/xkeshav/color-collector/pulls)
 
 ## Future Work
 
 - [ ] add feature to change variable naming for property , currently its hard coded like if property is `background-color` then its variable name would be `bg`
-- [ ] To revert back the changes in file, user need to do undo 2 times just after conversion.
-- [ ] scss file support, which works partially. need to check for less file also
-- [ ] support for new color format `color-mix()` and `color-contrast()` [reference](https://www.smashingmagazine.com/2021/11/guide-modern-css-colors/)
-- [ ] if there are style declaration above :root {} then this extension will not parse those lines
-- [ ] create web extension for the same, currently it is for desktop
+- [ ] currently, to revert back the changes made by extension, user need to do undo 2 times just after the conversion.
+- [ ] check for scss file support, which works partially. need to check for less file also
+- [ ] add support for new color format `color-mix()` and `color-contrast()` [reference](https://www.smashingmagazine.com/2021/11/guide-modern-css-colors/)
+- [ ] if there are style declaration above :root {} then this extension will not parse those lines, which need to handle.
+- [ ] develop web extension for the same, currently it is for desktop
 
 ## Known issues
 
@@ -184,15 +171,19 @@ moreover, if you want to contribute, please feel free to raise the [PR](https://
 
 ## References 
 
-below are useful links which helps me to develop the extension
+followings are useful links which helps me to develop this extension
 
 - [w3.org: color specification](https://www.w3.org/TR/css-color-4/#introduction)
 - [tc39: Regular Expression](https://tc39.es/ecma262/multipage/text-processing.html#sec-regexp-regular-expression-objects)
 - [MDN: Color syntax](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value)
 - [W3C: Selector Syntax](https://w3c.github.io/csswg-drafts/selectors/#syntax)
 - [VS code: Discussion Forum](https://github.com/microsoft/vscode-discussions)
-- [VS Code Extension API](https://code.visualstudio.com/api)
+- [VS code Extension API](https://code.visualstudio.com/api)
 
-few of the notable extensions which helps to write better code and test cases
+Also, few of the notable extensions which helps to write better code and test cases
   - Peacock
   - Project Manager
+
+Thank you for reading.
+
+### Keshav Mohta <xkeshav@gmail.com>

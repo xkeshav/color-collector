@@ -1,3 +1,4 @@
+export const fileClosingError = 'closing the file while executing command might give wrong result.';
 export const importComment = '/* below import statement added by css color collector */';
 export const importFileComment = 'this file imported in the below css file';
 export const invalidFileErrorMessage = 'invalid css file, please check error in PROBLEMS tab.';
