@@ -115,18 +115,19 @@ export async function createSeparateRootFile(content: string) {
 
 function getNewFilePath() {
 	const document = vscode.window.activeTextEditor?.document;
-	const { uri: { fsPath } } = document!;
-	const { name: openFileName, dir: openFileDirectoryPath } = path.parse(fsPath);
+	const { uri: { fsPath }, fileName } = document!;
+	const {name: openFileName } = path.parse(fileName);
+	const file = vscode.Uri.file(fsPath);
+	const openFileDirectoryPath  = path.dirname(file.path);
 	const workspaces = vscode.workspace.workspaceFolders;
-	let workSpaceRootPath;
-	// when a folder opened in explorer then there will be workspace
+	let workspaceRootPath;
+	// when a folder opened in explorer then there will be a default workspace
 	if (workspaces) {
-		const workSpaceRoot = workspaces[0];
-		const { uri } = workSpaceRoot;
-		({ dir: workSpaceRootPath } = path.parse(uri.fsPath));
+		const workspaceRoot = workspaces[0];
+		workspaceRootPath = workspaceRoot.uri.path;
 	}
 	// in case when workspace is different and file open from other location
-	const dirPath = (workSpaceRootPath !== openFileDirectoryPath) ? openFileDirectoryPath : workSpaceRootPath;
+	const dirPath = (workspaceRootPath === openFileDirectoryPath) ?  workspaceRootPath : openFileDirectoryPath ;
 	//vscode.window.showInformationMessage(dirPath.toString());
 	return [dirPath, openFileName];
 }

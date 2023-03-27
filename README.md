@@ -4,26 +4,29 @@ A vs code extension that works with css file, collect all color values from a cs
 
 ## Description
 
-In an open CSS file, on execution of command, this extension parse the file and collect all color values and and assign them to a meaningful variable name and replace the color values with these variable name in file, also these color variables placed under a `:root` pseudo selector.
+In an open CSS file, on execution of `collect colors` command, this extension parse the open file and read all color written in the file and and assign every color value to a meaningful variable name and replace the color value with variable and these color variables collected under a `:root` pseudo selector.
 
 ## Use Case
 
-This approach has a few benefits.
-First, it can help make your code more readable by giving names to colors that might otherwise be difficult to remember.
-Second, it can help you avoid duplicating colors throughout your code.
+This approach has a few benefits.  
+
+First, it can help make your code more readable by giving names to colors that might otherwise be difficult to remember.  
+
+Second, it can help you avoid duplicating colors throughout your code.  
+
 And third, if you ever need to change a color value, you can do so in one place and have the change propagate throughout your entire stylesheet.
 
 ## Install
 
-- Open Extensions sidebar panel in VS Code and choose the menu options for _View → Extensions_ or use `Ctrl + Shift + X` or `Cmd + Shift + X`
+- in VSCode, Open extension panel from activity bar and choose the menu options for _View → Extensions_ or use <kbd>Ctrl/Cmd</kbd> + <kbd>Shift</kbd> + <kbd>x</kbd>
 - Search for `css color collector`
 - Click _Install_
 
 ## Settings and Configuration
 
-Open vs code settings ( <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd>) and search **css color collector** and found 3 settings and all are optional
+Open Settings using <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd> and search **color collector** 
 
-![extension settings](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/settings.png)
+![cs code settings](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/vscode-settings-for-color-collector.png))
 
 1. if you need to run this extension for .scss file ( which is experimental though) then add following setting
 
@@ -35,7 +38,8 @@ Open vs code settings ( <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd>) and search *
 ]
 ```
 
-1.  if you require a separate file for collected color then open your _Workspace_ ( if no workspace then in _User_ ) setting and search for _css.color.collector_ and check the tick box or add below setting file
+1.  To create a separate file for collected color then open your _Workspace_ ( if no workspace then in _User_ ) Settings and 
+   search for _css.color.collector_ and check the tick box for _Color In Separate File_ option or write below key in the setting file
 
 ```json
 "cssColorCollector.colorInSeparateFile": true
@@ -43,9 +47,9 @@ Open vs code settings ( <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd>) and search *
 
 then a new file will be created same as to the open file location, and new file name in below format
 
-**root-variable--[open file name].css**
+**color-collector--[open file name].css**
 
-and it will open after conversion done.
+and new file will be open after conversion done successfully.
 
 ## Features
 
@@ -72,22 +76,25 @@ body {
 }
 ```
 
-- each variable name ends with `-<num>` to keep track how many colors are collected and used, further you can rename the variable using `Rename Symbol(F2)` action in vs code.
+- Each variable suffixed with `-<number>` to keep track how many colors are collected.
 
 - After successfully execution of the command, the css file will be updated in 2 ways
 
-  - color value will be replaced by css variables and
-  - if `colorInSeparateFile` option enabled then an import statement will be added on the top of file and new file will be generated where all collected color will be written.
-  - otherwise a`:root` block will be added on the top of the file (after all `import` statements as per css specification )
+- color value will be replaced by these new css variable in the file on the same place/
+
+- if `colorInSeparateFile` is enabled then an import statement will be added on the top of file and new file will be generated where all collected color will be written. with comment of respective file name and date of conversion.
+  
+- if `colorInSeparateFile` is not enabled then a new `:root` pseudo selector will be added on the top of the file with all collected variable in it's declaration block (after all `import` statements as per css specification )
 
 - After successful execution of command , vs code will display notification.
 
 ## How to Use
 
-- Open a css file
+- Open a css file ( or sass file )
 - Press <kbd>F1</kbd> to open the command palette
-- Type `ccc` and select _collect colors_ command OR type <kbd>Ctrl + F7</kbd> or <kbd>Cmd + F7</kbd>
-- After completion of command, you will see notification message _variable conversion done successfully!_
+- Type `ccc` and select _collect colors_ command OR use keyboard shortcut <kbd>Ctrl + F7</kbd> or <kbd>Cmd + F7</kbd>
+- if there are any error while running the command then notification message will appears
+- After completion of command, you will see notification message of successful conversion.
 
 ## Working Demo
 
@@ -152,16 +159,12 @@ body {
 
 - This is my first extension so if you find it useful then please [write review](https://marketplace.visualstudio.com/items?itemName=xkeshav.css-color-collector&ssr=false#review-details) to improve the experience in better way.
 
-### Known issues
 
-- _"invalid flag 'dgim'"_
-  if you run the command and get above error then check whether you have [todo-tree extension](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree) enabled in vs code then please disable that extension to make this extension work properly. [issue raised on the same](https://github.com/Gruntfuggly/todo-tree/issues/732) and checking for solution
+## Contribution Guide
 
-## Contribution
+To raise any issue/ suggestions / feature [write here](https://github.com/xkeshav/color-collector/issues/) .
 
-to raise any issue/ suggestions / feature [write here](https://github.com/xkeshav/color-collector/issues/) , I am actively looking
-
-Please raise the [PR](https://github.com/xkeshav/color-collector/pulls) if you want to contribute.
+moreover, if you want to contribute, please feel free to raise the [PR](https://github.com/xkeshav/color-collector/pulls)
 
 ## TODO
 
@@ -171,6 +174,11 @@ Please raise the [PR](https://github.com/xkeshav/color-collector/pulls) if you w
 - [ ] support for new color format `color-mix()` and `color-contrast()` [reference](https://www.smashingmagazine.com/2021/11/guide-modern-css-colors/)
 - [ ] if there are style declaration above :root {} then this extension will not parse those lines
 - [ ] create web extension for the same, currently it is for desktop
+
+### Known issues
+
+- _"invalid flag 'dgim'"_
+  if you run the command and get above error then check whether you have [todo-tree extension](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree) enabled in vs code then please disable that extension to make this extension work properly. [issue raised on the same](https://github.com/Gruntfuggly/todo-tree/issues/732) and checking for solution
 
 ## Useful Reference
 
