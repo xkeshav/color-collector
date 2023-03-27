@@ -25,7 +25,7 @@ main {
 .item {
   border-color: rgb(255, 0, 0);
   margin-top: inherit;
-  transition-property: ;
+  transition-property: jump;
 }
 
 .nav:has(nth-child(3)) {

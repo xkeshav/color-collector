@@ -1,19 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 export const extensionID = 'xkeshav.css-color-collector';
-
-export const DOCUMENT_MINIMUM_LENGTH = 12; // *{color:var(--defaultSelector__txt--1)} is the minimum color containing css content
-
-export const rootComment = '/* following variables created by css color collector */';
-
-export const importComment = '/* below import statement added by css color collector */';
-
-export const newFilePrefix = 'root-variable--';
-
-export const notFoundInFile = (prop: string, fileName: string = '') => `no color ${prop} found in the file ${fileName} !`;
-
-export const successInfo = (fileName: string) => `color collection done successfully for ${fileName} !`;
-
+export const DOCUMENT_MINIMUM_LENGTH = 12; // *{color:red} is the minimum color containing css content
 
 export const PATTERN_LIST = {
 	PROPERTY: '(?<PROPERTY>[\\w-]+[^:])(?=:\s*)',
@@ -28,13 +16,12 @@ export const PATTERN_LIST = {
 	ROOT_SELECTOR: '(?<!\\/\\*.*)(?<=:)(?<ROOT_BLOCK>\\b(root)\\b\\s*(?={))'
 };
 
-
 export const COLOR_PROPERTY_LIST = {
 	'background': 'bg',
 	'background-color': 'bg',
 	'background-image': 'bg__img',
 	'border': 'border',
-	'border-block':'border__block',
+	'border-block': 'border__block',
 	'border-block-color': 'border__block',
 	'border-block-end-color': 'border__block--end',
 	'border-block-start-color': 'border__block--start',

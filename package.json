@@ -1,12 +1,13 @@
 {
   "name": "css-color-collector",
   "displayName": "css color collector",
-  "description": "collect and replace all color values from css file with an intuitive css variable name and place all these color variable under a new :root pseudo selector.",
-  "version": "0.8.0",
+  "description": "collect each color values from a css file and replace it with an intuitive variable and add a new :root pseudo selector which contains these variables.",
+  "version": "0.9.0",
   "publisher": "xkeshav",
   "engines": {
     "vscode": "^1.74.0"
   },
+  "homepage": "https://github.com/xkeshav/color-collector/blob/main/README.md",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
     "url": "https://github.com/xkeshav/color-collector/issues",
@@ -17,12 +18,19 @@
     "url": "https://github.com/xkeshav/color-collector.git"
   },
   "icon": "/images/logo.png",
+  "extensionKind": [
+    "workspace"
+  ],
+  "galleryBanner": {
+		"color": "#fd81c4",
+		"theme": "dark"
+	},
   "keywords": [
-    "cssColorCollector",
+    "color collector",
     "color variable",
     "css color collector",
     "css color",
-    "color collector",
+    "cssColorCollector",
     "color parser",
     "css variable generator"
   ],
@@ -52,9 +60,9 @@
         "cssColorCollector.lookupFiles": {
           "type": "array",
           "default": [
-            ".css",
-            ".scss",
-            ".less"
+            "*.css",
+            "*.scss",
+            "*.less"
           ],
           "description": "file pattern from where to collect colors."
         },
@@ -70,14 +78,16 @@
         "command": "css-color-collector.collect",
         "key": "ctrl+f7",
         "mac": "cmd+f7",
-        "when": "editorTextFocus && editorLangId == css || editorTextFocus && editorLangId == scss"
+        "when": "editorTextFocus && resourceLangId =~ /s?css|less/"
       }
     ],
     "languages": [
       {
         "id": "css",
         "extensions": [
-          ".css", ".scss", ".less"
+          ".css",
+          ".scss",
+          ".less"
         ],
         "aliases": [
           "css",
@@ -96,7 +106,7 @@
       "commandPalette": [
         {
           "command": "css-color-collector.collect",
-          "when": "editorLangId == css || editorLangId == scss"
+          "when": "editorLangId == css || editorLangId == scss || editorLangId == less"
         }
       ]
     }

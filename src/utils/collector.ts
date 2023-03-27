@@ -48,15 +48,15 @@ export class Collector {
 	}
 
 	/* check whether there are any color in css file except inside the :root selector; return true if color exist */
-	verifyColorExistInDocument() {
-		this.skipRootDeclarationBlock();
+	verifyAnyColorExistInDocument() {
+		this.skipImportAndRootPosition();
 		this.#colorRegex.lastIndex = this.rootSelectorEndingIndex;
 		const colorMatchResult = this.#colorRegex.exec(this.cssDocument); // note: here using .exec to get more control than .match
 		return colorMatchResult !== null;
 	}
 
-	/* make sure we do not scan in :root block, so getting the index position of closing bracket of :root */
-	skipRootDeclarationBlock() {
+	/* make sure we do not scan @import statement and existing :root block, so getting the index position of closing bracket of :root */
+	skipImportAndRootPosition() {
 		const rootMatchList = this.cssDocument.matchAll(this.#rootRegex);
 		const lastRootBlock = Array.from(rootMatchList).pop();
 		if (lastRootBlock) {
@@ -65,6 +65,9 @@ export class Collector {
 			const [, lastIndex] = ROOT_BLOCK;
 			const closingBlockIndex = this.cssDocument.indexOf('}', lastIndex);
 			this.rootSelectorEndingIndex = closingBlockIndex !== -1 ? closingBlockIndex : 0;
+		} else {
+			const lastImportPosition = this.locateImportPosition(true) as number;
+			this.rootSelectorEndingIndex = lastImportPosition;
 		}
 	}
 
@@ -109,7 +112,7 @@ export class Collector {
 				const colorValue = HEX_COLOR || NON_HEX_COLOR || COLOR_NAME || COLOR_FUNCTION;
 				if (HEX_COLOR) {
 					[isColorVariableExist, variableName] = checkDuplicateHexColor(HEX_COLOR as HexString, this.#variableList);
-				} else {
+				} else { // check for named, color, and other color format with same value
 					[isColorVariableExist, variableName] = checkDuplicateNonHexColor(colorValue, this.#variableList);
 				}
 				const colorIndexList = colorIndicesGroup.HEX_COLOR || colorIndicesGroup.NON_HEX_COLOR || colorIndicesGroup.COLOR_NAME || colorIndicesGroup.COLOR_FUNCTION;
@@ -126,19 +129,23 @@ export class Collector {
 		}
 	}
 
-	/* locate position where :root need to be insert in file ; will place after all import statements  */
-	locateRootPosition(): number[] {
+	/* locate position of last import statement , after that new :root will be placed ;   
+      @param boolean toSKip is true then we return the last index of import statements and so that we skip import statements file while parsing
+			otherwise when @import 'red.css' will be there and this command will change `red` into variable 
+	*/
+	locateImportPosition(toSkip = false): number[] | number {
 		const importMatchList = this.cssDocument.matchAll(this.#importRegex);
 		const lastImportStatement = Array.from(importMatchList).pop();
 		let position = [0, 0];
+		let lastImportIndex = 0;
 		if (lastImportStatement) {
 			const { indices: { groups: { IMPORT: importGroup } } } = <RegExpMatchArrayWithIndices>lastImportStatement;
-			const [, last] = importGroup;
+			lastImportIndex = importGroup[1];
 			// find line number on last @import statement and place :root after that
-			const line = this.cssDocument.substring(0, last);
+			const line = this.cssDocument.substring(0, lastImportIndex);
 			const totalLines = line.match(/\n/g)?.length ?? 0;
 			position = [totalLines + 1, 0];
 		}
-		return position;
+		return toSkip ? lastImportIndex : position;
 	};
 }

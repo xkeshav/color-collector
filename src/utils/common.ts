@@ -1,5 +1,6 @@
 import { HexString, SelectorMap, VariableList, VariableNameParams } from '../models/base';
 import { PATTERN_LIST, PROPERTY_ALIAS_MAPPER } from './constants';
+import { importFileComment, successMessage } from './messages';
 
 const colorPatterns = [
   PATTERN_LIST.COLOR_HEX_FORMAT,
@@ -8,7 +9,6 @@ const colorPatterns = [
   PATTERN_LIST.COLOR_FUNCTION,
   PATTERN_LIST.PROPERTY, /* keep this as last element of array */
 ];
-
 
 export const combinedColorAndPropertyPattern = colorPatterns.map((rx: string) => rx).filter(Boolean).join('|');
 
@@ -98,10 +98,21 @@ export const checkDuplicateHexColor = (colorValue: HexString, list: VariableList
 export const checkDuplicateNonHexColor = (colorValue: string, list: VariableList): [boolean, string] => {
   let isDuplicateColor = false;
   let colorVariable = '';
-  const nonHexColorEntry = Object.entries(list).find(([_, vv]) => colorValue === vv);
+  const nonHexColorEntry = Object.entries(list).find(([_, vv]) => colorValue.toLowerCase() === vv);
   if (nonHexColorEntry !== undefined) {
     [colorVariable] = nonHexColorEntry;
     isDuplicateColor = true;
   }
   return [isDuplicateColor, colorVariable];
 };
+
+
+export const notFoundInFile = (prop: string, fileName: string = '') => `no color ${prop} found in the file ${fileName} !`;
+
+export const successInfo = (fileName: string) => `${successMessage} for ${fileName} !`;
+
+export const importDetailComment = (fileName: string) => `/* 
+${importFileComment}
+name: ${fileName}
+date: ${new Date().toISOString()}
+*/`;
