@@ -193,7 +193,7 @@ suite('colorFinder method', () => {
 		}
 		`;
 			classObject = new Collector(input);
-			const position = classObject.locateRootPosition();
+			const position = classObject.locateImportPosition();
 			assert.deepEqual(position, [0, 0]);
 		});
 
@@ -210,7 +210,7 @@ suite('colorFinder method', () => {
 		}
 		`;
 			classObject = new Collector(input);
-			const position = classObject.locateRootPosition();
+			const position = classObject.locateImportPosition();
 			assert.deepEqual(position, [3, 0]);
 		});
 
@@ -225,7 +225,7 @@ suite('colorFinder method', () => {
 				}
 		`;
 			const classObject = new Collector(input);
-			classObject.skipRootDeclarationBlock();
+			classObject.skipImportAndRootPosition();
 			assert.equal(classObject.rootSelectorEndingIndex, 0);
 		});
 
@@ -236,7 +236,7 @@ suite('colorFinder method', () => {
 					--min: 16px;
 				}
 		`;
-			classObject.skipRootDeclarationBlock();
+			classObject.skipImportAndRootPosition();
 			assert.equal(classObject.rootSelectorEndingIndex, 0);
 		});
 
@@ -248,7 +248,7 @@ suite('colorFinder method', () => {
 				--min: 16px;
 			}
 		`;
-			classObject.skipRootDeclarationBlock();
+			classObject.skipImportAndRootPosition();
 			assert.equal(classObject.rootSelectorEndingIndex, 35);
 		});
 
@@ -269,7 +269,7 @@ suite('colorFinder method', () => {
 					}
 				}
 		`;
-			classObject.skipRootDeclarationBlock();
+			classObject.skipImportAndRootPosition();
 			assert.equal(classObject.rootSelectorEndingIndex, 48);
 		});
 

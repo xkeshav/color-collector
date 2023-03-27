@@ -36,8 +36,9 @@ All notable changes to the "css-color-collector" extension will be documented in
 ## [1.0.0]
 
 - new screenshot and option enable demo gif added
-- new file added on same directory where open file is
+- separate file created on same directory where the open file is
 - file name displayed in the information message.
-- new color property added
 - check whether file is valid valid and saved
 - date and original file name added in the new file
+- import statements skipped while parsing
+- keyboard shortcut available for scss and less file

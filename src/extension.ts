@@ -69,7 +69,7 @@ export function activate(context: vscode.ExtensionContext) {
 						const importFileContent = `${importDetailComment(base)}\r\n${rootContent}`;
 						newFileName = await createSeparateRootFile(importFileContent);
 					}
-					const [first, last] = collectorObject.locateRootPosition();
+					const [first, last] = collectorObject.locateImportPosition() as number[];
 					const position = new vscode.Position(first, last);
 					activeEditor?.edit((editBuilder: vscode.TextEditorEdit) => {
 						editBuilder.insert(position, '');
@@ -96,8 +96,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 /* create separate file and return new file name  */
 export async function createSeparateRootFile(content: string) {
-	const [fileDirectory, fileName] = getNewFilePath();
-	const newFileName = `${newFilePrefix}-${fileName}.css`;
+	const [fileDirectory, fileName] = getOpenFileDirectory();
+	const newFileName = `${newFilePrefix}-${fileName.toLowerCase()}.css`;
 	const fileLocation = vscode.Uri.parse(fileDirectory + path.sep + newFileName);
 	const wsEdit = new vscode.WorkspaceEdit();
 	// overwrite the file if already exist
@@ -113,7 +113,7 @@ export async function createSeparateRootFile(content: string) {
 
 /* create new file on parallel to open file's directory */
 
-function getNewFilePath() {
+function getOpenFileDirectory() {
 	const document = vscode.window.activeTextEditor?.document;
 	const { uri: { fsPath }, fileName } = document!;
 	const {name: openFileName } = path.parse(fileName);

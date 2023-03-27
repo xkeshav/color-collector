@@ -1,12 +1,13 @@
 {
   "name": "css-color-collector",
   "displayName": "css color collector",
-  "description": "collect and replace all color values from css file with an intuitive css variable name and place all these color variable under a new :root pseudo selector.",
-  "version": "0.8.0",
+  "description": "collect each color values from a css file and replace it with an intuitive variable and add a new :root pseudo selector which contains these variables.",
+  "version": "0.9.0",
   "publisher": "xkeshav",
   "engines": {
     "vscode": "^1.74.0"
   },
+  "homepage": "https://github.com/xkeshav/color-collector/blob/main/README.md",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
     "url": "https://github.com/xkeshav/color-collector/issues",
@@ -20,6 +21,10 @@
   "extensionKind": [
     "workspace"
   ],
+  "galleryBanner": {
+		"color": "#fd81c4",
+		"theme": "dark"
+	},
   "keywords": [
     "color collector",
     "color variable",
@@ -73,7 +78,7 @@
         "command": "css-color-collector.collect",
         "key": "ctrl+f7",
         "mac": "cmd+f7",
-        "when": "editorTextFocus && editorLangId == css"
+        "when": "editorTextFocus && resourceLangId =~ /s?css|less/"
       }
     ],
     "languages": [
