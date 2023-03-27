@@ -1,4 +1,8 @@
-/*cspell */
+/*
+	@author: Keshav Mohta
+
+	This is main class which parse the css file
+*/
 import { ColorMap, HexString, RegExpMatchArrayWithIndices, SelectorMap, VariableList } from '../models/base';
 import { checkDuplicateHexColor, checkDuplicateNonHexColor, combinedColorAndPropertyPattern, combinedColorPattern, getParentSelectorName, setVariableName } from './common';
 import { PATTERN_LIST } from './constants';
@@ -129,9 +133,9 @@ export class Collector {
 		}
 	}
 
-	/* locate position of last import statement , after that new :root will be placed ;   
-      @param boolean toSKip is true then we return the last index of import statements and so that we skip import statements file while parsing
-			otherwise when @import 'red.css' will be there and this command will change `red` into variable 
+	/* locate position of last import statement, after that new :root will be placed  
+		@param boolean `toSKip` is true then we return the last index of import statement and so that we skip import statements while parsing
+		otherwise execution of command for @import 'red.css' will change `red` into variable name.
 	*/
 	locateImportPosition(toSkip = false): number[] | number {
 		const importMatchList = this.cssDocument.matchAll(this.#importRegex);
