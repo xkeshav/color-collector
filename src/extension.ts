@@ -105,7 +105,7 @@ export async function createSeparateRootFile(content: string) {
 	const position = new vscode.Position(1, 0);
 	wsEdit.insert(fileLocation, position, content);
 	await vscode.workspace.applyEdit(wsEdit);
-	vscode.window.showInformationMessage('separate file created ' + newFileName);
+	vscode.window.showInformationMessage('a new file created => ' + newFileName);
 	await vscode.workspace.openTextDocument(fileLocation);
 	vscode.window.showTextDocument(fileLocation);
 	return newFileName;
@@ -116,9 +116,9 @@ export async function createSeparateRootFile(content: string) {
 function getNewFilePath() {
 	const document = vscode.window.activeTextEditor?.document;
 	const { uri: { fsPath }, fileName } = document!;
-	const {name: openFileName } = path.parse(fileName);
+	const { name: openFileName } = path.parse(fileName);
 	const file = vscode.Uri.file(fsPath);
-	const openFileDirectoryPath  = path.dirname(file.path);
+	const openFileDirectoryPath = path.dirname(file.path);
 	const workspaces = vscode.workspace.workspaceFolders;
 	let workspaceRootPath;
 	// when a folder opened in explorer then there will be a default workspace
@@ -127,7 +127,7 @@ function getNewFilePath() {
 		workspaceRootPath = workspaceRoot.uri.path;
 	}
 	// in case when workspace is different and file open from other location
-	const dirPath = (workspaceRootPath === openFileDirectoryPath) ?  workspaceRootPath : openFileDirectoryPath ;
+	const dirPath = (workspaceRootPath === openFileDirectoryPath) ? workspaceRootPath : openFileDirectoryPath;
 	//vscode.window.showInformationMessage(dirPath.toString());
 	return [dirPath, openFileName];
 }
