@@ -33,7 +33,7 @@ export class Collector {
 		this.#colorRegex = new RegExp(combinedColorPattern, 'img');
 		this.#colorAndPropertyRegex = new RegExp(combinedColorAndPropertyPattern, 'imgd');
 		this.#importRegex = new RegExp(PATTERN_LIST.IMPORT_STMT, 'imgd');
-		this.#selectorRegex = new RegExp(PATTERN_LIST.SELECTOR_WITH_MEDIA, 'imgd');
+		this.#selectorRegex = new RegExp(PATTERN_LIST.SELECTOR, 'imgd');
 		this.#rootRegex = new RegExp(PATTERN_LIST.ROOT_SELECTOR, 'imgd');
 		this.#wordRegex = new RegExp(PATTERN_LIST.WORD, 'imgu');
 	}
@@ -83,7 +83,7 @@ export class Collector {
 			const { SELECTOR: selectorName } = selectorGroup!;
 			const { SELECTOR: selectorIndex } = selectorIndicesGroup;
 			const [, lastIndex] = selectorIndex;
-			let trimmedSelectorName = selectorName.trim();
+			let trimmedSelectorName = selectorName.replaceAll('\n', '').trim();
 			if (trimmedSelectorName === '*') { // special case
 				selector = 'starSelector';
 			}

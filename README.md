@@ -147,6 +147,7 @@ _Note:_ New file will be created in the same directory where the css file is ope
 - [x] new file create parallel to open file whether it is on same workspace or different or just file opened.
 - [.] scss file support (work partially, haven't checked for complex but simple scss file works)
 - [x] handle data attribute while parsing for eg `.card[data-color=white]{color: white}`
+- [ ] handle minified ( single line ) css
 
 ## Release Notes
 
