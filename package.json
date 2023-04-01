@@ -22,7 +22,7 @@
     "workspace"
   ],
   "galleryBanner": {
-    "color": "#fd81c4",
+    "color": "#551e33",
     "theme": "dark"
   },
   "keywords": [
@@ -35,7 +35,7 @@
     "css variable generator"
   ],
   "categories": [
-    "Other"
+    "Other", "Programming Languages"
   ],
   "activationEvents": [
     "workspaceContains:**/*.css"
