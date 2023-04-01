@@ -50,11 +50,6 @@ export class Collector {
 		return this.#variableList;
 	}
 
-	*getBlockStartIndex(pos = 0) {
-		const currentIndex = this.cssDocument.indexOf('{', pos);
-		yield currentIndex;
-	}
-
 	/* check whether there are any color in css file except inside the :root selector; return true if color exist */
 	verifyAnyColorExistInDocument() {
 		this.skipImportAndRootPosition();
