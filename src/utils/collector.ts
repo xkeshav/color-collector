@@ -9,7 +9,6 @@ import { PATTERN_LIST } from './constants';
 
 
 export class Collector {
-
 	cssDocument: string;
 	rootSelectorEndingIndex: number; // where first `{` ends if :root defined in css file 
 	#propertyName: string;
@@ -49,6 +48,11 @@ export class Collector {
 
 	get variableList() {
 		return this.#variableList;
+	}
+
+	*getBlockStartIndex(pos = 0) {
+		const currentIndex = this.cssDocument.indexOf('{', pos);
+		yield currentIndex;
 	}
 
 	/* check whether there are any color in css file except inside the :root selector; return true if color exist */

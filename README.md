@@ -33,11 +33,12 @@ And third, if you ever need to change a color value, you can do so in one place 
 
 ## Configuration Option
 
-Open VS code Settings using <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd> and search for **css color collector** and you will see below settings
+Open VS code Settings using <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd> and search **css color collector** and you will see below settings
 
 ![vs code settings](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/vscode-settings-for-color-collector.png))
 
-To create a separate file for `:root` block , you need to check *Color in Separate File* option in your _Workspace _ ( if no workspace then in _User_ ) tab  or add below key in respective Setting file
+1.  To create a separate file for collected color then open your _Workspace_ ( if no workspace then in _User_ ) Settings and
+    search for _css.color.collector_ and check the tick box for _Color In Separate File_ option or add below line in respective setting file.
 
 ```json
 "cssColorCollector.colorInSeparateFile": true
@@ -76,11 +77,12 @@ _Note:_ if extension unable to parse property and selector of a color then varia
 
   1. color value will be replaced with css variable names in the file.
 
-  2. a new `:root` pseudo selector will be created which contains all variables with color values in it's declaration block and placement of `:root` vary as follow
+- if `colorInSeparateFile` is enabled then an import statement will be added on the top of file and new file will be generated where all collected color will be written. with comment of respective file name and date of conversion.
+- if `colorInSeparateFile` is not enabled then a new `:root` pseudo selector will be added on the top of the file with all collected variable in it's declaration block (after all `import` statements as per css specification )
 
-     - if `cssColorCollector.colorInSeparateFile` is `false` or not set, then `:root` will be added on the top of the file, after all `import` statements.
+- After successful execution of command, extension will display notification message.
 
-     - if `cssColorCollector.colorInSeparateFile` is enabled then `:root` will be placed in a new file and a import statement will be added in the css file.
+  - if `cssColorCollector.colorInSeparateFile` is enabled then `:root` will be placed in a new file and a import statement will be added in the css file.
 
 _Note:_ New file will be created in the same directory where the css file is opened and naming convention of file would be _color-collector--[open-file-name].css_ and multi line comment will be added on top of `:root` which mention the source file and date of conversion.
 
@@ -144,6 +146,7 @@ _Note:_ New file will be created in the same directory where the css file is ope
 - [x] option to create separate file for collected color variables
 - [x] new file create parallel to open file whether it is on same workspace or different or just file opened.
 - [.] scss file support (work partially, haven't checked for complex but simple scss file works)
+- [x] handle data attribute while parsing for eg `.card[data-color=white]{color: white}`
 
 ## Release Notes
 
@@ -169,7 +172,7 @@ moreover, if you want to contribute, please feel free to raise the [PR](https://
 - _"invalid flag 'dgim'"_
   if you run the command and get above error then check whether you have [todo-tree extension](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree) enabled in vs code then please disable that extension to make this extension work properly. [issue raised on the same](https://github.com/Gruntfuggly/todo-tree/issues/732) and checking for solution
 
-## References 
+## References
 
 followings are useful links which helps me to develop this extension
 
@@ -181,8 +184,9 @@ followings are useful links which helps me to develop this extension
 - [VS code Extension API](https://code.visualstudio.com/api)
 
 Also, few of the notable extensions which helps to write better code and test cases
-  - Peacock
-  - Project Manager
+
+- Peacock
+- Project Manager
 
 Thank you for reading.
 
