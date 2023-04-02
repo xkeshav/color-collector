@@ -33,11 +33,10 @@ And third, if you ever need to change a color value, you can do so in one place 
 
 ## Configuration Option
 
-Open VS code Settings using <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd> and search for **css color collector** and you will see below settings
+To create a separate file for `:root` block then open your _Workspace_ ( if no workspace then in _User_ ) settings, using <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd> and
+search **css color collector** and check the tick box for against _Color In Separate File_ option
 
 ![vs code settings](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/vscode-settings-for-color-collector.png))
-
-To create a separate file for `:root` block , you need to check *Color in Separate File* option in your _Workspace_ ( if no workspace then in _User_ ) tab  or add below key in respective Settings file.
 
 ```json
 "cssColorCollector.colorInSeparateFile": true
@@ -78,13 +77,13 @@ _Note:_ if extension unable to parse property and selector of a color then varia
 
   1. color value will be replaced with css variable names in the file.
 
-  2. a new `:root` pseudo selector will be created which contains all variables with color values in it's declaration block and placement of `:root` vary as follow
+    - if `colorInSeparateFile` is enabled then a new file will be generated near to the open file `:root` will be placed and an import statement will be added on the top of the open file.
+    - if `colorInSeparateFile` is not enabled then a new `:root` pseudo selector will be added on the top of the file with all collected variable in it's declaration block (after all `import` statements as per css specification )  
+    
+ _Note:_ New file will be created in the same directory where the css file is opened and naming convention of file would be _color-collector--[open-file-name].css_ and multi line comment will be added on top of `:root` which mention the source file and date of conversion.
+   
+- After successful execution of command, extension will display notification message.
 
-     - if `cssColorCollector.colorInSeparateFile` is not set or `false`, then `:root` will be added on the top of the file, after all `import` statements.
-
-     - if `cssColorCollector.colorInSeparateFile` is enabled or `true` then `:root` will be placed in a new file and a import statement will be added in the css file.
-
-_Note:_ New file will be created in the same directory where the css file is opened and naming convention of file would be _color-collector--[open-file-name].css_ and multi line comment will be added on top of `:root` which mention the source file and date of conversion.
 
 - comment will be added over the `:root` block or `@import` statement to identify the changes.
 
@@ -140,11 +139,12 @@ _Note:_ New file will be created in the same directory where the css file is ope
 - [x] support all color syntax.
 - [x] handle when there are multiple color on same line such as liner-background()
 - [x] insert :root after _@import_ statements and add comment above it to identify
-- [ ] media query selector name need to append media in variable name
 - [x] skip existing `:root {}` and `@import` statements while parsing the file.
 - [x] capture unicode selector such as 🎵
 - [x] option to create separate file for collected color variables
-- [x] new file would be created parallel to the open file whether it is on same workspace or different or just a file opened.
+- [x] new file create parallel to open file whether it is on same workspace or different or just file opened.
+- [x] handle data attribute while parsing for eg `.card[data-color=white]{color: white}`
+- [.] handle minified ( single line ) css
 - [.] scss/less file support, currently works for simple file.
 
 ## Release Notes
@@ -171,7 +171,7 @@ moreover, if you want to contribute, please feel free to raise the [PR](https://
 - _"invalid flag 'dgim'"_
   if you run the command and get above error then check whether you have [todo-tree extension](https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree) enabled in vs code then please disable that extension to make this extension work properly. [issue raised on the same](https://github.com/Gruntfuggly/todo-tree/issues/732) and checking for solution
 
-## References 
+## References
 
 followings are useful links which helps me to develop this extension
 
@@ -183,9 +183,12 @@ followings are useful links which helps me to develop this extension
 - [VS code Extension API](https://code.visualstudio.com/api)
 
 Also, few of the notable extensions which helps to write better code and test cases
-  - Peacock
-  - Project Manager
 
-Thank you for reading.
+- Peacock
+- Project Manager
 
-### Keshav Mohta <xkeshav@gmail.com>
+Thank you for your time for reading.
+
+---
+
+### Keshav Mohta _<xkeshav@gmail.com>_

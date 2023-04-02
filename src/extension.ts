@@ -28,7 +28,7 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 		// check for any error in the file which makes file invalid then stop execution of command
 		const diagnosticArray = vscode.languages.getDiagnostics(uri);
-		const errorList = diagnosticArray.filter(diag => diag.severity === 0);
+		const errorList = diagnosticArray.filter((diag: vscode.Diagnostic) => diag.severity === 0);
 		if (errorList.length) {
 			vscode.window.showErrorMessage(invalidFileErrorMessage);
 			return;
@@ -125,7 +125,7 @@ function getOpenFileDirectory() {
 		const workspaceRoot = workspaces[0];
 		workspaceRootPath = workspaceRoot.uri.path;
 	}
-	// in case when workspace is different and file open from other location
+	// in case when opened location is different than the current workspace
 	const dirPath = (workspaceRootPath === openFileDirectoryPath) ? workspaceRootPath : openFileDirectoryPath;
 	//vscode.window.showInformationMessage(dirPath.toString());
 	return [dirPath, openFileName];

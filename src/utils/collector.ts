@@ -9,7 +9,6 @@ import { PATTERN_LIST } from './constants';
 
 
 export class Collector {
-
 	cssDocument: string;
 	rootSelectorEndingIndex: number; // where first `{` ends if :root defined in css file 
 	#propertyName: string;
@@ -34,7 +33,7 @@ export class Collector {
 		this.#colorRegex = new RegExp(combinedColorPattern, 'img');
 		this.#colorAndPropertyRegex = new RegExp(combinedColorAndPropertyPattern, 'imgd');
 		this.#importRegex = new RegExp(PATTERN_LIST.IMPORT_STMT, 'imgd');
-		this.#selectorRegex = new RegExp(PATTERN_LIST.SELECTOR_WITH_MEDIA, 'imgd');
+		this.#selectorRegex = new RegExp(PATTERN_LIST.SELECTOR, 'imgd');
 		this.#rootRegex = new RegExp(PATTERN_LIST.ROOT_SELECTOR, 'imgd');
 		this.#wordRegex = new RegExp(PATTERN_LIST.WORD, 'imgu');
 	}
@@ -84,7 +83,7 @@ export class Collector {
 			const { SELECTOR: selectorName } = selectorGroup!;
 			const { SELECTOR: selectorIndex } = selectorIndicesGroup;
 			const [, lastIndex] = selectorIndex;
-			let trimmedSelectorName = selectorName.trim();
+			let trimmedSelectorName = selectorName.replaceAll('\n', '').trim();
 			if (trimmedSelectorName === '*') { // special case
 				selector = 'starSelector';
 			}
@@ -144,7 +143,7 @@ export class Collector {
 		let lastImportIndex = 0;
 		if (lastImportStatement) {
 			const { indices: { groups: { IMPORT: importGroup } } } = <RegExpMatchArrayWithIndices>lastImportStatement;
-			lastImportIndex = importGroup[1];
+			([,lastImportIndex] = importGroup);
 			// find line number on last @import statement and place :root after that
 			const line = this.cssDocument.substring(0, lastImportIndex);
 			const totalLines = line.match(/\n/g)?.length ?? 0;
