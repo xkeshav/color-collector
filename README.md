@@ -76,9 +76,10 @@ _Note:_ if extension unable to parse property and selector of a color then varia
 - After successfully execution of the command, the css file will be updated in 2 ways
 
   1. color value will be replaced with css variable names in the file.
+  2. all css variables will be collected and placed under a `:root` pseudo selector and the placement of `:root` block depends on the configuration as follow
 
-    - if `colorInSeparateFile` is enabled then a new file will be generated near to the open file `:root` will be placed and an import statement will be added on the top of the open file.
-    - if `colorInSeparateFile` is not enabled then a new `:root` pseudo selector will be added on the top of the file with all collected variable in it's declaration block (after all `import` statements as per css specification )  
+    - if `cssColorCollector.colorInSeparateFile` is not set or `false` then a new `:root` pseudo selector will be added on the top of the, after all `import` statements as per css specification )  
+    - if `cssColorCollector.colorInSeparateFile` is enabled ( i.e. `true` ) then `:root` will be placed in new file and an import statement will be added on the top of the open file.
     
  _Note:_ New file will be created in the same directory where the css file is opened and naming convention of file would be _color-collector--[open-file-name].css_ and multi line comment will be added on top of `:root` which mention the source file and date of conversion.
    
