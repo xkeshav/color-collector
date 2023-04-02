@@ -42,3 +42,11 @@ All notable changes to the "css-color-collector" extension will be documented in
 - date and original file name added in the new file
 - import statements skipped while parsing
 - keyboard shortcut available for scss and less file
+
+## [1.1.0]
+
+- fixed issue of changing white-space property into variable issue
+- handle when named color in [data-attribute=property] selector
+- handle when there is (num, num, num) in other property such as `cubic-bezier(0.65 -0.02, 0.72, 0.29)`
+- parse minify css 
+- import and selector regex updated.

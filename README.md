@@ -33,12 +33,12 @@ And third, if you ever need to change a color value, you can do so in one place 
 
 ## Configuration Option
 
-Open VS code Settings using <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd> and search **css color collector** and you will see below settings
+To create a separate file for `:root` block then open your _Workspace_ ( if no workspace then in _User_ ) settings, using <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd> and
+search **css color collector** and check the tick box for _Color In Separate File_ option
 
 ![vs code settings](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/vscode-settings-for-color-collector.png))
 
-1.  To create a separate file for collected color then open your _Workspace_ ( if no workspace then in _User_ ) Settings and
-    search for _css.color.collector_ and check the tick box for _Color In Separate File_ option or add below line in respective setting file.
+ Or add below line in user/workspace setting file.
 
 ```json
 "cssColorCollector.colorInSeparateFile": true
@@ -189,6 +189,8 @@ Also, few of the notable extensions which helps to write better code and test ca
 - Peacock
 - Project Manager
 
-Thank you for reading.
+Thank you for your time for reading.
 
-### Keshav Mohta <xkeshav@gmail.com>
+---
+
+### Keshav Mohta _<xkeshav@gmail.com>_
