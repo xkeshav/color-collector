@@ -2,7 +2,7 @@
   "name": "css-color-collector",
   "displayName": "css color collector",
   "description": "collect each color values from a css file and replace it with an intuitive variable and add a new :root pseudo selector which contains these variables.",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "publisher": "xkeshav",
   "engines": {
     "vscode": "^1.74.0"
@@ -22,9 +22,9 @@
     "workspace"
   ],
   "galleryBanner": {
-		"color": "#fd81c4",
-		"theme": "dark"
-	},
+    "color": "#551e33",
+    "theme": "dark"
+  },
   "keywords": [
     "color collector",
     "color variable",
@@ -35,7 +35,7 @@
     "css variable generator"
   ],
   "categories": [
-    "Other"
+    "Other", "Programming Languages"
   ],
   "activationEvents": [
     "workspaceContains:**/*.css"

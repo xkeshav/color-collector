@@ -1,10 +1,10 @@
 # css color collector
 
-A vs code extension that works with css file, collect each color value from css file and replace it with a meaningful css variable and place these variables under a new `:root` pseudo selector block
+A vs code extension which works with css file, collect every color from the file and replace it with a meaningful css variable and place these variables under a new `:root` pseudo selector block
 
 ## Description
 
-In an open css file, on execution of `collect colors` command, this extension parse the file and scan for color values of all color syntax and and assign every color value to a meaningful css variable name and replace the color value with variable and these color variables collected under a `:root` pseudo selector.
+In an open css file, on execution of `collect colors` command, this extension parse the file and search all color value across all supported color syntax and and assign every color value to a meaningful css variable name and replace the color value with variable and these color variables collected under a `:root` pseudo selector.
 
 ## Use Case
 
@@ -29,16 +29,14 @@ And third, if you ever need to change a color value, you can do so in one place 
 - Press <kbd>F1</kbd> to open command palette.
 - Type `ccc` and select _collect colors_ command or alternatively use keyboard shortcut <kbd>Ctrl + F7</kbd> or <kbd>Cmd + F7</kbd>
 - if there are any error in file while running the command then notification message will be displayed.
-- After completion of command, a notification message of successful conversion will be displayed.
+- After completion of the command, a notification message of successful conversion will be displayed.
 
 ## Configuration Option
 
 To create a separate file for `:root` block then open your _Workspace_ ( if no workspace then in _User_ ) settings, using <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd> and
-search **css color collector** and check the tick box for _Color In Separate File_ option
+search **css color collector** and check the tick box for against _Color In Separate File_ option
 
 ![vs code settings](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/vscode-settings-for-color-collector.png))
-
- Or add below line in user/workspace setting file.
 
 ```json
 "cssColorCollector.colorInSeparateFile": true
@@ -73,18 +71,19 @@ _Note:_ if extension unable to parse property and selector of a color then varia
 
 - Each variable name suffixed with `-<number>` to keep track how many colors are collected.
 
+- variable name value will be stored in lowercase only, so `Black`or `BlaCK` will be stored under same variable name and value will be `black`
+
 - After successfully execution of the command, the css file will be updated in 2 ways
 
   1. color value will be replaced with css variable names in the file.
 
-- if `colorInSeparateFile` is enabled then an import statement will be added on the top of file and new file will be generated where all collected color will be written. with comment of respective file name and date of conversion.
-- if `colorInSeparateFile` is not enabled then a new `:root` pseudo selector will be added on the top of the file with all collected variable in it's declaration block (after all `import` statements as per css specification )
-
+    - if `colorInSeparateFile` is enabled then a new file will be generated near to the open file `:root` will be placed and an import statement will be added on the top of the open file.
+    - if `colorInSeparateFile` is not enabled then a new `:root` pseudo selector will be added on the top of the file with all collected variable in it's declaration block (after all `import` statements as per css specification )  
+    
+ _Note:_ New file will be created in the same directory where the css file is opened and naming convention of file would be _color-collector--[open-file-name].css_ and multi line comment will be added on top of `:root` which mention the source file and date of conversion.
+   
 - After successful execution of command, extension will display notification message.
 
-  - if `cssColorCollector.colorInSeparateFile` is enabled then `:root` will be placed in a new file and a import statement will be added in the css file.
-
-_Note:_ New file will be created in the same directory where the css file is opened and naming convention of file would be _color-collector--[open-file-name].css_ and multi line comment will be added on top of `:root` which mention the source file and date of conversion.
 
 - comment will be added over the `:root` block or `@import` statement to identify the changes.
 
@@ -140,14 +139,13 @@ _Note:_ New file will be created in the same directory where the css file is ope
 - [x] support all color syntax.
 - [x] handle when there are multiple color on same line such as liner-background()
 - [x] insert :root after _@import_ statements and add comment above it to identify
-- [ ] media query selector name need to append media in variable name
-- [x] skip existing `:root {}` while parsing the css file.
+- [x] skip existing `:root {}` and `@import` statements while parsing the file.
 - [x] capture unicode selector such as 🎵
 - [x] option to create separate file for collected color variables
 - [x] new file create parallel to open file whether it is on same workspace or different or just file opened.
-- [.] scss file support (work partially, haven't checked for complex but simple scss file works)
 - [x] handle data attribute while parsing for eg `.card[data-color=white]{color: white}`
-- [ ] handle minified ( single line ) css
+- [.] handle minified ( single line ) css
+- [.] scss/less file support, currently works for simple file.
 
 ## Release Notes
 
