@@ -1,0 +1,62 @@
+/* advance test for At rules, and pseudo selectors */
+
+@import url('base.css');
+@import url('other.css');
+
+:root {
+  box-sizing: border-box;
+}
+
+* {
+  background-color: hsla(30, 100%, 50%, 0.1);
+  color: hsl(270 60% 70%);
+}
+
+:scope {
+  background-color: #00ff00;
+}
+
+:where(ol, ul, menu:unsupported) :where(ol, ul) {
+  color: #008000;
+}
+
+@media only screen and (max-width: 480px) {
+  table {
+    -webkit-text-fill-color: #567;
+  }
+}
+
+@supports (text-stroke: 10px) or (-webkit-text-stroke: 10px) {
+  :is(:nth-child(2n + 1) a, details > summary) {
+    -webkit-text-fill-color: #567;
+    -webkit-text-stroke: rgb(255, -10, 0);
+  }
+}
+
+@keyframes flash {
+  0% {
+    border-color: hwb(hue rgb(116, 59, 59) #666);
+  }
+
+  50% {
+    background-color: rgba(100%, 50%, 0%, 0.1);
+  }
+}
+
+@page {
+  size: landscape;
+  margin: 20%;
+  background-color: #1a10;
+  @top-left {
+    border-color: red;
+  }
+}
+
+@page :left {
+  margin-top: 4in;
+  border-bottom: #6ff;
+}
+
+.class {
+  background-image: conic-gradient(#ff9 0.25turn, #009 0.25turn 0.5turn, #999 0.5turn 0.75turn, #900 0.75turn) top left / 25% 25% repeat;
+}
