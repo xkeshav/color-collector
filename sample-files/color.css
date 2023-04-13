@@ -37,11 +37,11 @@ html {
 	--color-18: lab(32.39 38.43 -47.69);
   --color-19: lab(32.39% 38.43 -47.69 / 1);
   --color-20: oklab(0.44135 0.08877 -0.13495);
-  --color-21: oklab(44% 0.09 -0.13);
+  --color-21: oklab(44.135% 0.08877 -0.13495);
   --color-22: lch(32.39 61.25 308.86);
   --color-23: oklch(0.44 0.16 303.38);
   --color-24: oklch(44% 0.16 303.38);
-  --color-25: color(prophoto-rgb 0.32 0.19 0.49);
+  --color-25: color(prophoto-rgb 0.3127 0.194 0.487);
   --color-26: color(rec2020 0.305 0.168 0.53);
   --color-27: color(xyz 0.1238 0.0749 0.310);
   --color-28: color(xyz-d50 0.1168 0.07368 0.23305);
