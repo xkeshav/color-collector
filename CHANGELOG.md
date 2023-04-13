@@ -48,5 +48,11 @@ All notable changes to the "css-color-collector" extension will be documented in
 - fixed issue of changing white-space property into variable issue
 - handle when named color in [data-attribute=property] selector
 - handle when there is (num, num, num) in other property such as `cubic-bezier(0.65 -0.02, 0.72, 0.29)`
-- parse minify css 
+- parse minify css
 - import and selector regex updated.
+
+## [1.1.1]
+
+- README.MD updated
+- added sample css file link in README.md
+- images and gif updated
