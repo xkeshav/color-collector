@@ -35,13 +35,11 @@ And third, if you ever need to change a color value, you can do so in one place 
 
 **collect and replace on same file.**
 
-<img src="https://raw.githubusercontent.com/xkeshav/color-collector/main/images/collector-demo.gif" width="450" height="550" title="css collector demo"/>
+<img src="https://raw.githubusercontent.com/xkeshav/color-collector/main/images/collector-demo.gif" title="css collector demo"/>
 
 **create separate root file**, when `cssColorCollector.colorInSeparateFile` is `true`
 
-![working demo when colorInSeparateFile option enable](
-
-<img src="https://raw.githubusercontent.com/xkeshav/color-collector/main/images/demo-create-separate-file.gif" width="450" height="550" title="demo when options enabled"/>
+<img src="https://raw.githubusercontent.com/xkeshav/color-collector/main/images/demo-create-separate-file.gif" title="demo when options enabled"/>
 
 ## Configuration
 
