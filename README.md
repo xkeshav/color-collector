@@ -196,8 +196,8 @@ Thank you for your time for reading.
 [2]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/basic-css-output.png
 [3]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/advance-css-input.png
 [4]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/advance-css-output.png
-[basic_css_file]: https://github.com/xkeshav/color-collector/blob/main/styles/basic.css
-[advance_css_file]: https://github.com/xkeshav/color-collector/blob/main/styles/advance.css
+[basic_css_file]: https://github.com/xkeshav/color-collector/blob/main/sample/basic.css
+[advance_css_file]: https://github.com/xkeshav/color-collector/blob/main/sample/advance.css
 
 ---
 
