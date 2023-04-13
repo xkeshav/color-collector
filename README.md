@@ -37,7 +37,7 @@ And third, if you ever need to change a color value, you can do so in one place 
 
 <img src="https://raw.githubusercontent.com/xkeshav/color-collector/main/images/collector-demo.gif" title="css collector demo"/>
 
-**create separate root file**, when `cssColorCollector.colorInSeparateFile` is `true`
+**create separate file for :root**, when `cssColorCollector.colorInSeparateFile` is `true`
 
 <img src="https://raw.githubusercontent.com/xkeshav/color-collector/main/images/demo-create-separate-file.gif" title="demo when options enabled"/>
 
