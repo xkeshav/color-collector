@@ -10,5 +10,6 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedParameters": true /* Report errors on unused parameters. */
-  }
+  },
+  "exclude": ["src/test/sample/**"]
 }
