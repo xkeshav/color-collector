@@ -41,16 +41,21 @@ And third, if you ever need to change a color value, you can do so in one place 
 
 <img src="https://raw.githubusercontent.com/xkeshav/color-collector/main/images/demo-create-separate-file.gif" title="demo when options enabled"/>
 
-## Configuration
+## Configuration Option
 
-To create a separate file for `:root` block then open your _Workspace_ ( if no workspace then in _User_ ) settings, using <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd> and
-search **css color collector** and check the tick box for against _Color In Separate File_ option
-
-![vs code settings](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/color-collector-settings.png))
-
+To create a separate file for `:root` block 
+ - open your _Workspace_ ( if no workspace then in _User_ ) settings, using <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd> 
+ - search **css color collector** 
+ - check the tick box for against _Color In Separate File_ option
+ - or add below setting in your setting file.
 ```json
 "cssColorCollector.colorInSeparateFile": true
 ```
+check screenshot below for the same
+
+![vs code settings][0]
+
+
 
 ## Features
 
@@ -109,7 +114,7 @@ _Note:_ New file will be created in the same directory where the css file is ope
 
 ![basic: before conversion][1]
 
-#### output file
+#### output file i.e. after conversion 
 
 ![basic: after conversion][2]
 
@@ -119,7 +124,7 @@ _Note:_ New file will be created in the same directory where the css file is ope
 
 ![advance: before conversion][3]
 
-#### output file
+#### output file i.e. after conversion
 
 ![advance: after conversion ][4]
 
@@ -192,6 +197,7 @@ Also, few of the notable extensions which helps to write better code and test ca
 
 Thank you for your time for reading.
 
+[0]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/color-collector-settings.png
 [1]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/basic-css-input.png
 [2]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/basic-css-output.png
 [3]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/advance-css-input.png
