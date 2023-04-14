@@ -1,5 +1,0 @@
-.a[data-color='white'] ~ .white {
-  white-space: no-wrap;
-  stroke: white;
-  animation-timing-function: cubic-bezier(0.65 -0.02, 0.72, 0.29);
-}

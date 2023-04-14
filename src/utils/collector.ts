@@ -143,7 +143,7 @@ export class Collector {
 		let lastImportIndex = 0;
 		if (lastImportStatement) {
 			const { indices: { groups: { IMPORT: importGroup } } } = <RegExpMatchArrayWithIndices>lastImportStatement;
-			([,lastImportIndex] = importGroup);
+			([, lastImportIndex] = importGroup);
 			// find line number on last @import statement and place :root after that
 			const line = this.cssDocument.substring(0, lastImportIndex);
 			const totalLines = line.match(/\n/g)?.length ?? 0;

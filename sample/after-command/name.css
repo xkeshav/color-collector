@@ -2,7 +2,7 @@
 :root {
 	--body__bg--1: #123;
 	--black__txt--2: black;
-	--class__border--3: red;
+	--red__border--3: red;
 }
 body {
   background-color: var(--body__bg--1);
@@ -13,5 +13,5 @@ body {
 }
 
 .class ~ .red {
-  border-color: var(--class__border--3);
+  border-color: var(--red__border--3);
 }

@@ -22,15 +22,14 @@
     "workspace"
   ],
   "galleryBanner": {
-    "color": "#551e33",
+    "color": "#36c486",
     "theme": "dark"
   },
   "keywords": [
     "color collector",
-    "color variable",
     "css color collector",
-    "css color",
-    "cssColorCollector",
+    "css variable maker",
+    "ccc",
     "color parser",
     "css variable generator"
   ],
@@ -91,14 +90,12 @@
           ".less"
         ],
         "aliases": [
-          "css",
+          "CSS",
           "sass",
           "scss",
-          "less",
-          "CSS",
-          "SCSS"
+          "less"
         ],
-        "mimetypes": [
+        "mimeTypes": [
           "text/css"
         ]
       }
