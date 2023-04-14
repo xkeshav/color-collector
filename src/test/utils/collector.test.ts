@@ -83,8 +83,10 @@ suite('selectorFinder method', () => {
 		classObject.selectorFinder();
 		expectedMapper = new Map([
 			[8, 'body'],
+			[87, 'media'],
 			[98, 'table'],
 			[162, 'jump'],
+			[170, 'unicodeSelector'],
 			[261, 'other']
 		]);
 		assert.deepEqual(classObject.selectorMapper, expectedMapper);
@@ -93,15 +95,20 @@ suite('selectorFinder method', () => {
 	test('when various At-rules and comments presented in the css file', () => {
 		classObject = new Collector(atRulesDocument);
 		classObject.selectorFinder();
+		console.log(classObject.selectorMapper);
 		const expectedMapper = new Map([
-			[59, 'import'],
+			[59, 'root'],
 			[92, 'starSelector'],
 			[148, 'scope'],
 			[230, 'where'],
 			[314, 'supports'],
+			[363, 'summary'],
 			[458, 'flash'],
-			[650, 'example'],
+			[465, 'unicodeSelector'],
+			[528, 'unicodeSelector'],
+			[650, 'h1'],
 			[687, 'page'],
+			[762, 'top'],
 			[806, 'page'],
 			[903, 'page']]);
 		assert.deepEqual(classObject.selectorMapper, expectedMapper);
@@ -141,8 +148,9 @@ suite('colorFinder method', () => {
 			[119, "p"],
 			[191, "a"],
 			[304, "jump"],
+			[311, 'unicodeSelector']
 		]);
-		assert.equal(classObject.selectorMapper.size, 5);
+		assert.equal(classObject.selectorMapper.size, 6);
 		assert.deepEqual(classObject.selectorMapper, expectedSelectorMapper);
 
 		const expectedColorMapper = new Map([
@@ -154,8 +162,8 @@ suite('colorFinder method', () => {
 			[[157, 178], "--p__txt--5"],
 			[[223, 242], "--a__box__shadow--6"],
 			[[259, 282], "--a__border--7"],
-			[[331, 354], "--jump__border--8"],
-			[[376, 396], "--jump__bg--9"]
+			[[331, 354], "--unicodeSelector__border--8"],
+			[[376, 396], "--unicodeSelector__bg--9"]
 		]);
 
 		//console.log(classObject.colorMapper);
@@ -170,8 +178,8 @@ suite('colorFinder method', () => {
 			"--p__txt--5": "hwb(90 10% 10% / 0.5)",
 			"--a__box__shadow--6": "rgba(0, 0, 255, .2)",
 			"--a__border--7": "hsla(30, 100%, 50%, .1)",
-			"--jump__border--8": "hsl(270, 60%, 50%, 15%)",
-			"--jump__bg--9": "hwb(0.25turn 0% 40%)"
+			"--unicodeSelector__border--8": "hsl(270, 60%, 50%, 15%)",
+			"--unicodeSelector__bg--9": "hwb(0.25turn 0% 40%)"
 		};
 		assert.equal(Object.keys(classObject.variableList).length, 9);
 		assert.deepEqual(classObject.variableList, expectedVariableList);

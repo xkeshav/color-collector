@@ -31,12 +31,22 @@ And third, if you ever need to change a color value, you can do so in one place 
 - if there are any error in file while running the command then notification message will be displayed.
 - After completion of the command, a notification message of successful conversion will be displayed.
 
-## Configuration Option
+## Working Demo
+
+**collect and replace on same file.**
+
+<img src="https://raw.githubusercontent.com/xkeshav/color-collector/main/images/collector-demo.gif" title="css collector demo"/>
+
+**create separate file for :root**, when `cssColorCollector.colorInSeparateFile` is `true`
+
+<img src="https://raw.githubusercontent.com/xkeshav/color-collector/main/images/demo-create-separate-file.gif" title="demo when options enabled"/>
+
+## Configuration
 
 To create a separate file for `:root` block then open your _Workspace_ ( if no workspace then in _User_ ) settings, using <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd> and
 search **css color collector** and check the tick box for against _Color In Separate File_ option
 
-![vs code settings](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/vscode-settings-for-color-collector.png))
+![vs code settings](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/color-collector-settings.png))
 
 ```json
 "cssColorCollector.colorInSeparateFile": true
@@ -78,47 +88,40 @@ _Note:_ if extension unable to parse property and selector of a color then varia
   1. color value will be replaced with css variable names in the file.
   2. all css variables will be collected and placed under a `:root` pseudo selector and the placement of `:root` block depends on the configuration as follow
 
-    - if `cssColorCollector.colorInSeparateFile` is not set or `false` then a new `:root` pseudo selector will be added on the top of the, after all `import` statements as per css specification )  
-    - if `cssColorCollector.colorInSeparateFile` is enabled ( i.e. `true` ) then `:root` will be placed in new file and an import statement will be added on the top of the open file.
-    
- _Note:_ New file will be created in the same directory where the css file is opened and naming convention of file would be _color-collector--[open-file-name].css_ and multi line comment will be added on top of `:root` which mention the source file and date of conversion.
-   
-- After successful execution of command, extension will display notification message.
+  - if `cssColorCollector.colorInSeparateFile` is not set or `false` then a new `:root` pseudo selector will be added on the top of the, after all `import` statements as per css specification )
+  - if `cssColorCollector.colorInSeparateFile` is enabled ( i.e. `true` ) then `:root` will be placed in new file and an import statement will be added on the top of the open file.
 
+_Note:_ New file will be created in the same directory where the css file is opened and naming convention of file would be _color-collector--[open-file-name].css_ and multi line comment will be added on top of `:root` which mention the source file and date of conversion.
+
+- After successful execution of command, extension will display notification message.
 
 - comment will be added over the `:root` block or `@import` statement to identify the changes.
 
 - A notification message will be displayed after successful execution of the _collect colors_ command.
 
-## Working Demo
-
-![working demo gif ](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/collector-demo.gif)
-
-### when `cssColorCollector.colorInSeparateFile` is `true`
-
-![working demo when colorInSeparateFile option enable](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/demo-when-colorInSeparteFile-option-enable.gif)
+- To test, sample css files to can be download from _sample-files_ folder
 
 ## Screenshots
 
 ### Basic Example
 
-#### input file
+#### input file => [basic.css file][basic_css_file]
 
-![input css file](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/basic-css-input.png)
+![basic: before conversion][1]
 
 #### output file
 
-![converted file with css variable](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/basic-css-output.png)
+![basic: after conversion][2]
 
 ### Advance Example
 
-#### input file
+#### input file => [advance.css][advance_css_file]
 
-![css file with various color and selector](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/advance-css-input.png)
+![advance: before conversion][3]
 
 #### output file
 
-![converted output css file with variables ](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/advance-css-output.png)
+![advance: after conversion ][4]
 
 ## check-list
 
@@ -162,9 +165,8 @@ moreover, if you want to contribute, please feel free to raise the [PR](https://
 
 - [ ] add feature to change variable naming for property , currently its hard coded like if property is `background-color` then its variable name would be `bg`
 - [ ] currently, to revert back the changes made by extension, user need to do undo 2 times just after the conversion.
-- [ ] check for scss file support, which works partially. need to check for less file also
-- [ ] add support for new color format `color-mix()` and `color-contrast()` [reference](https://www.smashingmagazine.com/2021/11/guide-modern-css-colors/)
-- [ ] if there are style declaration above :root {} then this extension will not parse those lines, which need to handle.
+- [ ] check how to make it working for css pre processor file like `.scss` and `.less` , currently works partially( means did not check over a very complex sass rich file)
+- [ ] add support for new color format `color-mix()` , `color-contrast()` and relative color syntax.
 - [ ] develop web extension for the same, currently it is for desktop
 
 ## Known issues
@@ -189,6 +191,13 @@ Also, few of the notable extensions which helps to write better code and test ca
 - Project Manager
 
 Thank you for your time for reading.
+
+[1]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/basic-css-input.png
+[2]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/basic-css-output.png
+[3]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/advance-css-input.png
+[4]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/advance-css-output.png
+[basic_css_file]: https://github.com/xkeshav/color-collector/blob/main/sample/basic.css
+[advance_css_file]: https://github.com/xkeshav/color-collector/blob/main/sample/advance.css
 
 ---
 
