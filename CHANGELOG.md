@@ -51,8 +51,8 @@ All notable changes to the "css-color-collector" extension will be documented in
 - parse minify css
 - import and selector regex updated.
 
-## [1.1.1]
+## [1.1.2]
 
 - README.MD updated
-- added sample css file link in README.md
+- added sample css file link in README to test
 - images and gif updated
