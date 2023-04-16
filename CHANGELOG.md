@@ -51,13 +51,13 @@ All notable changes to the "css-color-collector" extension will be documented in
 - parse minify css
 - import and selector regex updated.
 
-## [1.1.2]
+## [1.3.0]
 
-- README.MD updated
-- added sample css file link in README.md
-- images and gif updated
+- added sample css file link in README
+- images and gif updated in README
 
-## [1.1.5]
+## [1.7.0]
 
 - capture color while`none` keyword used in color syntax.
-- whitespace around `()` handled.
+- handle scenarios when whitespace around `()` in color syntax.
+- test case updated
