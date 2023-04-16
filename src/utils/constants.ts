@@ -7,7 +7,7 @@ export const PATTERN_LIST = {
 	PROPERTY: '(?<PROPERTY>[\\w-]+[^:])(?=:\s*)',
 	SELECTOR: `(?<SELECTOR>[@:#'"\.\\w\\-\\,\\*\\s\\n\\r\\t\\(\\)\\[\\]]+(?=\\s*\\{))`,
 	COLOR_HEX_FORMAT: '(?<HEX_COLOR>#[0-9a-f]{3,8})',
-	COLOR_NON_HEX_FORMAT: '((?<NON_HEX_COLOR>(?:rgba?|hsla?|hwb|lab|oklab|lch|oklch)\\((:?-?[\\d\.]+%?(deg|rad|grad|turn)?[,\\s]+){2,3}[\\s\/]*-?[\\d\.]+%?\\)))',
+	COLOR_NON_HEX_FORMAT: `((?<NON_HEX_COLOR>(?:rgba?|hsla?|hwb|lab|oklab|lch|oklch)\\(\\s*(:?(-?[\\d\.]+%?(deg|rad|grad|turn)?|none)[,\\s]+){2,3}[\\s\/]*(-?[\\d\.]+%?|none)\\s*\\)))`,
 	COLOR_FUNCTION: '(?<COLOR_FUNCTION>(\\bcolor\\b)\\(.*\\))',
 	WORD: '(\\w+)',
 	IMPORT_STMT: '(?<=@)\\bimport\\b\\s*(?<IMPORT>.*)(?=;)',

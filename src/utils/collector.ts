@@ -10,7 +10,7 @@ import { PATTERN_LIST } from './constants';
 
 export class Collector {
 	cssDocument: string;
-	rootSelectorEndingIndex: number; // where first `{` ends if :root defined in css file 
+	skipParsingIndex: number; // last import and root position in document till that we have to skip parsing
 	#propertyName: string;
 	#variableList: VariableList;
 	#colorMapper: ColorMap;
@@ -24,7 +24,7 @@ export class Collector {
 
 	constructor(document = '') {
 		this.cssDocument = document;
-		this.rootSelectorEndingIndex = 0;
+		this.skipParsingIndex = 0;
 		this.#propertyName = '';
 		this.#variableList = {};
 		this.#colorMapper = new Map();
@@ -53,7 +53,7 @@ export class Collector {
 	/* check whether there are any color in css file except inside the :root selector; return true if color exist */
 	verifyAnyColorExistInDocument() {
 		this.skipImportAndRootPosition();
-		this.#colorRegex.lastIndex = this.rootSelectorEndingIndex;
+		this.#colorRegex.lastIndex = this.skipParsingIndex;
 		const colorMatchResult = this.#colorRegex.exec(this.cssDocument); // note: here using .exec to get more control than .match
 		return colorMatchResult !== null;
 	}
@@ -67,16 +67,16 @@ export class Collector {
 			const { ROOT_BLOCK } = groups;
 			const [, lastIndex] = ROOT_BLOCK;
 			const closingBlockIndex = this.cssDocument.indexOf('}', lastIndex);
-			this.rootSelectorEndingIndex = closingBlockIndex !== -1 ? closingBlockIndex : 0;
+			this.skipParsingIndex = closingBlockIndex !== -1 ? closingBlockIndex : 0;
 		} else {
 			const lastImportPosition = this.locateImportPosition(true) as number;
-			this.rootSelectorEndingIndex = lastImportPosition;
+			this.skipParsingIndex = lastImportPosition;
 		}
 	}
 
 	selectorFinder() {
 		let selector = '';
-		this.#selectorRegex.lastIndex = this.rootSelectorEndingIndex;
+		this.#selectorRegex.lastIndex = this.skipParsingIndex;
 		const selectorMatchList = this.cssDocument.matchAll(this.#selectorRegex);
 		for (const matchingSelector of selectorMatchList) {
 			const { groups: selectorGroup, indices: { groups: selectorIndicesGroup } } = <RegExpMatchArrayWithIndices>matchingSelector;
@@ -103,7 +103,7 @@ export class Collector {
 	colorWithPropertyFinder() {
 		let num = 0;
 		let variableName = '';
-		this.#colorAndPropertyRegex.lastIndex = this.rootSelectorEndingIndex;
+		this.#colorAndPropertyRegex.lastIndex = this.skipParsingIndex;
 		const colorAndPropertyMatchList = this.cssDocument.matchAll(this.#colorAndPropertyRegex);
 		for (const matchingColorAndProperty of colorAndPropertyMatchList) {
 			let isColorVariableExist = false;

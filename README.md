@@ -43,19 +43,20 @@ And third, if you ever need to change a color value, you can do so in one place 
 
 ## Configuration Option
 
-To create a separate file for `:root` block 
- - open your _Workspace_ ( if no workspace then in _User_ ) settings, using <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd> 
- - search **css color collector** 
- - check the tick box for against _Color In Separate File_ option
- - or add below setting in your setting file.
+To create a separate file for `:root` block
+
+- open your _Workspace_ ( if no workspace then in _User_ ) settings, using <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd>
+- search **css color collector**
+- check the tick box for against _Color In Separate File_ option
+- or add below setting in your setting file.
+
 ```json
 "cssColorCollector.colorInSeparateFile": true
 ```
+
 check screenshot below for the same
 
 ![vs code settings][0]
-
-
 
 ## Features
 
@@ -114,7 +115,7 @@ _Note:_ New file will be created in the same directory where the css file is ope
 
 ![basic: before conversion][1]
 
-#### output file i.e. after conversion 
+#### output file - basic
 
 ![basic: after conversion][2]
 
@@ -124,7 +125,7 @@ _Note:_ New file will be created in the same directory where the css file is ope
 
 ![advance: before conversion][3]
 
-#### output file i.e. after conversion
+#### output file - advance
 
 ![advance: after conversion ][4]
 
@@ -153,6 +154,7 @@ _Note:_ New file will be created in the same directory where the css file is ope
 - [x] option to create separate file for collected color variables
 - [x] new file create parallel to open file whether it is on same workspace or different or just file opened.
 - [x] handle data attribute while parsing for eg `.card[data-color=white]{color: white}`
+- [x] capture color when `none` written in color syntax.
 - [.] handle minified ( single line ) css
 - [.] scss/less file support, currently works for simple file.
 

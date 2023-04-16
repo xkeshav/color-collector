@@ -160,5 +160,23 @@ const colorVariationDocument = {
     `,
 };
 
-export { atRulesDocument, mixedCssDocument, colorVariationDocument };
+const noneKeywordAsCssColorDocument = `
+body {
+  background-color: linear-gradient(to bottom, 
+  rgb(102 none none / none),
+  rgba(40%, 20%, 60%, 100%),
+  hsl(  270deg none none   ),
+  hsla(270deg none none 100),
+  hwb(0.75turn 20 40)),
+  hwb(none 20% 40%),
+  lch(32.39 61.25 none),
+  oklch(0.44 0.16 303.38),
+  lab(32.39 38.43 -47.69 / none),
+  oklab(44% 0.09 -0.13),
+  hwb(0.75turn 20% 40%)
+  rgba(40%, 20%, 60% / 100%),
+  hwb(4.712rad none 40%);
+}`;
+
+export { atRulesDocument, mixedCssDocument, colorVariationDocument, noneKeywordAsCssColorDocument };
 

@@ -3,7 +3,7 @@ import * as assert from 'assert';
 
 import { Collector } from '../../utils/collector';
 
-import { atRulesDocument, mixedCssDocument } from "../sample/cssDocumentList";
+import { atRulesDocument, mixedCssDocument, noneKeywordAsCssColorDocument } from "../sample/cssDocumentList";
 
 
 suite('Collector Class', () => {
@@ -116,7 +116,7 @@ suite('selectorFinder method', () => {
 
 });
 
-suite('colorFinder method', () => {
+suite('colorWithPropertyFinder method', () => {
 
 	let input;
 	let classObject: Collector;
@@ -185,6 +185,30 @@ suite('colorFinder method', () => {
 		assert.deepEqual(classObject.variableList, expectedVariableList);
 	});
 
+	test('when there are none keyword written as color value', async () => {
+		classObject = new Collector(noneKeywordAsCssColorDocument);
+		classObject.selectorFinder();
+		classObject.colorWithPropertyFinder();
+
+		const expectedVariableList = {
+			"--body__bg--1": "rgb(102 none none / none)",
+			"--body__bg--2": "rgba(40%, 20%, 60%, 100%)",
+			"--body__bg--3": "hsl(  270deg none none   )",
+			"--body__bg--4": "hsla(270deg none none 100)",
+			"--body__bg--5": "hwb(0.75turn 20 40)",
+			"--body__bg--6": "hwb(none 20% 40%)",
+			"--body__bg--7": "lch(32.39 61.25 none)",
+			"--body__bg--8": "oklch(0.44 0.16 303.38)",
+			"--body__bg--9": "lab(32.39 38.43 -47.69 / none)",
+			"--body__bg--10": "oklab(44% 0.09 -0.13)",
+			"--body__bg--11": "hwb(0.75turn 20% 40%)",
+			"--body__bg--12": "rgba(40%, 20%, 60% / 100%)",
+			"--body__bg--13": "hwb(4.712rad none 40%)"
+		};
+		assert.equal(Object.keys(classObject.variableList).length, 13);
+		assert.deepEqual(classObject.variableList, expectedVariableList);
+	});
+
 	suite('getRootPosition method', () => {
 
 		let input;
@@ -234,7 +258,7 @@ suite('colorFinder method', () => {
 		`;
 			const classObject = new Collector(input);
 			classObject.skipImportAndRootPosition();
-			assert.equal(classObject.rootSelectorEndingIndex, 0);
+			assert.equal(classObject.skipParsingIndex, 0);
 		});
 
 		test('when there is :root declaration block on top of document', () => {
@@ -245,7 +269,7 @@ suite('colorFinder method', () => {
 				}
 		`;
 			classObject.skipImportAndRootPosition();
-			assert.equal(classObject.rootSelectorEndingIndex, 0);
+			assert.equal(classObject.skipParsingIndex, 0);
 		});
 
 		test('when there is :root declaration block in the document but not on top', () => {
@@ -257,7 +281,7 @@ suite('colorFinder method', () => {
 			}
 		`;
 			classObject.skipImportAndRootPosition();
-			assert.equal(classObject.rootSelectorEndingIndex, 35);
+			assert.equal(classObject.skipParsingIndex, 35);
 		});
 
 		test('when there is multiple :root declaration block in document', () => {
@@ -278,7 +302,7 @@ suite('colorFinder method', () => {
 				}
 		`;
 			classObject.skipImportAndRootPosition();
-			assert.equal(classObject.rootSelectorEndingIndex, 48);
+			assert.equal(classObject.skipParsingIndex, 48);
 		});
 
 	});

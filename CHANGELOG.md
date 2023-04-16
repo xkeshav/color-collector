@@ -56,3 +56,8 @@ All notable changes to the "css-color-collector" extension will be documented in
 - README.MD updated
 - added sample css file link in README.md
 - images and gif updated
+
+## [1.1.5]
+
+- capture color while`none` keyword used in color syntax.
+- whitespace around `()` handled.
