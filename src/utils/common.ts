@@ -111,7 +111,8 @@ export const notFoundInFile = (prop: string, fileName: string = '') => `no color
 
 export const successInfo = (fileName: string) => `${successMessage} for ${fileName} !`;
 
-export const importDetailComment = (fileName: string) => `/* 
+export const importDetailComment = (fileName: string) => `
+/* 
 ${importFileComment}
 name: ${fileName}
 date: ${new Date().toISOString()}

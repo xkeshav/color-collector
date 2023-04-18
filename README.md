@@ -41,16 +41,22 @@ And third, if you ever need to change a color value, you can do so in one place 
 
 <img src="https://raw.githubusercontent.com/xkeshav/color-collector/main/images/demo-create-separate-file.gif" title="demo when options enabled"/>
 
-## Configuration
+## Configuration Option
 
-To create a separate file for `:root` block then open your _Workspace_ ( if no workspace then in _User_ ) settings, using <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd> and
-search **css color collector** and check the tick box for against _Color In Separate File_ option
+To create a separate file for `:root` block
 
-![vs code settings](https://raw.githubusercontent.com/xkeshav/color-collector/main/images/color-collector-settings.png))
+- open your _Workspace_ ( if no workspace then in _User_ ) settings, using <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd>
+- search **css color collector**
+- check the tick box for against _Color In Separate File_ option
+- or add below setting in your setting file.
 
 ```json
 "cssColorCollector.colorInSeparateFile": true
 ```
+
+check screenshot below for the same
+
+![vs code settings][0]
 
 note: if this option checked in either of _User Settings_ or _Workspace Settings_ then it will be consider as a true
 
@@ -150,6 +156,7 @@ _Note:_ New file will be created in the same directory where the css file is ope
 - [x] option to create separate file for collected color variables
 - [x] new file create parallel to open file whether it is on same workspace or different or just file opened.
 - [x] handle data attribute while parsing for eg `.card[data-color=white]{color: white}`
+- [x] capture color when `none` written in color syntax.
 - [.] handle minified ( single line ) css
 - [.] scss/less file support, currently works for simple file.
 
@@ -194,6 +201,7 @@ Also, few of the notable extensions which helps to write better code and test ca
 
 Thank you for your time for reading.
 
+[0]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/color-collector-settings.png
 [1]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/basic-css-input.png
 [2]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/basic-css-output.png
 [3]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/advance-css-input.png

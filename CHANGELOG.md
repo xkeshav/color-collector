@@ -43,7 +43,7 @@ All notable changes to the "css-color-collector" extension will be documented in
 - import statements skipped while parsing.
 - keyboard shortcut available for scss and less file.
 
-## [1.1.0]
+## [1.1.1]
 
 - fixed issue of changing white-space property into variable issue
 - handle when named color in [data-attribute=property] selector
@@ -56,3 +56,14 @@ All notable changes to the "css-color-collector" extension will be documented in
 - README.MD updated
 - added sample css file link in README to test
 - images and gif updated
+
+## [1.3.0]
+
+- added sample css file link in README
+- images and gif updated in README
+
+## [1.7.0]
+
+- capture color while`none` keyword used in color syntax.
+- handle scenarios when whitespace around `()` in color syntax.
+- test case updated
