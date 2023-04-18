@@ -52,11 +52,6 @@
     "configuration": {
       "title": "css color collector",
       "properties": {
-        "cssColorCollector.collectColorVariables": {
-          "type": "boolean",
-          "default": false,
-          "description": "collect color from the css file."
-        },
         "cssColorCollector.lookupFiles": {
           "type": "array",
           "default": [

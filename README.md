@@ -6,6 +6,8 @@ A vs code extension which works with css file, collect every color from the file
 
 In an open css file, on execution of `collect colors` command, this extension parse the file and search all color value across all supported color syntax and and assign every color value to a meaningful css variable name and replace the color value with variable and these color variables collected under a `:root` pseudo selector.
 
+[VS Code Marketplace Link](https://marketplace.visualstudio.com/items?itemName=xkeshav.css-color-collector)
+
 ## Use Case
 
 This approach has a few benefits.
@@ -21,7 +23,7 @@ And third, if you ever need to change a color value, you can do so in one place 
 - open VSCode, and go to extension panel from activity bar or type <kbd>Ctrl/Cmd</kbd> + <kbd>Shift</kbd> + <kbd>x</kbd>
 - search for `css color collector`
 - Click _Install_
-- reload the vscode if it is prompted
+- reload the vscode if it is prompted.
 
 ## How to Use
 
@@ -57,6 +59,8 @@ To create a separate file for `:root` block
 check screenshot below for the same
 
 ![vs code settings][0]
+
+note: if this option checked in either of _User Settings_ or _Workspace Settings_ then it will be consider as a true
 
 ## Features
 
