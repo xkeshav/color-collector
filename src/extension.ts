@@ -4,15 +4,20 @@ import * as vscode from 'vscode';
 
 import { Collector } from './utils/collector';
 import { createRootContent, importDetailComment, notFoundInFile, successInfo } from './utils/common';
-import { DOCUMENT_MINIMUM_LENGTH } from './utils/constants';
+import { DOCUMENT_MINIMUM_LENGTH, collectCommand, configKey } from './utils/constants';
 import { fileClosingError, importComment, invalidFileErrorMessage, newFilePrefix, rootComment, unsavedChangesWarningMessage, untitledFileErrorMessage } from './utils/messages';
 
 export function activate(context: vscode.ExtensionContext) {
 
-	const collectCommand = 'css-color-collector.collect';
 	// check user configure whether create root in separate file is enabled by user
-	const config = vscode.workspace.getConfiguration();
-	const useSeparateFileConfigEnabled = config.get('cssColorCollector.colorInSeparateFile');
+	let isCreateInSeparateFileConfigEnabled = vscode.workspace.getConfiguration().get(configKey);
+	// check whether user changed configuration just before executing the collect color command 
+	context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(cfg => {
+		const affected = cfg.affectsConfiguration(configKey);
+		if (affected) {
+			isCreateInSeparateFileConfigEnabled = vscode.workspace.getConfiguration().get(configKey);
+		}
+		}));
 
 	function collectCommandHandler() {
 		let activeEditor = vscode.window.activeTextEditor;
@@ -22,7 +27,9 @@ export function activate(context: vscode.ExtensionContext) {
 		const { document } = activeEditor;
 		const { uri, isUntitled, isDirty } = document;
 		// check whether open file is new unsaved file and create in new file option enabled then stop execution of command
-		if (useSeparateFileConfigEnabled && isUntitled) {
+		const currentConfigValue = vscode.workspace.getConfiguration().get(configKey);
+		console.log({createSeparateFileConfig: isCreateInSeparateFileConfigEnabled,currentConfigValue});
+		if (isCreateInSeparateFileConfigEnabled && isUntitled) {
 			vscode.window.showErrorMessage(untitledFileErrorMessage);
 			return;
 		}
@@ -65,7 +72,7 @@ export function activate(context: vscode.ExtensionContext) {
 					const variableList = collectorObject.variableList;
 					const rootContent = createRootContent(variableList);
 					let newFileName: string;
-					if (useSeparateFileConfigEnabled) {
+					if (isCreateInSeparateFileConfigEnabled) {
 						const importFileContent = `${importDetailComment(base)}\r\n${rootContent}`;
 						newFileName = await createSeparateRootFile(importFileContent);
 					}
@@ -73,7 +80,7 @@ export function activate(context: vscode.ExtensionContext) {
 					const position = new vscode.Position(first, last);
 					activeEditor?.edit((editBuilder: vscode.TextEditorEdit) => {
 						editBuilder.insert(position, '');
-						if (useSeparateFileConfigEnabled) {
+						if (isCreateInSeparateFileConfigEnabled) {
 							// create new file which contains :root block and add import statement on top of the opened file
 							const importContent = `${importComment}\n@import url('${newFileName}');\n`;
 							editBuilder.insert(position, importContent);
@@ -83,13 +90,13 @@ export function activate(context: vscode.ExtensionContext) {
 						}
 						vscode.window.showInformationMessage(successInfo(base));
 					}).then(undefined, _ => {
-						vscode.window.showErrorMessage(fileClosingError);
+							vscode.window.showErrorMessage(fileClosingError);
 					});
 				});
 			}
 		}
 	}
-	const disposableCollect = vscode.commands.registerCommand(collectCommand, () => collectCommandHandler());
+	const disposableCollect = vscode.commands.registerCommand(collectCommand, async() => collectCommandHandler());
 	context.subscriptions.push(disposableCollect);
 }
 

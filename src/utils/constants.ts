@@ -1,19 +1,21 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 export const extensionID = 'xkeshav.css-color-collector';
+export const collectCommand = 'css-color-collector.collect';
+export const configKey = 'cssColorCollector.colorInSeparateFile';
 export const DOCUMENT_MINIMUM_LENGTH = 12; // *{color:red} is the minimum color containing css content
 
 export const PATTERN_LIST = {
-	PROPERTY: '(?<PROPERTY>[\\w-]+[^:])(?=:\s*)',
+	PROPERTY: `(?<PROPERTY>[\\w-]+[^:])(?=:\s*)`,
 	SELECTOR: `(?<SELECTOR>[@:#'"\.\\w\\-\\,\\*\\s\\n\\r\\t\\(\\)\\[\\]]+(?=\\s*\\{))`,
-	COLOR_HEX_FORMAT: '(?<HEX_COLOR>#[0-9a-f]{3,8})',
-	COLOR_NON_HEX_FORMAT: '((?<NON_HEX_COLOR>(?:rgba?|hsla?|hwb|lab|oklab|lch|oklch)\\((:?-?[\\d\.]+%?(deg|rad|grad|turn)?[,\\s]+){2,3}[\\s\/]*-?[\\d\.]+%?\\)))',
-	COLOR_FUNCTION: '(?<COLOR_FUNCTION>(\\bcolor\\b)\\(.*\\))',
+	COLOR_HEX_FORMAT: `(?<HEX_COLOR>#[0-9a-f]{3,8})`,
+	COLOR_NON_HEX_FORMAT: `((?<NON_HEX_COLOR>(?:rgba?|hsla?|hwb|lab|oklab|lch|oklch)\\((:?-?[\\d\.]+%?(deg|rad|grad|turn)?[,\\s]+){2,3}[\\s\/]*-?[\\d\.]+%?\\)))`,
+	COLOR_FUNCTION: `(?<COLOR_FUNCTION>(\\bcolor\\b)\\(.*\\))`,
 	WORD: '(\\w+)',
-	IMPORT_STMT: '(?<=@)\\bimport\\b\\s*(?<IMPORT>.*)(?=;)',
+	IMPORT_STMT: `(?<=@)\\bimport\\b\\s*(?<IMPORT>.*)(?=;)`,
 	/*148 color names */
-	COLOR_NAME: `(?<![\\='"\\.#\\-])\\s*(?<COLOR_NAME>\\b(?:black|silver|gray|whitesmoke|maroon|red|purple|fuchsia|green|lime|olivedrab|yellow|navy|blue|teal|aquamarine|orange|aliceblue|antiquewhite|aqua|azure|beige|bisque|blanchedalmond|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|darkblue|darkcyan|darkgoldenrod|darkgray|darkgreen|darkgrey|darkkhaki|darkmagenta|darkolivegreen|darkorange|darkorchid|darkred|darksalmon|darkseagreen|darkslateblue|darkslategray|darkslategrey|darkturquoise|darkviolet|deeppink|deepskyblue|dimgray|dimgrey|dodgerblue|firebrick|floralwhite|forestgreen|gainsboro|ghostwhite|goldenrod|gold|greenyellow|grey|honeydew|hotpink|indianred|indigo|ivory|khaki|lavenderblush|lavender|lawngreen|lemonchiffon|lightblue|lightcoral|lightcyan|lightgoldenrodyellow|lightgray|lightgreen|lightgrey|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategray|lightslategrey|lightsteelblue|lightyellow|limegreen|linen|mediumaquamarine|mediumblue|mediumorchid|mediumpurple|mediumseagreen|mediumslateblue|mediumspringgreen|mediumturquoise|mediumvioletred|midnightblue|mintcream|mistyrose|moccasin|navajowhite|oldlace|olive|orangered|orchid|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|rosybrown|royalblue|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna|skyblue|slateblue|slategray|slategrey|snow|springgreen|steelblue|tan|thistle|tomato|turquoise|violet|wheat|white|yellowgreen|rebeccapurple)\\b)(?!-|{)`,
-	ROOT_SELECTOR: '(?<!\\/\\*.*)(?<=:)(?<ROOT_BLOCK>\\b(root)\\b\\s*(?={))'
+	COLOR_NAME: `(?<![\\='"\\.#\\-])\\s*(?<COLOR_NAME>\\b(?:black|silver|gray|whitesmoke|maroon|red|purple|fuchsia|green|lime|olivedrab|yellow|navy|blue|teal|aquamarine|orange|aliceblue|antiquewhite|aqua|azure|beige|bisque|blanchedalmond|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|darkblue|darkcyan|darkgoldenrod|darkgray|darkgreen|darkgrey|darkkhaki|darkmagenta|darkolivegreen|darkorange|darkorchid|darkred|darksalmon|darkseagreen|darkslateblue|darkslategray|darkslategrey|darkturquoise|darkviolet|deeppink|deepskyblue|dimgray|dimgrey|dodgerblue|firebrick|floralwhite|forestgreen|gainsboro|ghostwhite|goldenrod|gold|greenyellow|grey|honeydew|hotpink|indianred|indigo|ivory|khaki|lavenderblush|lavender|lawngreen|lemonchiffon|lightblue|lightcoral|lightcyan|lightgoldenrodyellow|lightgray|lightgreen|lightgrey|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategray|lightslategrey|lightsteelblue|lightyellow|limegreen|linen|mediumaquamarine|mediumblue|mediumorchid|mediumpurple|mediumseagreen|mediumslateblue|mediumspringgreen|mediumturquoise|mediumvioletred|midnightblue|mintcream|mistyrose|moccasin|navajowhite|oldlace|olive|orangered|orchid|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|rosybrown|royalblue|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna|skyblue|slateblue|slategray|slategrey|snow|springgreen|steelblue|tan|thistle|tomato|turquoise|violet|wheat|white|yellowgreen|rebeccapurple)\\b\\s*)(?!-|{:)`,
+	ROOT_SELECTOR: `(?<!\\/\\*.*)(?<=:)(?<ROOT_BLOCK>\\b(root)\\b\\s*(?={))`
 };
 
 export const COLOR_PROPERTY_LIST = {

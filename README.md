@@ -52,6 +52,8 @@ search **css color collector** and check the tick box for against _Color In Sepa
 "cssColorCollector.colorInSeparateFile": true
 ```
 
+note: if this option checked in either of _User Settings_ or _Workspace Settings_ then it will be consider as a true
+
 ## Features
 
 - Collect all supported color format such as `hex`, `rgb`, `rgba`, `hsl`, `hsla`, `hwb`, `lab()`, `oklab()`, `lch`, `oklch()`, `color()` and 148 named color.
@@ -109,7 +111,7 @@ _Note:_ New file will be created in the same directory where the css file is ope
 
 ![basic: before conversion][1]
 
-#### output file
+#### output file - basic
 
 ![basic: after conversion][2]
 
@@ -119,7 +121,7 @@ _Note:_ New file will be created in the same directory where the css file is ope
 
 ![advance: before conversion][3]
 
-#### output file
+#### output file - advance
 
 ![advance: after conversion ][4]
 
