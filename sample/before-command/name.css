@@ -3,9 +3,18 @@ body {
 }
 
 .black {
-  color:black;
+  color:#cde
 }
 
 .class ~ .red {
   border-color: red;
+}
+
+#feature {
+  color: red;
+}
+
+#abc,
+#bcd{
+  color: linear-background(to right, #abc,#bcd);
 }
