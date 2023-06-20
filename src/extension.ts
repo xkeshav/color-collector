@@ -28,7 +28,6 @@ export function activate(context: vscode.ExtensionContext) {
 		const { uri, isUntitled, isDirty } = document;
 		// check whether open file is new unsaved file and create in new file option enabled then stop execution of command
 		const currentConfigValue = vscode.workspace.getConfiguration().get(configKey);
-		console.log({createSeparateFileConfig: isCreateInSeparateFileConfigEnabled,currentConfigValue});
 		if (isCreateInSeparateFileConfigEnabled && isUntitled) {
 			vscode.window.showErrorMessage(untitledFileErrorMessage);
 			return;

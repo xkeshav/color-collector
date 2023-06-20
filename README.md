@@ -1,4 +1,4 @@
-# css color collector
+# CSS Color Collector
 
 A vs code extension which works with css file, collect every color from the file and replace it with a meaningful css variable and place these variables under a new `:root` pseudo selector block
 
@@ -21,7 +21,7 @@ And third, if you ever need to change a color value, you can do so in one place 
 ## Install
 
 - open VSCode, and go to extension panel from activity bar or type <kbd>Ctrl/Cmd</kbd> + <kbd>Shift</kbd> + <kbd>x</kbd>
-- search for `css color collector`
+- search for `CSS Color Collector`
 - Click _Install_
 - reload the vscode if it is prompted.
 
@@ -48,7 +48,7 @@ And third, if you ever need to change a color value, you can do so in one place 
 To create a separate file for `:root` block
 
 - open your _Workspace_ ( if no workspace then in _User_ ) settings, using <kbd>Cmd + , </kbd> or <kbd>Ctrl + ,</kbd>
-- search **css color collector**
+- search **CSS Color Collector**
 - check the tick box for against _Color In Separate File_ option
 - or add below setting in your setting file.
 
