@@ -8,8 +8,7 @@ export const DOCUMENT_MINIMUM_LENGTH = 12; // *{color:red} is the minimum color 
 export const PATTERN_LIST = {
 	PROPERTY: `(?<PROPERTY>[\\w-]+[^:])(?=:\s*)`,
 	SELECTOR: `(?<SELECTOR>[@:#'"\.\\w\\-\\,\\*\\s\\n\\r\\t\\(\\)\\[\\]]+(?=\\s*\\{))`,
-	COLOR_HEX_FORMAT: '(?<HEX_COLOR>#[0-9a-f]{3,8})',
-	COLOR_NON_HEX_FORMAT_OLD: `((?<NON_HEX_COLOR>(?:rgba?|hsla?|hwb|lab|oklab|lch|oklch)\\(\\s*(:?(-?[\\d\.]+%?(deg|rad|grad|turn)?|none)[,\\s]+){2,3}[\\s\/]*(-?[\\d\.]+%?|none)\\s*\\)))`,
+	COLOR_HEX_FORMAT: '(?<HEX_COLOR>#[0-9a-f]{3,8})\\s*(?!(\\w|\\{))',
 	COLOR_NON_HEX_FORMAT:`((?<NON_HEX_COLOR>\\b(rgba?|hsla?|hwb|(?:ok)?(?:lab|lch))[ \\t]*\\(([^\)\(]*?\\d[^\)\(]*)\\)))`,
 	COLOR_FUNCTION: '(?<COLOR_FUNCTION>(\\bcolor\\b)\\(.*\\))',
 	WORD: '(\\w+)',
