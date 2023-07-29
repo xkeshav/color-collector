@@ -3,7 +3,7 @@ body {
 }
 
 .black {
-  color:#cde
+  color:BLACK;
 }
 
 .class ~ .red {
@@ -11,10 +11,13 @@ body {
 }
 
 #feature {
-  color: red;
+  color:Red;
 }
 
-#abc,
+#abc {
+	color: #bcd;
+}
+
 #bcd{
   color: linear-background(to right, #abc,#bcd);
 }

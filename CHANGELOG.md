@@ -75,3 +75,8 @@ All notable changes to the "css-color-collector" extension will be documented in
 ## [1.9.0]
 
 - rename extension name in Title case.
+
+## [2.0.0]  
+
+- in scss file; escape `$` against color name
+- when id, selector name similar to hex color and then escape if selector followed by `{` after selector

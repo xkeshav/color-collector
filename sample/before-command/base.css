@@ -1,0 +1,7 @@
+body {
+	color: #abc;
+	background: color(from white srgb 4 6 8);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(top, from), color-stop(#abc), to(#bcd));
+	background: -o-linear-gradient(from top, #abc, #bcd);
+	background: -moz-repeating-linear-gradient(-o-repeating-linear-gradient(red, green));
+}

@@ -2,7 +2,7 @@
   "name": "css-color-collector",
   "displayName": "CSS Color Collector",
   "description": "Collect each color values from a css file and replace it with an intuitive variable and add a new :root pseudo selector which contains these variables.",
-  "version": "1.8.0",
+  "version": "2.0.0",
   "publisher": "xkeshav",
   "engines": {
     "vscode": "^1.74.0"
@@ -26,8 +26,8 @@
     "theme": "dark"
   },
   "keywords": [
-    "css", 
-    "color", 
+    "css",
+    "color",
     "collector",
     "css color",
     "color collector",
@@ -62,7 +62,10 @@
         "cssColorCollector.updatePropertyVariable": {
           "type": "object",
           "properties": {
-            "background-color": { "type" : "string", "default": "bg"}
+            "background-color": {
+              "type": "string",
+              "default": "bg"
+            }
           },
           "markdownDescription": "change default property variable name which will be used while generating **:root** variable \n\n *Example* \n\n ``` { \"background-color\": \"bgc\" }``` "
         }

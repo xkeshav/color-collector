@@ -3,6 +3,8 @@
 	--body__bg--1: #123;
 	--black__txt--2: black;
 	--red__border--3: red;
+	--abc__txt--4: #bcd;
+	--bcd__txt--5: #abc;
 }
 body {
   background-color: var(--body__bg--1);
@@ -14,4 +16,16 @@ body {
 
 .class ~ .red {
   border-color: var(--red__border--3);
+}
+
+#feature {
+  color:var(--red__border--3);
+}
+
+#abc {
+	color: var(--abc__txt--4);
+}
+
+#bcd{
+  color: linear-background(to right, var(--bcd__txt--5),var(--abc__txt--4));
 }
