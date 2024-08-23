@@ -1,9 +1,9 @@
 {
   "name": "css-color-collector",
   "displayName": "CSS Color Collector",
-  "description": "Collect each color values from a css file and replace it with an intuitive variable and add a new :root pseudo selector which contains these variables.",
-  "version": "2.0.0",
-  "publisher": "xkeshav",
+  "description": "Collect color codes from a css file and replace it with an intuitive variable and add a new :root pseudo selector which contains these variables.",
+  "version": "2.1.0",
+  "publisher": "@xkeshav",
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -127,6 +127,6 @@
     "eslint": "^8.28.0",
     "glob": "^8.0.3",
     "mocha": "^10.1.0",
-    "typescript": "^4.9.3"
+    "typescript": "^5.3.3"
   }
 }

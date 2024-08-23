@@ -1,6 +1,11 @@
 # CSS Color Collector
 
-A vs code extension which works with css file, collect every color from the file and replace it with a meaningful css variable and place these variables under a new `:root` pseudo selector block
+![VS Marketplace][marketplace]
+![Download][download count]
+![Install][install count]
+![License][license]
+
+A VS code extension which works with css file, collect every color from A css file and assign it to a meaningful css variable and put these variables under a new `:root` pseudo selector block on the file.
 
 ## Description
 
@@ -214,3 +219,10 @@ Thank you for your time for reading.
 ---
 
 ### Keshav Mohta _<xkeshav@gmail.com>_
+
+<!-- Link Alias -->
+
+[marketplace]: https://badgen.net/vs-marketplace/v/xkeshav.css-color-collector?icon=visualstudio
+[download count]: https://badgen.net/vs-marketplace/d/xkeshav.css-color-collector
+[install count]: https://badgen.net/vs-marketplace/i/xkeshav.css-color-collector
+[license]: https://badgen.net/static/License/Apache?color=purple
