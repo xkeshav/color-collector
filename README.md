@@ -208,11 +208,11 @@ Also, few of the notable extensions which helps to write better code and test ca
 
 Thank you for your time for reading.
 
-[0]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/color-collector-settings.png
-[1]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/basic-css-input.png
-[2]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/basic-css-output.png
-[3]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/advance-css-input.png
-[4]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/advance-css-output.png
+[0]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/color-collector-settings.webp
+[1]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/basic-css-input.webp
+[2]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/basic-css-output.webp
+[3]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/advance-css-input.webp
+[4]: https://raw.githubusercontent.com/xkeshav/color-collector/main/images/advance-css-output.webp
 [basic_css_file]: https://github.com/xkeshav/color-collector/blob/main/sample/basic.css
 [advance_css_file]: https://github.com/xkeshav/color-collector/blob/main/sample/advance.css
 

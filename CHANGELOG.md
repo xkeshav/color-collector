@@ -84,3 +84,7 @@ All notable changes to the "css-color-collector" extension will be documented in
 ## [2.0.1]
 
 - Added badges in README
+
+## [2.3.0]
+
+- Added badges in README
