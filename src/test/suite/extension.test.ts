@@ -9,12 +9,14 @@ const disposables: Disposable[] = [];
 const wait = async (seconds: number = 200) => new Promise(resolve => setTimeout(resolve, seconds * 1000));
 
 const getFileText = async (file: string, afterCommand = false) => {
+	const rx = /(.*)(?:\bat\b)(.*)(?=\*)/gm; // regular expression to collect date and time part from the :root comment
 	const filePath = afterCommand ? testFolderLocation + 'after-command/' : testFolderLocation + 'before-command/';
 	const uri = Uri.file(path.resolve(__dirname + filePath + file));
 	const document = await workspace.openTextDocument(uri);
 	await window.showTextDocument(document);
 	const text = document.getText();
-	return text;
+	const textWithoutDate = !afterCommand ? text.replace(rx,(_, p1) => `${p1}`) : text;
+	return textWithoutDate;
 };
 
 
@@ -64,14 +66,13 @@ suite('check file validity', () => {
 });
 
 suite('collect command execution on css file', () => {
-	test.only('convert colors into variables in css file', async () => {
+	test('convert colors into variables in css file', async () => {
 		await getFileText('test.css');
 		await commands.executeCommand('css-color-collector.collect');
 		await wait(5);
 		// check after change in the css file
 		const convertedCSSDoc = await getFileText('test.css');
 		const expectedCSSDoc = await getFileText('test.css', true);
-		console.log({ convertedCSSDoc });
 		assert.strictEqual(convertedCSSDoc, expectedCSSDoc);
 	});
 
@@ -82,18 +83,16 @@ suite('collect command execution on css file', () => {
 		// check after change in file
 		const convertedCSSDoc = await getFileText('name.css');
 		const expectedCSSDoc = await getFileText('name.css', true);
-		//console.log({ convertedCSSDoc });
 		assert.strictEqual(convertedCSSDoc, expectedCSSDoc);
 	});
 
-	test('skip pre defined :root block and its property', async () => {
+	test.only('skip pre defined :root block and its property', async () => {
 		await getFileText('multi-root.css');
 		await commands.executeCommand('css-color-collector.collect');
 		await wait(5);
 		// check after change in file
 		const convertedCSSDoc = await getFileText('multi-root.css');
 		const expectedCSSDoc = await getFileText('multi-root.css', true);
-		//console.log({ convertedCSSDoc });
 		assert.strictEqual(convertedCSSDoc, expectedCSSDoc);
 	});
 
@@ -104,7 +103,6 @@ suite('collect command execution on css file', () => {
 		// check after change in file
 		const convertedCSSDoc = await getFileText('color-variation.css');
 		const expectedCSSDoc = await getFileText('color-variation.css', true);
-		//console.log({ convertedCSSDoc });
 		assert.strictEqual(convertedCSSDoc, expectedCSSDoc);
 	});
 

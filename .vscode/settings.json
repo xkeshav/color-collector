@@ -32,6 +32,8 @@
   "peacock.color": "#952ac8",
   "explorer.excludeGitIgnore": false,
   "cSpell.words": [
+    "oklab",
+    "oklch",
     "outfile"
   ]
 }

@@ -1,7 +1,7 @@
 @import url('base.css');
 @import url('black.css'); @import url('dark.css');
 @import url('landscape.css') screen and (orientation: landscape);
-/* following :root block added by css color collector at 10/11/2024, 5:30:27 PM */
+/* following :root block added by css color collector */
 :root {
 	--disabled__border--1: palevioletred;
 	--contenteditable__caret--2: darkolivegreen;
