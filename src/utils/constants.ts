@@ -6,11 +6,12 @@ export const configKey = 'cssColorCollector.colorInSeparateFile';
 export const DOCUMENT_MINIMUM_LENGTH = 12; // *{color:red} is the minimum color containing css content
 
 export const PATTERN_LIST = {
-	PROPERTY: `(?<PROPERTY>[\\w-]+[^:])(?=:\s*)`,
-	SELECTOR: `(?<SELECTOR>[@:#'"\.\\w\\-\\,\\*\\s\\n\\r\\t\\(\\)\\[\\]]+(?=\\s*\\{))`,
+	PROPERTY: `(?<PROPERTY>[\\w-]+[^:])(?=:\\s*)`,
+	SELECTOR: `(?<SELECTOR>[@:#'"\\.\\w\\-\\,\\*\\s\\n\\r\\t\\(\\)\\[\\]]+(?=\\s*\\{))`,
 	COLOR_HEX_FORMAT: '(?<HEX_COLOR>#[0-9a-f]{3,8})\\s?(?!(\\w|\\{|\\s{))',
-	COLOR_NON_HEX_FORMAT:`((?<NON_HEX_COLOR>\\b(rgba?|hsla?|hwb|(?:ok)?(?:lab|lch))[ \\t]*\\(([^\)\(]*?\\d[^\)\(]*)\\)))`,
-	COLOR_FUNCTION: '(?<COLOR_FUNCTION>(\\bcolor\\b)\\(.*\\))',
+	COLOR_NON_HEX_FORMAT:`((?<NON_HEX_COLOR>\\b(rgba?|hsla?|hwb|(?:ok)?(?:lab|lch))[ \\t]*\\(([^\\)\\(]*?\\d[^\\)\\(]*)\\)))`,
+	COLOR_FUNCTION: '(?<COLOR_FUNCTION>(\\b(contrast-)?color\\b)\\(.*\\))',
+	// COLOR_FUNCTION: '',
 	WORD: '(\\w+)',
 	IMPORT_STMT: `(?<=@)\\bimport\\b\\s*(?<IMPORT>.*)(?=;)`,
 	/*148 color names */

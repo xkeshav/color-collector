@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention */
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 import path = require('path');
 import * as vscode from 'vscode';
 
@@ -20,7 +20,7 @@ export function activate(context: vscode.ExtensionContext) {
 		}));
 
 	function collectCommandHandler() {
-		let activeEditor = vscode.window.activeTextEditor;
+		const activeEditor = vscode.window.activeTextEditor;
 		if (!activeEditor) {
 			return;
 		}

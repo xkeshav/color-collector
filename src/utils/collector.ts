@@ -96,7 +96,7 @@ export class Collector {
 			}
 			this.#selectorMapper.set(lastIndex, selector);
 		}
-	};
+	}
 
 	/* get color value and it's respective property */
 
@@ -150,5 +150,5 @@ export class Collector {
 			position = [totalLines + 1, 0];
 		}
 		return toSkip ? lastImportIndex : position;
-	};
+	}
 }

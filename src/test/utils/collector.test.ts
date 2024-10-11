@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-import * as assert from 'assert';
+import assert from 'assert';
 
 import { Collector } from '../../utils/collector';
 
@@ -39,7 +38,7 @@ suite('Collector Class', () => {
 suite('selectorFinder method', () => {
 	let input;
 	let classObject: Collector;
-	let mapper = new Map();
+	const mapper = new Map();
 	let expectedMapper;
 
 	test('should select all selector with their index', () => {

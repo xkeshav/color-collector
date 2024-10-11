@@ -2,13 +2,13 @@
   "name": "css-color-collector",
   "displayName": "CSS Color Collector",
   "description": "Collect color codes from a css file and replace it with an intuitive variable and add a new :root pseudo selector which contains these variables.",
-  "version": "2.1.0",
-  "publisher": "@xkeshav",
+  "version": "2.2.0",
+  "publisher": "xkeshav",
   "engines": {
     "vscode": "^1.74.0"
   },
   "homepage": "https://github.com/xkeshav/color-collector/blob/main/README.md",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/xkeshav/color-collector/issues",
     "email": "xkeshav@gmail.com"
@@ -28,11 +28,12 @@
   "keywords": [
     "css",
     "color",
-    "collector",
     "css color",
     "color collector",
     "css color collector",
     "ccc",
+    "vscode",
+    "vscode extension",
     "color parser"
   ],
   "categories": [
@@ -108,11 +109,16 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
+    "compile": "npm run check-types && npm run lint && node esbuild.js",
+    "check-types": "tsc --noEmit",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "vscode:prepublish": "npm run package",
+    "package": "npm run check-types && npm run lint && node esbuild.js --production",
     "lint": "eslint src --ext ts",
+    "compile-tests": "tsc -p . --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
@@ -121,12 +127,13 @@
     "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
     "@types/vscode": "^1.74.0",
-    "@typescript-eslint/eslint-plugin": "^5.45.0",
-    "@typescript-eslint/parser": "^5.45.0",
+    "@typescript-eslint/eslint-plugin": "^8.8.1",
+    "@typescript-eslint/parser": "^8.8.1",
     "@vscode/test-electron": "^2.2.0",
+    "esbuild": "^0.24.0",
     "eslint": "^8.28.0",
     "glob": "^8.0.3",
-    "mocha": "^10.1.0",
+    "mocha": "^10.7.3",
     "typescript": "^5.3.3"
   }
 }

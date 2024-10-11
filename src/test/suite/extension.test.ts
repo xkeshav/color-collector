@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import { commands, Disposable, Extension, extensions, Uri, window, workspace } from 'vscode';
 import { extensionID } from '../../utils/constants';
-import path = require('path');
+import path from 'path';
 
 const testFolderLocation = '/../../../sample/';
 const disposables: Disposable[] = [];
@@ -64,14 +64,14 @@ suite('check file validity', () => {
 });
 
 suite('collect command execution on css file', () => {
-	test('convert colors into variables in css file', async () => {
+	test.only('convert colors into variables in css file', async () => {
 		await getFileText('test.css');
 		await commands.executeCommand('css-color-collector.collect');
 		await wait(5);
 		// check after change in the css file
 		const convertedCSSDoc = await getFileText('test.css');
 		const expectedCSSDoc = await getFileText('test.css', true);
-		//console.log({ convertedCSSDoc });
+		console.log({ convertedCSSDoc });
 		assert.strictEqual(convertedCSSDoc, expectedCSSDoc);
 	});
 

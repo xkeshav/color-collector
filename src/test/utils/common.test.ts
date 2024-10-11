@@ -13,8 +13,8 @@ suite('createRootSelector method', () => {
     });
 
     test('when 1 item in list', () => {
-      let input = { '--body': '#123' };
-      let expectedOutput = `:root {
+      const input = { '--body': '#123' };
+      const expectedOutput = `:root {
 	--body: #123;
 }
 `;
@@ -23,8 +23,8 @@ suite('createRootSelector method', () => {
     });
 
     test('when multiple item in list', () => {
-      let input = { '--body': '#123', '--other': 'rgb(255,0,255)' };
-      let expectedOutput = `:root {
+      const input = { '--body': '#123', '--other': 'rgb(255,0,255)' };
+      const expectedOutput = `:root {
 	--body: #123;
 	--other: rgb(255,0,255);
 }
@@ -35,7 +35,7 @@ suite('createRootSelector method', () => {
 });
 
 suite('getParentSelectorName', () => {
-  var list;
+  let list;
   test('with one item in list', () => {
     list = new Map().set(10, 'body');
     const op = commonFunction.getParentSelectorName(list, 20);
@@ -57,17 +57,17 @@ suite('getParentSelectorName', () => {
 
 suite('setVariableName method', () => {
   test('when property name found in alias mapper', () => {
-    let propertyName = 'background-color';
-    let selectorName = 'body';
-    let num = 2;
+    const propertyName = 'background-color';
+    const selectorName = 'body';
+    const num = 2;
     const output = commonFunction.setVariableName({propertyName, selectorName, num});
     assert.equal(output, '--body__bg--2');
   });
 
   test('when property name not found in alias mapper', () => {
-    let propertyName = 'padding';
-    let selectorName = 'main';
-    let num = 1;
+    const propertyName = 'padding';
+    const selectorName = 'main';
+    const num = 1;
     const output = commonFunction.setVariableName({propertyName, selectorName, num});
     assert.equal(output, '--main__defaultElement--1');
   });
@@ -120,21 +120,21 @@ suite('checkDuplicateHexColor method', () => {
   });
   
   test('when 3 length short hex provided and equivalent long hex value exist in the list', () => {
-    let colorValue: HexString = '#123';
+    const colorValue: HexString = '#123';
     const output = commonFunction.checkDuplicateHexColor(colorValue, list);
     const expectedOutput = [true, '--body__bg-1'];
     assert.deepEqual(output, expectedOutput);
   });
 
   test('when 8 length long hex value provided and equivalent short hex value exist in the list', () => {
-    let colorValue: HexString = '#aabbccdd';
+    const colorValue: HexString = '#aabbccdd';
     const output = commonFunction.checkDuplicateHexColor(colorValue, list);
     const expectedOutput = [true, '--class__bg-3'];
     assert.deepEqual(output, expectedOutput);
   });
 
   test('when hex value provided and equivalent hex value does not exist in the list', () => {
-    let colorValue: HexString = '#1234';
+    const colorValue: HexString = '#1234';
     const output = commonFunction.checkDuplicateHexColor(colorValue, list);
     const expectedOutput = [false, ''];
     assert.deepEqual(output, expectedOutput);
@@ -148,21 +148,21 @@ suite('checkDuplicateNonHexColor method', () => {
   });
   
   test('when color name provided and that name already exist in the list', () => {
-    let colorValue = 'white';
+    const colorValue = 'white';
     const output = commonFunction.checkDuplicateNonHexColor(colorValue, list);
     const expectedOutput = [true, '--main__color-1'];
     assert.deepEqual(output, expectedOutput);
   });
 
   test('when hsl color code provided and the value exist in the list', () => {
-    let colorValue = 'hsl(255, 0, 0)';
+    const colorValue = 'hsl(255, 0, 0)';
     const output = commonFunction.checkDuplicateNonHexColor(colorValue, list);
     const expectedOutput = [true, '--body__bg-1'];
     assert.deepEqual(output, expectedOutput);
   });
 
   test('when value provided and equivalent hex value does not exist in the list', () => {
-    let colorValue = 'rgb(120,120,120)';
+    const colorValue = 'rgb(120,120,120)';
     const output = commonFunction.checkDuplicateNonHexColor(colorValue, list);
     const expectedOutput = [false, ''];
     assert.deepEqual(output, expectedOutput);
