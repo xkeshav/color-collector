@@ -4,7 +4,8 @@ This article explains how to contribute to project. Please read through the foll
 
 Write something nice and instructive as an intro. Talk about what kind of contributions you are interested in.
 
-> Welcome! We love receiving contributions from our community, so thanks for stopping by! There are many ways to contribute, including submitting bug reports, improving documentation, submitting feature requests, reviewing new submissions, or contributing code that can be incorporated into the project.
+> Welcome! We love receiving contributions from our community, so thanks for stopping by! There are many ways to contribute, including submitting bug reports, improving documentation, submitting feature requests, reviewing new submissions,
+> or contributing code that can be incorporated into the project.
 
 ## Summary
 
@@ -12,7 +13,8 @@ Write something nice and instructive as an intro. Talk about what kind of contri
 > Before participating in our community, please read our [code of conduct][coc].
 > By interacting with this repository, organization, or community you agree to abide by its terms.
 
-This document describes our development process. Following these guidelines shows that you respect the time and effort of the developers managing this project. In return, you will be shown respect in addressing your issue, reviewing your changes, and incorporating your contributions.
+This document describes our development process. Following these guidelines shows that you respect the time and effort of the developers managing this project. In return, you will be shown respect in addressing your issue,
+reviewing your changes, and incorporating your contributions.
 
 ## Contributions
 
@@ -20,7 +22,7 @@ There’s several ways to contribute, not just by writing code. If you have ques
 
 ### Financial support
 
-It’s possible to support us financially by becoming a backer or sponsor through [Open Collective][collective].
+It’s possible to support us financially by becoming a backer or sponsor.
 
 ### Improve docs
 
@@ -108,7 +110,8 @@ git push origin feature/branch-name
 
 Include a note about submitting the PR:
 
-Once you've committed and pushed all of your changes to GitHub, go to the page for your fork on GitHub, select your development branch, and click the pull request button. If you need to make any adjustments to your pull request, just push the updates to your branch. Your pull request will automatically track the changes on your development branch and update.
+Once you've committed and pushed all of your changes to GitHub, go to the page for your fork on GitHub, select your development branch, and click the pull request button.
+If you need to make any adjustments to your pull request, just push the updates to your branch. Your pull request will automatically track the changes on your development branch and update.
 
 1. Ensure any install or build dependencies are removed before the end of the layer when doing a build.
 2. Update the README.md with details of changes to the interface, this includes new environment variables, exposed ports, useful file locations and container parameters.
@@ -122,13 +125,16 @@ Who reviews it? Who needs to sign off before it’s accepted? When should a cont
 - The core team looks at Pull Requests on a regular basis in a weekly triage meeting that we hold in a public domain. The is announced in the weekly status updates.
 - Our Reviewer will provide constructive Feedback by writing Review Comments (RC). Pull Requester have to address all RC on time.
 - After feedback has been given we expect responses within two weeks. After two weeks we may close the pull request if it isn't showing any activity.
-- Except for critical, urgent or very small fixes, we try to leave pull requests open for most of the day or overnight if something comes in late in the day, so that multiple people have the chance to review/comment. Anyone who reviews a pull request should leave a note to let others know that someone has looked at it. For larger commits, we like to have a +1 from someone else on the core team and/or from other contributor(s). Please note if you reviewed the code or tested locally -- a +1 by itself will typically be interpreted as your thinking its a good idea, but not having reviewed in detail.
+- Except for critical, urgent or very small fixes, we try to leave pull requests open for most of the day or overnight if something comes in late in the day, so that multiple people have the chance to review/comment.
+  Anyone who reviews a pull request should leave a note to let others know that someone has looked at it. For larger commits, we like to have a +1 from someone else on the core team and/or from other contributor(s).
+  Please note if you reviewed the code or tested locally -- a +1 by itself will typically be interpreted as your thinking its a good idea, but not having reviewed in detail.
 
 Perhaps also provide the steps your team will use for checking a PR. Or discuss the steps run on your CI server if you have one. This will help developers understand how to investigate any failures or test the process on their own.
 
 ### Addressing Feedback
 
-Once a PR has been submitted, your changes will be reviewed and constructive feedback may be provided. Feedback isn't meant as an attack, but to help make sure the highest-quality code makes it into our project. Changes will be approved once required feedback has been addressed.
+Once a PR has been submitted, your changes will be reviewed and constructive feedback may be provided. Feedback isn't meant as an attack, but to help make sure the highest-quality code makes it into our project.
+Changes will be approved once required feedback has been addressed.
 
 If a maintainer asks you to "rebase" your PR, they're saying that a lot of code has changed, and that you need to update your fork so it's easier to merge.
 
@@ -181,18 +187,12 @@ Include Other Notes on how people can contribute
 - [GitHub help](https://help.github.com)
 - [git commit message](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)
 
-## License
-
-MIT
-
 ## Author
 
-© [Keshav Mohta][author]
+© Keshav Mohta
 
 <!-- Definitions -->
 
-[author]: https://xkeshav.com
-[collective]: https://opencollective.com/xkeshav
 [readme]: https://github.com/xkeshav/color-collector/blob/main/README.md
 [support]: https://github.com/xkeshav/color-collector/blob/main/.github/SUPPORT.md
 [coc]: https://github.com/xkeshav/color-collector/blob/main/.github/CODE_OF_CONDUCT.md

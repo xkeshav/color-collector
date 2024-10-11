@@ -1,0 +1,95 @@
+name: Bug Report
+description: File a bug report to help us improve.
+title: "[🐛]:"
+labels: ["bug", "invalid"]
+assignees:
+  - xkeshav
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Thanks for taking the time to create a bug report. 
+        Please search open/closed issues before submitting, as the issue may have already been reported/addressed.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is. If you intend to submit a PR for this issue, tell us how in the description. Thanks!
+      placeholder: Tell us what you see!
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+      description: |
+        Please provide expected result/output.
+      placeholder: Tell us what is expected !
+    validations:
+      required: true
+
+  - type: input
+    id: sample-link
+    attributes:
+      label: Sample code link
+      description: |
+        A link to a CodeSandbox or StackBlitz that includes a minimal reproduction of the problem. In rare cases when not applicable, you can link to a GitHub repository that we can easily run to recreate the issue. If a report is vague and does not have a reproduction, it will be closed without warning. 
+
+        > [!CAUTION]
+        > If you skip this step, this issue might be **labeled** with `please add a reproduction` and **closed**.
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: System info
+      description: Please provide other details if it is necessary.
+      placeholder: Software version and device details!
+    validations:
+      required: false
+
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: What browsers are you seeing the problem on?
+      multiple: true
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+        - Other
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+    validations:
+      required: false
+
+  - type: dropdown
+    id: self-assign
+    attributes:
+      label: Assignment
+      description: Let us know if you would like to be assigned this Issue
+      options:
+        - This issue is free for anyone to take
+        - I'd like to work on this Issue myself
+      default: 0
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Before submitting
+      description: By submitting this issue, you agree to follow our [Contributing Guidelines](https://github.com/xkeshav/color-collector/blob/main/.github/CONTRIBUTING.md).
+      options:
+        - label: I've made research efforts and searched the documentation
+          required: true
+        - label: I've searched for existing issues
+          required: true

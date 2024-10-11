@@ -9,7 +9,7 @@ Please read through the following guidelines.
 
 ## Asking quality questions
 
-Questions can go to [GitHub discussions][dicussion].
+Questions can go to [GitHub discussions][discussion].
 
 Help us help you!
 
@@ -32,18 +32,17 @@ Spending the extra time up front can help save everyone time in the long run.
 
 ## Contributions
 
-See [`contributing.md`][contributing] on how to contribute.
+See [`contributing guide`][contributing] on how to contribute.
 
-## License
+## Author
 
-© [Keshav Mohta][author]
+© Keshav Mohta
 
 <!-- Definitions -->
 
-[author]: https://xkeshav.com
 [coc]: https://github.com/xkeshav/color-collector/blob/main/.github/CODE_OF_CONDUCT.md
 [chat]: https://github.com/xkeshav/color-collector/discussions/new?category=general
-[dicussion]: https://github.com/xkeshav/color-collector/discussions/new?category=q-a
+[discussion]: https://github.com/xkeshav/color-collector/discussions/new?category=q-a
 [contributing]: https://github.com/xkeshav/color-collector/blob/main/.github/CONTRIBUTING.md
 [xy]: https://meta.stackexchange.com/questions/66377/what-is-the-xy-problem/66378#66378
 [cs]: https://codesandbox.io

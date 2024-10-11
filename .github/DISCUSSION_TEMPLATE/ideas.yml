@@ -1,0 +1,47 @@
+title: "[Idea]"
+labels: ["Share your Idea"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: Idea highlight
+      description: "What are the idea we could make to this project?"
+      value:
+      render: bash
+    validations:
+      required: true
+
+  - type: dropdown
+    id: improvement
+    attributes:
+      label: Which area of this project could be most improved?
+      options:
+        - Documentation
+        - Pull request review time
+        - Bug fix time
+        - Enhancement
+    validations:
+      required: true
+
+  - type: input
+    id: id
+    attributes:
+      label: email
+      description: your contact email
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Before submitting
+      description: By submitting this idea, you agree to follow our [Contributing Guidelines](https://github.com/xkeshav/color-collector/blob/main/.github/CONTRIBUTING.md).
+      options:
+        - label: I've made research efforts and searched the documentation
+          required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ### Thank you
+        _we will contact you_ **soon**

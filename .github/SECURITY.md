@@ -11,7 +11,7 @@ When in doubt, please do send us a report.
 
 ## How to submit a report
 
-Security issues can be reported by sending an email us to [_xkeshav@gmail.com_][contact].
+Security issues can be reported by sending an email to [us][contact].
 
 The team will acknowledge your email within 48 hours. You will receive a more detailed response within 96 hours.
 
@@ -20,7 +20,8 @@ We will create a maintainer security advisory on GitHub to discuss internally, a
 ## Purpose
 
 - Make a good faith effort to avoid privacy violations, destruction of data, and interruption or degradation of our services
-- Only interact with accounts you own or with explicit permission of the account holder. If you do encounter Personally Identifiable Information (PII) contact us immediately, do not proceed with access, and immediately purge any local information
+- Only interact with accounts you own or with explicit permission of the account holder. If you do encounter Personally Identifiable Information (PII) contact us immediately,
+  do not proceed with access, and immediately purge any local information
 - Provide us with a reasonable amount of time to resolve vulnerabilities prior to any disclosure to the public or a third-party
 - We will consider activities conducted consistent with this policy to constitute “authorized” conduct and will not pursue civil action or initiate a complaint to law enforcement.
   We will help to the extent we can if legal action is initiated by a third party against you
