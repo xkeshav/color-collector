@@ -85,6 +85,12 @@ All notable changes to the "css-color-collector" extension will be documented in
 
 - Added badges in README
 
-## [2.3.0]
+## [2.1.0]
 
 - Added badges in README
+
+## [3.0.0]
+
+- changes build package to esbuild
+- added webp images
+- skip variable name in selector

@@ -1,0 +1,137 @@
+body {
+  background-color: #f8f8f8;
+}
+
+.container {
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-rows: 3rem 1fr 3rem;
+  grid-template-areas: "header" "main" "footer";
+  grid-gap: 4px;
+  overflow: auto;
+}
+
+header {
+  grid-area: header;
+}
+
+.header {
+  font-size: 2rem;
+}
+
+.header--content {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-inline: 3rem;
+}
+
+.logo {
+  color: firebrick;
+}
+
+.switch {
+  background-color: black;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 050%;
+  cursor: pointer;
+}
+
+/* main */
+
+main {
+  grid-area: main;
+  font-family: system-ui;
+}
+
+.main {
+  padding: 1.5rem;
+}
+
+nav {
+  height: 100%;
+}
+
+.nav--list {
+  height: 100%;
+  display: grid;
+  grid-auto-flow: row;
+  grid-gap: 0.5rem;
+  margin: 0.75rem;
+  grid-auto-rows: max-content;
+  grid-template-rows: repeat(auto-fit, minmax(20%, 1fr));
+}
+
+.item--1 {
+  --c1: #c352a2;
+  --c2: #d41f56;
+  --c3: #acb9ba;
+}
+
+.item--2 {
+  --c1: #a57657;
+  --c2: #ca4f2a;
+  --c3: #5d8374;
+}
+
+.item--3 {
+  --c1: #8c8d71;
+  --c2: #a2a99a;
+  --c3: #c3a529;
+}
+
+.item--4 {
+  --c1: #cdd0ad;
+  --c2: #755f6b;
+  --c3: #b6bc9f;
+}
+
+.item--5 {
+  --c1: #7c814f;
+  --c2: #96bac8b3;
+  --c3: #50568f;
+}
+
+.list--item {
+  place-content: center;
+  display: grid;
+  border-radius: 5px;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+  transition: 0.5s;
+  background: linear-gradient(65deg, var(--c1, #f6d365) 20%, var(--c2, #fda085) 31%, var(--c3, #f6d365)) var(--x, 0) / 200%;
+  border-radius: 10px;
+}
+
+.list--item:hover {
+  --x: 100%;
+}
+
+.link {
+  color: #f0e5f0;
+  font-size: 6rem;
+  transition: transform 120ms ease-in-out;
+  will-change: transform;
+  text-shadow: 13px -4px 9px rgb(67 79 84 / 77%);
+}
+
+.link:hover {
+  animation: moving 2s linear 0s infinite normal;
+}
+
+@keyframes moving {
+
+  from,
+  to {
+    transform: translateX(0);
+    color: aliceblue;
+  }
+
+  30% {
+    transform: translateX(1.5rem);
+    color: #5b3333;
+  }
+}

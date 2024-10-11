@@ -10,8 +10,8 @@ export const PATTERN_LIST = {
 	SELECTOR: `(?<SELECTOR>[@:#'"\\.\\w\\-\\,\\*\\s\\n\\r\\t\\(\\)\\[\\]]+(?=\\s*\\{))`,
 	COLOR_HEX_FORMAT: '(?<HEX_COLOR>#[0-9a-f]{3,8})\\s?(?!(\\w|\\{|\\s{))',
 	COLOR_NON_HEX_FORMAT:`((?<NON_HEX_COLOR>\\b(rgba?|hsla?|hwb|(?:ok)?(?:lab|lch))[ \\t]*\\(([^\\)\\(]*?\\d[^\\)\\(]*)\\)))`,
-	COLOR_FUNCTION: '(?<COLOR_FUNCTION>(\\b(contrast-)?color\\b)\\(.*\\))',
-	// COLOR_FUNCTION: '',
+	// COLOR_FUNCTION: '(?<COLOR_FUNCTION>(\\b(contrast-)?color\\b)\\(.*\\))',
+	COLOR_FUNCTION: '',
 	WORD: '(\\w+)',
 	IMPORT_STMT: `(?<=@)\\bimport\\b\\s*(?<IMPORT>.*)(?=;)`,
 	/*148 color names */

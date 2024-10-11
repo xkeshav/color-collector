@@ -111,7 +111,7 @@ export class Collector {
 			const { PROPERTY, HEX_COLOR, NON_HEX_COLOR, COLOR_NAME, COLOR_FUNCTION } = colorAndPropertyGroup!;
 			if (PROPERTY !== undefined) {
 				this.#propertyName = PROPERTY;
-			} else {
+			} else if(!this.#propertyName.startsWith('--')){
 				const colorValue = HEX_COLOR || NON_HEX_COLOR || COLOR_NAME || COLOR_FUNCTION;
 				if (HEX_COLOR) {
 					[isColorVariableExist, variableName] = checkDuplicateHexColor(HEX_COLOR as HexString, this.#variableList);
