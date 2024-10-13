@@ -59,16 +59,6 @@
           "type": "boolean",
           "default": false,
           "description": "create separate file for :root "
-        },
-        "cssColorCollector.updatePropertyVariable": {
-          "type": "object",
-          "properties": {
-            "background-color": {
-              "type": "string",
-              "default": "bg"
-            }
-          },
-          "markdownDescription": "change default property variable name which will be used while generating **:root** variable \n\n *Example* \n\n ``` { \"background-color\": \"bgc\" }``` "
         }
       }
     },

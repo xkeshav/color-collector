@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-
+export const extensionName = 'cssColorCollector';
 export const extensionID = 'xkeshav.css-color-collector';
 export const collectCommand = 'css-color-collector.collect';
 export const configKey = 'cssColorCollector.colorInSeparateFile';

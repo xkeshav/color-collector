@@ -32,6 +32,7 @@ export function activate(context: vscode.ExtensionContext) {
 			vscode.window.showErrorMessage(untitledFileErrorMessage);
 			return;
 		}
+		
 		// check for any error in the file which makes file invalid then stop execution of command
 		const diagnosticArray = vscode.languages.getDiagnostics(uri);
 		const errorList = diagnosticArray.filter((diag: vscode.Diagnostic) => diag.severity === 0);
@@ -101,6 +102,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 /* create separate file and return new file name  */
 export async function createSeparateRootFile(content: string) {
+
+
 	const [fileDirectory, fileName] = getOpenFileDirectory();
 	const newFileName = `${newFilePrefix}-${fileName.toLowerCase()}.css`;
 	const fileLocation = vscode.Uri.parse(fileDirectory + path.sep + newFileName);
