@@ -2,7 +2,7 @@
   "name": "css-color-collector",
   "displayName": "CSS Color Collector",
   "description": "Collect color codes from a css file and replace it with an intuitive variable and add a new :root pseudo selector which contains these variables.",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "publisher": "xkeshav",
   "engines": {
     "vscode": "^1.74.0"
