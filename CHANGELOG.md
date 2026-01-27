@@ -84,3 +84,7 @@ All notable changes to the "css-color-collector" extension will be documented in
 ## [2.0.1]
 
 - Added badges in README
+
+## [2.1.1] Tues, Jan 27, 2026
+
+- Added more color properties
