@@ -1,3 +1,5 @@
+
+
 # CSS Color Collector
 
 ![VS Marketplace][marketplace]
@@ -114,7 +116,7 @@ _Note:_ New file will be created in the same directory where the css file is ope
 
 - A notification message will be displayed after successful execution of the _collect colors_ command.
 
-- To test, sample css files to can be download from _sample-files_ folder
+- To test, sample css files to can be download from _sample_ folder
 
 ## Screenshots
 
@@ -196,7 +198,7 @@ followings are useful links which helps me to develop this extension
 
 - [w3.org: color specification](https://www.w3.org/TR/css-color-4/#introduction)
 - [tc39: Regular Expression](https://tc39.es/ecma262/multipage/text-processing.html#sec-regexp-regular-expression-objects)
-- [MDN: Color syntax](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value)
+- [MDN: Color syntax](https://developer.mozilla.com/en-US/docs/Web/CSS/color_value)
 - [W3C: Selector Syntax](https://w3c.github.io/csswg-drafts/selectors/#syntax)
 - [VS code: Discussion Forum](https://github.com/microsoft/vscode-discussions)
 - [VS code Extension API](https://code.visualstudio.com/api)
